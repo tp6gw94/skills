@@ -1,13 +1,13 @@
 ---
 name: verify-user-comprehension
-description: Use immediately after modifying files or applying code changes, before accepting new implementation requests.
+description: Use when file changes need user comprehension verification after agent edits, observed diffs, unstaged changes, or specified commits before new implementation.
 ---
 
 # Verify User Comprehension
 
 ## Overview
 
-After changing files, verify that the user understands the specific technical consequences of the change before moving on.
+After files have changed, verify that the user understands the specific technical consequences of the change before moving on.
 
 This is a hard gate. New feature requests, bug fixes, refactors, or implementation commands must wait until the user gives technically sound answers.
 
@@ -15,13 +15,15 @@ This is a hard gate. New feature requests, bug fixes, refactors, or implementati
 
 - Immediately after any file modification tool is called.
 - After applying patches, editing files, generating code, updating configs, or accepting subagent changes.
+- When the user asks to verify comprehension for changes that already exist, even if this agent did not make them in the current conversation.
+- When the relevant change is available through a working tree diff, unstaged changes, staged changes, a file-specific diff, or a specified commit hash/range.
 - Before starting any unrelated follow-up implementation work.
 
-Do not use this for read-only exploration, planning-only turns, or commands that only produce build artifacts or caches.
+Do not use this for read-only exploration, planning-only turns, commands that only produce build artifacts or caches, or unrelated dirty worktree changes that the user has not asked to discuss.
 
 ## Workflow
 
-1. Privately inspect the fresh diff for the files just changed.
+1. Privately inspect the relevant diff. Use the freshest available source: the files just changed, `git diff`, `git diff --staged`, a file-specific diff, or the user-provided commit hash/range.
 2. Identify the modified logic, state or data flow, public interfaces, and architectural side effects.
 3. Formulate exactly two rigorous technical questions about the change.
 4. Ask the questions in a bold, interactive format.

@@ -286,6 +286,42 @@
       "sourceType": "github",
       "skillPath": "skills/writing-skills/SKILL.md",
       "computedHash": "c0a92e629e39ea91b1f54da67a6aa92723008a8ef5b500c6de078f55485937c7"
+    },
+    "verify-user-comprehension": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "skillPath": "verify-user-comprehension/SKILL.md",
+      "skillFolderHash": "d89cec8ee5cf4adea775eed37baa90b9f8087024",
+      "installedAt": "2026-05-20T06:58:47.652Z",
+      "updatedAt": "2026-05-20T06:58:47.652Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "3013fdeb8a11b10b1eb795ec3ae8bfca38f7c26d",
+      "installedAt": "2026-05-20T06:58:56.988Z",
+      "updatedAt": "2026-05-20T06:58:56.988Z"
     }
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "dexto",
+    "firebender",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "warp"
+  ],
+  "dismissed": {
+    "findSkillsPrompt": true
   }
 }

@@ -106,8 +106,12 @@
     "grill-me": {
       "source": "mattpocock/skills",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/productivity/grill-me/SKILL.md",
-      "computedHash": "784f0dbb7403b0f00324bce9a112f715342777a0daee7bbb7385f9c6f0a170ea"
+      "skillFolderHash": "2a1ad17028306ebe45f0e49703fa28b9b2e7f499",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-05-28T06:20:34.596Z",
+      "updatedAt": "2026-05-28T06:22:42.238Z"
     },
     "jobs": {
       "source": "getcompanion-ai/feynman",
@@ -272,8 +276,12 @@
     "write-a-skill": {
       "source": "mattpocock/skills",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/productivity/write-a-skill/SKILL.md",
-      "computedHash": "b44d8aab2ead83c716e01af4c9a24ccc4575ce70ad58ec4f1749fb88c9cc82ba"
+      "skillFolderHash": "2f252b35aa238879afc5a230ac30343708dee0b3",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-05-28T06:20:34.597Z",
+      "updatedAt": "2026-05-28T06:22:57.565Z"
     },
     "writing-plans": {
       "source": "obra/superpowers",
@@ -292,9 +300,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/tp6gw94/skills.git",
       "skillPath": "verify-user-comprehension/SKILL.md",
-      "skillFolderHash": "d89cec8ee5cf4adea775eed37baa90b9f8087024",
+      "skillFolderHash": "a58ccde7d47400724e6bbfa45d51ddded87e1d7e",
       "installedAt": "2026-05-20T06:58:47.652Z",
-      "updatedAt": "2026-05-20T06:58:47.652Z"
+      "updatedAt": "2026-05-20T08:41:29.886Z"
     },
     "find-skills": {
       "source": "vercel-labs/skills",
@@ -319,7 +327,9 @@
     "github-copilot",
     "kimi-cli",
     "opencode",
-    "warp"
+    "warp",
+    "zed",
+    "kiro-cli"
   ],
   "dismissed": {
     "findSkillsPrompt": true

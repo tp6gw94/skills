@@ -312,20 +312,118 @@
       "skillFolderHash": "3013fdeb8a11b10b1eb795ec3ae8bfca38f7c26d",
       "installedAt": "2026-05-20T06:58:56.988Z",
       "updatedAt": "2026-05-20T06:58:56.988Z"
+    },
+    "cmux": {
+      "source": "manaflow-ai/cmux",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
+      "ref": "main",
+      "skillPath": "skills/cmux/SKILL.md",
+      "skillFolderHash": "d7b4a428df22553048a6830f4b5f3733fe1f9393",
+      "installedAt": "2026-06-05T03:51:50.568Z",
+      "updatedAt": "2026-06-05T07:26:52.086Z"
+    },
+    "cmux-browser": {
+      "source": "manaflow-ai/cmux",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
+      "ref": "main",
+      "skillPath": "skills/cmux-browser/SKILL.md",
+      "skillFolderHash": "6d5dfc4de15faae37f932fa71f2bc9943bd2dafe",
+      "installedAt": "2026-06-05T03:51:50.569Z",
+      "updatedAt": "2026-06-05T07:26:52.088Z"
+    },
+    "cmux-customization": {
+      "source": "manaflow-ai/cmux",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
+      "ref": "main",
+      "skillPath": "skills/cmux-customization/SKILL.md",
+      "skillFolderHash": "47bb4ea3d247fe634734674ec3d39e1224aed0e1",
+      "installedAt": "2026-06-05T03:51:50.570Z",
+      "updatedAt": "2026-06-05T07:26:52.088Z"
+    },
+    "cmux-diagnostics": {
+      "source": "manaflow-ai/cmux",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
+      "ref": "main",
+      "skillPath": "skills/cmux-diagnostics/SKILL.md",
+      "skillFolderHash": "bbcedcd6e38891c7a2c0493e397d2c3ddf3d8633",
+      "installedAt": "2026-06-05T03:51:50.570Z",
+      "updatedAt": "2026-06-05T07:26:52.089Z"
+    },
+    "cmux-keyboard-shortcuts": {
+      "source": "manaflow-ai/cmux",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
+      "ref": "main",
+      "skillPath": "skills/cmux-keyboard-shortcuts/SKILL.md",
+      "skillFolderHash": "2e647bed07b05ac0245997f89e4dfe4d2d8aff99",
+      "installedAt": "2026-06-05T03:51:50.570Z",
+      "updatedAt": "2026-06-05T07:26:52.091Z"
+    },
+    "cmux-markdown": {
+      "source": "manaflow-ai/cmux",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
+      "ref": "main",
+      "skillPath": "skills/cmux-markdown/SKILL.md",
+      "skillFolderHash": "c6cf70a1ad9f98867a652dc03ded80905c2706c8",
+      "installedAt": "2026-06-05T03:51:50.571Z",
+      "updatedAt": "2026-06-05T07:26:52.092Z"
+    },
+    "cmux-settings": {
+      "source": "manaflow-ai/cmux",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
+      "ref": "main",
+      "skillPath": "skills/cmux-settings/SKILL.md",
+      "skillFolderHash": "69a255e196c8b6caa0e86b364b2d70cd7be43ba5",
+      "installedAt": "2026-06-05T03:51:50.571Z",
+      "updatedAt": "2026-06-05T07:26:52.093Z"
+    },
+    "cmux-workspace": {
+      "source": "manaflow-ai/cmux",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
+      "ref": "main",
+      "skillPath": "skills/cmux-workspace/SKILL.md",
+      "skillFolderHash": "b8a24863c44d8233c1c9ed760fe91876c8265321",
+      "installedAt": "2026-06-05T03:51:50.572Z",
+      "updatedAt": "2026-06-05T07:26:52.095Z"
+    },
+    "playwright-cli": {
+      "source": "microsoft/playwright-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/microsoft/playwright-cli.git",
+      "ref": "main",
+      "skillPath": "skills/playwright-cli/SKILL.md",
+      "skillFolderHash": "84495cfda62b6c012afc4cc34a0c35bfc7923ba35983b8c04ce4cace0f35a5d8",
+      "installedAt": "2026-06-05T03:59:48.447Z",
+      "updatedAt": "2026-06-05T03:59:48.447Z"
+    },
+    "exa-search": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "skillPath": "exa/SKILL.md",
+      "skillFolderHash": "a740f87c2d9d43d80ec31d100777e261ae12203b",
+      "installedAt": "2026-06-05T07:16:07.590Z",
+      "updatedAt": "2026-06-05T07:16:07.590Z"
     }
   },
   "lastSelectedAgents": [
     "amp",
     "antigravity",
+    "antigravity-cli",
     "cline",
     "codex",
     "cursor",
     "deepagents",
-    "dexto",
-    "firebender",
     "gemini-cli",
     "github-copilot",
-    "kimi-cli",
+    "kimi-code-cli",
     "opencode",
     "warp",
     "zed",

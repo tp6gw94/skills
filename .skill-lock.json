@@ -108,10 +108,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/productivity/grill-me/SKILL.md",
-      "skillFolderHash": "2a1ad17028306ebe45f0e49703fa28b9b2e7f499",
-      "pluginName": "mattpocock-skills",
+      "skillFolderHash": "8320e7b87f7b208f50ce165b1dd43d1e93c8e801",
       "installedAt": "2026-05-28T06:20:34.596Z",
-      "updatedAt": "2026-05-28T06:22:42.238Z"
+      "updatedAt": "2026-06-19T03:29:24.892Z"
     },
     "jobs": {
       "source": "getcompanion-ai/feynman",
@@ -273,27 +272,11 @@
       "skillPath": "skills/watch/SKILL.md",
       "computedHash": "4332bbd0f24adcaee7e7e3391929738433818dded94d409f9027e1275a13992c"
     },
-    "write-a-skill": {
-      "source": "mattpocock/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/mattpocock/skills.git",
-      "skillPath": "skills/productivity/write-a-skill/SKILL.md",
-      "skillFolderHash": "2f252b35aa238879afc5a230ac30343708dee0b3",
-      "pluginName": "mattpocock-skills",
-      "installedAt": "2026-05-28T06:20:34.597Z",
-      "updatedAt": "2026-05-28T06:22:57.565Z"
-    },
     "writing-plans": {
       "source": "obra/superpowers",
       "sourceType": "github",
       "skillPath": "skills/writing-plans/SKILL.md",
       "computedHash": "2b986445454a025ca2c3839f8a2024747e8cce0517948437232cd113d2719060"
-    },
-    "writing-skills": {
-      "source": "obra/superpowers",
-      "sourceType": "github",
-      "skillPath": "skills/writing-skills/SKILL.md",
-      "computedHash": "c0a92e629e39ea91b1f54da67a6aa92723008a8ef5b500c6de078f55485937c7"
     },
     "verify-user-comprehension": {
       "source": "tp6gw94/skills",
@@ -379,9 +362,9 @@
       "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
       "ref": "main",
       "skillPath": "skills/cmux-settings/SKILL.md",
-      "skillFolderHash": "69a255e196c8b6caa0e86b364b2d70cd7be43ba5",
+      "skillFolderHash": "6e9dff4e7c31dc000913f2e8c56d77e22858193d",
       "installedAt": "2026-06-05T03:51:50.571Z",
-      "updatedAt": "2026-06-05T07:26:52.093Z"
+      "updatedAt": "2026-06-19T03:29:36.093Z"
     },
     "cmux-workspace": {
       "source": "manaflow-ai/cmux",
@@ -399,9 +382,9 @@
       "sourceUrl": "https://github.com/microsoft/playwright-cli.git",
       "ref": "main",
       "skillPath": "skills/playwright-cli/SKILL.md",
-      "skillFolderHash": "84495cfda62b6c012afc4cc34a0c35bfc7923ba35983b8c04ce4cace0f35a5d8",
+      "skillFolderHash": "6bf055ae36a2460e4a8f70eaec772ab7ac7e12e4",
       "installedAt": "2026-06-05T03:59:48.447Z",
-      "updatedAt": "2026-06-05T03:59:48.447Z"
+      "updatedAt": "2026-06-16T13:55:30.210Z"
     },
     "exa-search": {
       "source": "tp6gw94/skills",
@@ -411,6 +394,16 @@
       "skillFolderHash": "a740f87c2d9d43d80ec31d100777e261ae12203b",
       "installedAt": "2026-06-05T07:16:07.590Z",
       "updatedAt": "2026-06-05T07:16:07.590Z"
+    },
+    "writing-great-skills": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/productivity/writing-great-skills/SKILL.md",
+      "skillFolderHash": "9252419010c7944edb297aa79b3f61a338a4f1f2",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-06-19T03:30:25.575Z",
+      "updatedAt": "2026-06-19T03:30:25.575Z"
     }
   },
   "lastSelectedAgents": [

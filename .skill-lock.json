@@ -404,6 +404,15 @@
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-06-19T03:30:25.575Z",
       "updatedAt": "2026-06-19T03:30:25.575Z"
+    },
+    "align": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "skillPath": "align/SKILL.md",
+      "skillFolderHash": "9087a7fb26a4b4be5c171778ea48950182b09081",
+      "installedAt": "2026-06-25T06:18:16.633Z",
+      "updatedAt": "2026-06-25T06:18:16.633Z"
     }
   },
   "lastSelectedAgents": [

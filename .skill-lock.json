@@ -21,12 +21,6 @@
       "skillPath": "skills/autoresearch/SKILL.md",
       "computedHash": "95b135081971bb7b3dc1fe3151861bbc0293571bf92f20b1aea7115e0598a83e"
     },
-    "brainstorming": {
-      "source": "obra/superpowers",
-      "sourceType": "github",
-      "skillPath": "skills/brainstorming/SKILL.md",
-      "computedHash": "8df9b47092524833138b58682d03f2e153a242e550d1693657afdbee0cc9cdb0"
-    },
     "caveman": {
       "source": "JuliusBrussee/caveman",
       "sourceType": "github",
@@ -57,25 +51,12 @@
       "skillPath": "skills/caveman-review/SKILL.md",
       "computedHash": "fb7214a1c5793bae6ba8b1be4329e2e6f40dbec6dd911dfb335ad29f09c316a1"
     },
-    "contributing": {
-      "source": "getcompanion-ai/feynman",
-      "ref": "main",
-      "sourceType": "github",
-      "skillPath": "skills/contributing/SKILL.md",
-      "computedHash": "76b731e884ac0d7374bd80355a873b84364462061a6c5ead932c807c49b8bcff"
-    },
     "deep-research": {
       "source": "getcompanion-ai/feynman",
       "ref": "main",
       "sourceType": "github",
       "skillPath": "skills/deep-research/SKILL.md",
       "computedHash": "cfcf6fdffbb0ca5d5dd0b86fde8779bbd584365873484abbbfe72944e63be197"
-    },
-    "dispatching-parallel-agents": {
-      "source": "obra/superpowers",
-      "sourceType": "github",
-      "skillPath": "skills/dispatching-parallel-agents/SKILL.md",
-      "computedHash": "e21044ae7496fc285f1df9ff3fb518a3a20bea6f5216c1f59f4987e12c769a0a"
     },
     "docker": {
       "source": "getcompanion-ai/feynman",
@@ -90,18 +71,6 @@
       "sourceType": "github",
       "skillPath": "skills/eli5/SKILL.md",
       "computedHash": "b1f3f7d9149a1819fd863c4d722a1523e7fc7319ffe00dbb248f8e4cde70dd28"
-    },
-    "executing-plans": {
-      "source": "obra/superpowers",
-      "sourceType": "github",
-      "skillPath": "skills/executing-plans/SKILL.md",
-      "computedHash": "b41c919caf1bb07fbacb0e29899ac513f9eb11cd4dd695975ad352c2c03cc4d7"
-    },
-    "finishing-a-development-branch": {
-      "source": "obra/superpowers",
-      "sourceType": "github",
-      "skillPath": "skills/finishing-a-development-branch/SKILL.md",
-      "computedHash": "932d23af11a3eb2b758f5b1d9aec7b6d28ddd26658328414f87f34dff7179d19"
     },
     "grill-me": {
       "source": "mattpocock/skills",
@@ -161,12 +130,6 @@
       "skillPath": "skills/preview/SKILL.md",
       "computedHash": "8f45b39e59f3f5305aeba7c8f5b94fa7eace1ef7ea5d90f6b64278100b4ddaa6"
     },
-    "receiving-code-review": {
-      "source": "obra/superpowers",
-      "sourceType": "github",
-      "skillPath": "skills/receiving-code-review/SKILL.md",
-      "computedHash": "2760c85d4f4117b0006e7ba755f4bbd61f8f4c185f347999763c97f507274e30"
-    },
     "replication": {
       "source": "getcompanion-ai/feynman",
       "ref": "main",
@@ -182,12 +145,6 @@
       "skillFolderHash": "b0617c9cf69ac1e73a6b30f78c82ff81372079fd",
       "installedAt": "2026-04-10T05:52:56.733Z",
       "updatedAt": "2026-04-10T05:52:56.733Z"
-    },
-    "requesting-code-review": {
-      "source": "obra/superpowers",
-      "sourceType": "github",
-      "skillPath": "skills/requesting-code-review/SKILL.md",
-      "computedHash": "874f3786b05007a8b4a60452a4cd89b9917c645d34b6b1e40ea05037d12f0e67"
     },
     "runpod-compute": {
       "source": "getcompanion-ai/feynman",
@@ -217,36 +174,6 @@
       "skillPath": "skills/source-comparison/SKILL.md",
       "computedHash": "a9ba3ce1ec396f1ec8430576586e96a9d5516da5cfdccae301ef77197b18d462"
     },
-    "subagent-driven-development": {
-      "source": "obra/superpowers",
-      "sourceType": "github",
-      "skillPath": "skills/subagent-driven-development/SKILL.md",
-      "computedHash": "b38be2f3a092d758127f6d47e77c2493885aebf38aae359e4c786df2c343b837"
-    },
-    "systematic-debugging": {
-      "source": "obra/superpowers",
-      "sourceType": "github",
-      "skillPath": "skills/systematic-debugging/SKILL.md",
-      "computedHash": "7246fdd3a795fc3daff0af72044ca99bf836e4e6a46844742858786fdfb86488"
-    },
-    "test-driven-development": {
-      "source": "obra/superpowers",
-      "sourceType": "github",
-      "skillPath": "skills/test-driven-development/SKILL.md",
-      "computedHash": "126f1ebf6ccd414f42544f6e83d8cc5adb089e1108eaffb7c400701e37eecd9f"
-    },
-    "using-git-worktrees": {
-      "source": "obra/superpowers",
-      "sourceType": "github",
-      "skillPath": "skills/using-git-worktrees/SKILL.md",
-      "computedHash": "bd10bc57c23040630b17c877a9bc7b4be40c35161a2e2f110d770d78e3b0a4ff"
-    },
-    "using-superpowers": {
-      "source": "obra/superpowers",
-      "sourceType": "github",
-      "skillPath": "skills/using-superpowers/SKILL.md",
-      "computedHash": "de10fd3ff46d797acc92b9df6b3ea456a5cd1d095b73c90bc921e83cce4c5bb9"
-    },
     "vercel-composition-patterns": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
@@ -259,24 +186,12 @@
       "skillPath": "skills/react-best-practices/SKILL.md",
       "computedHash": "ca7b0c0c6e5f2750043f7f0cd72d16ac4e2abc48f9b5500d047a4b77a2506212"
     },
-    "verification-before-completion": {
-      "source": "obra/superpowers",
-      "sourceType": "github",
-      "skillPath": "skills/verification-before-completion/SKILL.md",
-      "computedHash": "9b446f0c7fe1cfb560b1d34439523b1a76d5f177290007b2c053a1c749a4a8ba"
-    },
     "watch": {
       "source": "getcompanion-ai/feynman",
       "ref": "main",
       "sourceType": "github",
       "skillPath": "skills/watch/SKILL.md",
       "computedHash": "4332bbd0f24adcaee7e7e3391929738433818dded94d409f9027e1275a13992c"
-    },
-    "writing-plans": {
-      "source": "obra/superpowers",
-      "sourceType": "github",
-      "skillPath": "skills/writing-plans/SKILL.md",
-      "computedHash": "2b986445454a025ca2c3839f8a2024747e8cce0517948437232cd113d2719060"
     },
     "verify-user-comprehension": {
       "source": "tp6gw94/skills",
@@ -300,11 +215,10 @@
       "source": "manaflow-ai/cmux",
       "sourceType": "github",
       "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
-      "ref": "main",
       "skillPath": "skills/cmux/SKILL.md",
       "skillFolderHash": "d7b4a428df22553048a6830f4b5f3733fe1f9393",
       "installedAt": "2026-06-05T03:51:50.568Z",
-      "updatedAt": "2026-06-05T07:26:52.086Z"
+      "updatedAt": "2026-06-19T04:03:33.778Z"
     },
     "cmux-browser": {
       "source": "manaflow-ai/cmux",
@@ -320,11 +234,10 @@
       "source": "manaflow-ai/cmux",
       "sourceType": "github",
       "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
-      "ref": "main",
       "skillPath": "skills/cmux-customization/SKILL.md",
       "skillFolderHash": "47bb4ea3d247fe634734674ec3d39e1224aed0e1",
       "installedAt": "2026-06-05T03:51:50.570Z",
-      "updatedAt": "2026-06-05T07:26:52.088Z"
+      "updatedAt": "2026-06-19T04:03:33.782Z"
     },
     "cmux-diagnostics": {
       "source": "manaflow-ai/cmux",
@@ -360,21 +273,19 @@
       "source": "manaflow-ai/cmux",
       "sourceType": "github",
       "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
-      "ref": "main",
       "skillPath": "skills/cmux-settings/SKILL.md",
       "skillFolderHash": "6e9dff4e7c31dc000913f2e8c56d77e22858193d",
       "installedAt": "2026-06-05T03:51:50.571Z",
-      "updatedAt": "2026-06-19T03:29:36.093Z"
+      "updatedAt": "2026-06-19T04:03:33.782Z"
     },
     "cmux-workspace": {
       "source": "manaflow-ai/cmux",
       "sourceType": "github",
       "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
-      "ref": "main",
       "skillPath": "skills/cmux-workspace/SKILL.md",
       "skillFolderHash": "b8a24863c44d8233c1c9ed760fe91876c8265321",
       "installedAt": "2026-06-05T03:51:50.572Z",
-      "updatedAt": "2026-06-05T07:26:52.095Z"
+      "updatedAt": "2026-06-19T04:03:33.783Z"
     },
     "playwright-cli": {
       "source": "microsoft/playwright-cli",

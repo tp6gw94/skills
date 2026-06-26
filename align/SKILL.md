@@ -1,6 +1,6 @@
 ---
 name: align
-description: Use when the user has not yet given an explicit green light to start. Hard-stop all file edits; read and ask only, until the user clearly says to begin.
+description: Use when starting any conversation - establishes how to find and use skills, requiring Skill tool invocation before ANY response including clarifying questions.
 ---
 
 # align

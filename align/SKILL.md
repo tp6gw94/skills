@@ -1,6 +1,6 @@
 ---
 name: align
-description: Use when starting any conversation - establishes how to find and use skills, requiring Skill tool invocation before ANY response including clarifying questions.
+description: Wait for explicit user go-ahead before editing files. Use when starting any task or conversation.
 ---
 
 # align
@@ -10,7 +10,7 @@ Wait for a **green light** — an explicit user signal to start the task — bef
 ## Rules
 
 - **No edits to core task files before green light.** Do not use `edit`, `write`, or destructive `bash` commands that create, modify, or delete the task's target files until the user explicitly says to start.
-- **Reading, research, and note-taking are allowed.** You may read files, run non-destructive queries, search the web, and write notes or logs that do not alter the task's core files.
+- **Reading, research, and note-taking are allowed.** Prefer delegating research and codebase exploration to subagents rather than running them inline. Write notes or logs that do not alter the task's core files. Read the pi-subagents skill before delegating.
 - **Read and align only on task files.** Summarize what you see and ask clarifying questions.
 - **One green light per task.** Once the user has clearly said to begin, this skill exits and normal work proceeds.
 

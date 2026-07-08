@@ -4,8 +4,11 @@
     "agent-browser": {
       "source": "vercel-labs/agent-browser",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-browser.git",
       "skillPath": "skills/agent-browser/SKILL.md",
-      "computedHash": "ecc7641aea05f85ca3b11e7759d32aaf52fe05946ab4b63739c7bf78a41237a2"
+      "skillFolderHash": "9b31e495b887e4ca123960415eca69fc7e1bba28",
+      "installedAt": "2026-07-08T01:25:20.177Z",
+      "updatedAt": "2026-07-08T01:29:00.108Z"
     },
     "align": {
       "source": "tp6gw94/skills",
@@ -14,177 +17,256 @@
       "skillPath": "align/SKILL.md",
       "skillFolderHash": "26c7949ea4f8819ab059980c97e652c29683b688",
       "installedAt": "2026-07-06T09:15:29.155Z",
-      "updatedAt": "2026-07-06T09:15:29.155Z"
+      "updatedAt": "2026-07-08T01:29:02.184Z"
     },
     "alpha-research": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/alpha-research/SKILL.md",
-      "computedHash": "210a04fd46b35043a8c8c4e4341adba9d60d664e33eff678fac4af0039c9b495"
+      "skillFolderHash": "f3d6e90726a219118dec8e5f7c69c9699c6543fa",
+      "installedAt": "2026-07-08T01:29:09.346Z",
+      "updatedAt": "2026-07-08T01:29:09.346Z"
     },
     "autoresearch": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/autoresearch/SKILL.md",
-      "computedHash": "48ef7ea7abfd59a6fa6352c4f20f743210955f41b671470409ea41c9f76eb08b"
+      "skillFolderHash": "1bbe01a50a76dd78502874163355d6aaecb7b0cf",
+      "installedAt": "2026-07-08T01:29:09.348Z",
+      "updatedAt": "2026-07-08T01:29:09.348Z"
     },
     "caveman": {
       "source": "JuliusBrussee/caveman",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/JuliusBrussee/caveman.git",
       "skillPath": "skills/caveman/SKILL.md",
-      "computedHash": "1902fa0b569912d0c05736d8d98a72097d9b82719aac88c0c1d03bb546f9176d"
+      "skillFolderHash": "166040c027f7764d43df36abc5df0079bfc6394b",
+      "installedAt": "2026-07-08T01:29:11.697Z",
+      "updatedAt": "2026-07-08T01:29:11.697Z"
     },
     "caveman-commit": {
       "source": "JuliusBrussee/caveman",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/JuliusBrussee/caveman.git",
       "skillPath": "skills/caveman-commit/SKILL.md",
-      "computedHash": "790a4eeace0be35c6691faf923518ba5bd50f1f1305d1101d09dd4971be94e00"
+      "skillFolderHash": "6ba13fa3503e9607eed8f94828b524510d83b7ef",
+      "installedAt": "2026-07-08T01:29:11.699Z",
+      "updatedAt": "2026-07-08T01:29:11.699Z"
     },
     "caveman-compress": {
       "source": "JuliusBrussee/caveman",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/JuliusBrussee/caveman.git",
       "skillPath": "skills/caveman-compress/SKILL.md",
-      "computedHash": "1e9b3e2bf68b75dc0252c4328c8514bea79d4d8f7d7259da616ba7d12cad6865"
+      "skillFolderHash": "1284ac809fbdaeb9e871f84ee850aebe10c85030",
+      "installedAt": "2026-07-08T01:29:11.700Z",
+      "updatedAt": "2026-07-08T01:29:11.700Z"
     },
     "caveman-help": {
       "source": "JuliusBrussee/caveman",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/JuliusBrussee/caveman.git",
       "skillPath": "skills/caveman-help/SKILL.md",
-      "computedHash": "dd85267e76baad76995157e7b9f762dfa557cd58951ee92af0c283f48aa26537"
+      "skillFolderHash": "b4f5ebc5f3ce9bfa652996b5161bbe3cc0b88297",
+      "installedAt": "2026-07-08T01:29:11.700Z",
+      "updatedAt": "2026-07-08T01:29:11.700Z"
     },
     "caveman-review": {
       "source": "JuliusBrussee/caveman",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/JuliusBrussee/caveman.git",
       "skillPath": "skills/caveman-review/SKILL.md",
-      "computedHash": "fb7214a1c5793bae6ba8b1be4329e2e6f40dbec6dd911dfb335ad29f09c316a1"
+      "skillFolderHash": "2d9762b7aec395b9713fde57fb8965bc3bbd2c3f",
+      "installedAt": "2026-07-08T01:29:11.701Z",
+      "updatedAt": "2026-07-08T01:29:11.701Z"
     },
     "cmux": {
       "source": "manaflow-ai/cmux",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
       "skillPath": "skills/cmux/SKILL.md",
-      "computedHash": "f83a74295fb40f6c0f0abad386b9fa7e0305aed6789c1a94e635b367f206d94c"
+      "skillFolderHash": "d7b4a428df22553048a6830f4b5f3733fe1f9393",
+      "installedAt": "2026-07-08T01:29:51.827Z",
+      "updatedAt": "2026-07-08T01:29:51.827Z"
     },
     "cmux-browser": {
       "source": "manaflow-ai/cmux",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
+      "ref": "main",
       "skillPath": "skills/cmux-browser/SKILL.md",
-      "computedHash": "7206737c08f3ce8efd87fcf450b6bfe4ed69dfb8c8861ab8d7d9e078732136d3"
+      "skillFolderHash": "6d5dfc4de15faae37f932fa71f2bc9943bd2dafe",
+      "installedAt": "2026-07-08T01:30:32.621Z",
+      "updatedAt": "2026-07-08T01:30:32.621Z"
     },
     "cmux-customization": {
       "source": "manaflow-ai/cmux",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
       "skillPath": "skills/cmux-customization/SKILL.md",
-      "computedHash": "2c0c7a754a738742da6b62735a5d56197bc971074a1a492a80293b058be1c7a2"
+      "skillFolderHash": "47bb4ea3d247fe634734674ec3d39e1224aed0e1",
+      "installedAt": "2026-07-08T01:29:51.829Z",
+      "updatedAt": "2026-07-08T01:29:51.829Z"
     },
     "cmux-diagnostics": {
       "source": "manaflow-ai/cmux",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
+      "ref": "main",
       "skillPath": "skills/cmux-diagnostics/SKILL.md",
-      "computedHash": "f308f1ef2f3d65a1a0fd57797a0b31caa8c788798be023151033a2a20c8926cc"
+      "skillFolderHash": "bbcedcd6e38891c7a2c0493e397d2c3ddf3d8633",
+      "installedAt": "2026-07-08T01:30:32.623Z",
+      "updatedAt": "2026-07-08T01:30:32.623Z"
     },
     "cmux-keyboard-shortcuts": {
       "source": "manaflow-ai/cmux",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
+      "ref": "main",
       "skillPath": "skills/cmux-keyboard-shortcuts/SKILL.md",
-      "computedHash": "ffcafb4ebdcc193102e303140c22f85c16ee93fdd73dde30e13695e41b6ffd64"
+      "skillFolderHash": "2e647bed07b05ac0245997f89e4dfe4d2d8aff99",
+      "installedAt": "2026-07-08T01:30:32.624Z",
+      "updatedAt": "2026-07-08T01:30:32.624Z"
     },
     "cmux-markdown": {
       "source": "manaflow-ai/cmux",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
+      "ref": "main",
       "skillPath": "skills/cmux-markdown/SKILL.md",
-      "computedHash": "5cd75e51d5d576dffcce54abf391165005e6b0f70ab89133f4fe432cc8a00f63"
+      "skillFolderHash": "c6cf70a1ad9f98867a652dc03ded80905c2706c8",
+      "installedAt": "2026-07-08T01:30:32.624Z",
+      "updatedAt": "2026-07-08T01:30:32.624Z"
     },
     "cmux-settings": {
       "source": "manaflow-ai/cmux",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
       "skillPath": "skills/cmux-settings/SKILL.md",
-      "computedHash": "a4552ceb0322c7de45cffe90a57e756990337a5e58a3f43fae3dfc9daeb23bfc"
+      "skillFolderHash": "1c86b1238e081e2598efb96bb7908c9d3c661f41",
+      "installedAt": "2026-07-08T01:29:51.829Z",
+      "updatedAt": "2026-07-08T01:29:51.829Z"
     },
     "cmux-workspace": {
       "source": "manaflow-ai/cmux",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/manaflow-ai/cmux.git",
       "skillPath": "skills/cmux-workspace/SKILL.md",
-      "computedHash": "92aafcdb32fa2f410f7a669cbd7c9a5caf765d4a01595c35a3bf08823409fd41"
+      "skillFolderHash": "b8a24863c44d8233c1c9ed760fe91876c8265321",
+      "installedAt": "2026-07-08T01:29:51.830Z",
+      "updatedAt": "2026-07-08T01:29:51.830Z"
     },
     "deep-research": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/deep-research/SKILL.md",
-      "computedHash": "cfcf6fdffbb0ca5d5dd0b86fde8779bbd584365873484abbbfe72944e63be197"
+      "skillFolderHash": "eabe9a5cd7c67aed383a2505341a9db373248ce1",
+      "installedAt": "2026-07-08T01:29:09.349Z",
+      "updatedAt": "2026-07-08T01:29:09.349Z"
     },
     "docker": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/docker/SKILL.md",
-      "computedHash": "927ddd48dac6dfd11cf4a773e3f7b6cceb929b1e02f3734c3e93bff3c1ce3d60"
+      "skillFolderHash": "cbec82b84b6c73dc6da5e9b4ce5fd1719840a1a0",
+      "installedAt": "2026-07-08T01:29:09.350Z",
+      "updatedAt": "2026-07-08T01:29:09.350Z"
     },
     "eli5": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/eli5/SKILL.md",
-      "computedHash": "c07eb4f1f1a7cf876d8385117181c4adbdbe2efba926b0d392ae6be9caada2c5"
+      "skillFolderHash": "f6905c7430b260ac1f7ecf41ef312cd0e604cb97",
+      "installedAt": "2026-07-08T01:29:09.350Z",
+      "updatedAt": "2026-07-08T01:29:09.350Z"
     },
     "exa-search": {
       "source": "tp6gw94/skills",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
       "skillPath": "exa/SKILL.md",
-      "computedHash": "5d9f173ded235dfb5e39b945bab84d6a675b41f2f144c3d36177c44fba68c740"
+      "skillFolderHash": "a740f87c2d9d43d80ec31d100777e261ae12203b",
+      "installedAt": "2026-07-08T01:25:36.051Z",
+      "updatedAt": "2026-07-08T01:29:02.192Z"
     },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
       "skillPath": "skills/find-skills/SKILL.md",
-      "computedHash": "781bd6d3f9b19f8c9af6b53d8d0e4876d0183841b565db34ca7092ffa412d111"
+      "skillFolderHash": "eb6a23305aea6e340d14b9de3766e721f9f4861b",
+      "installedAt": "2026-07-08T01:30:34.832Z",
+      "updatedAt": "2026-07-08T01:30:34.832Z"
     },
     "grill-me": {
       "source": "mattpocock/skills",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/productivity/grill-me/SKILL.md",
-      "computedHash": "f321507f77702a54af1db66549ec1685fc625390d06c57d7949cdcda8eb1b5c7"
+      "skillFolderHash": "8320e7b87f7b208f50ce165b1dd43d1e93c8e801",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-07-08T01:30:37.317Z",
+      "updatedAt": "2026-07-08T01:30:37.317Z"
     },
     "jobs": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/jobs/SKILL.md",
-      "computedHash": "67ae4bb6245ce176f9c7504cc49dfa4b7c1d381e6e955b07dca80923fe546176"
+      "skillFolderHash": "905e6486ea395624204507f6450b5bbea777519c",
+      "installedAt": "2026-07-08T01:29:09.351Z",
+      "updatedAt": "2026-07-08T01:29:09.351Z"
     },
     "literature-review": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/literature-review/SKILL.md",
-      "computedHash": "eaee73375bf6444aa1b29a86c504080c91356ff923ade1954c4b755d8d0f1899"
+      "skillFolderHash": "df84151a366cc55d863b7ef1f30a9e689e0417c6",
+      "installedAt": "2026-07-08T01:29:09.351Z",
+      "updatedAt": "2026-07-08T01:29:09.351Z"
     },
     "modal-compute": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/modal-compute/SKILL.md",
-      "computedHash": "b63ac9a9a66790f4573c94cbbf4d2697fbb72b89c243fae9ee56c508408c6719"
+      "skillFolderHash": "ddc3872d4e7cf750f53c24b13acb9481d97fad60",
+      "installedAt": "2026-07-08T01:29:09.351Z",
+      "updatedAt": "2026-07-08T01:29:09.351Z"
     },
     "paper-code-audit": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/paper-code-audit/SKILL.md",
-      "computedHash": "5d70e9b8fdb22b43d653eaf20b950dd187a7af37b5c2dec3b4d5343de2d8a126"
+      "skillFolderHash": "afce6573c52b87995b699c1a291f7cc9f81c13ab",
+      "installedAt": "2026-07-08T01:29:09.352Z",
+      "updatedAt": "2026-07-08T01:29:09.352Z"
     },
     "paper-writing": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/paper-writing/SKILL.md",
-      "computedHash": "b71e20d887d22219063f6ee1111ce6aa7f3ecd6e426a59d9da922154fcdb1b50"
+      "skillFolderHash": "58b1a6d41c16c750bb7668401473671a905bbf2c",
+      "installedAt": "2026-07-08T01:29:09.353Z",
+      "updatedAt": "2026-07-08T01:29:09.353Z"
     },
     "peer-review": {
       "source": "getcompanion-ai/feynman",
@@ -195,89 +277,129 @@
     },
     "playwright-cli": {
       "source": "microsoft/playwright-cli",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/microsoft/playwright-cli.git",
+      "ref": "main",
       "skillPath": "skills/playwright-cli/SKILL.md",
-      "computedHash": "32cf6cf8733ae75ae41f5241347bca74459629f90bcfbd4e25540ede5d4b8f95"
+      "skillFolderHash": "4da7802c1b788ca0054c45d868cc593f6fb3d385",
+      "installedAt": "2026-07-08T01:30:39.034Z",
+      "updatedAt": "2026-07-08T01:30:39.034Z"
     },
     "preview": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/preview/SKILL.md",
-      "computedHash": "f9679ad63f940cf5e493adf861aac5617813ce80f3c0f21a966709dec245289d"
+      "skillFolderHash": "9a3287cef8f0c1267aa8b9f29f9a9d5da41192e7",
+      "installedAt": "2026-07-08T01:29:09.353Z",
+      "updatedAt": "2026-07-08T01:29:09.353Z"
     },
     "replication": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/replication/SKILL.md",
-      "computedHash": "53d077c020c911a86a7f63e201d1d27cd9315d1f9b51ddfaee6a4589a0ec22f8"
+      "skillFolderHash": "9f5d81a297d9a236080f4e0b666c00cf6d14112b",
+      "installedAt": "2026-07-08T01:29:09.354Z",
+      "updatedAt": "2026-07-08T01:29:09.354Z"
     },
     "request-refactor-plan": {
       "source": "mattpocock/skills",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/deprecated/request-refactor-plan/SKILL.md",
-      "computedHash": "176cf1d0c4dc4fc4d958c4bc4ed67f222f2656bda2f3f15e3a3e98b2e5edaf2f"
+      "skillFolderHash": "b0617c9cf69ac1e73a6b30f78c82ff81372079fd",
+      "installedAt": "2026-07-08T01:30:37.315Z",
+      "updatedAt": "2026-07-08T01:30:37.315Z"
     },
     "runpod-compute": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/runpod-compute/SKILL.md",
-      "computedHash": "1049fde3ec2dd3d622524fa6fc159a859a093b664b435d30172c7e606c90d87f"
+      "skillFolderHash": "2162320723cadbbb6a741421b45fe2fd1c35688b",
+      "installedAt": "2026-07-08T01:29:09.354Z",
+      "updatedAt": "2026-07-08T01:29:09.354Z"
     },
     "session-log": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/session-log/SKILL.md",
-      "computedHash": "f93e19889e5a505dc9026ddb70eaccb3532be3a0d0f66a6bdb058f2bb2b4f621"
+      "skillFolderHash": "13328d247205622c82827b9602cb58b54ff0bcf8",
+      "installedAt": "2026-07-08T01:29:09.355Z",
+      "updatedAt": "2026-07-08T01:29:09.355Z"
     },
     "session-search": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/session-search/SKILL.md",
-      "computedHash": "9ac1ba45162f69c963b90bc83d6fcc5fb97a038fc73fdef3d00a891966b4d771"
+      "skillFolderHash": "646b3b3b8109a758d5902db99b9e7951fa4ef409",
+      "installedAt": "2026-07-08T01:29:09.355Z",
+      "updatedAt": "2026-07-08T01:29:09.355Z"
     },
     "source-comparison": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/source-comparison/SKILL.md",
-      "computedHash": "a9ba3ce1ec396f1ec8430576586e96a9d5516da5cfdccae301ef77197b18d462"
+      "skillFolderHash": "a4a02e19825d6f955e018d259f7d48e2dd522ef8",
+      "installedAt": "2026-07-08T01:29:09.355Z",
+      "updatedAt": "2026-07-08T01:29:09.355Z"
     },
     "vercel-composition-patterns": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
       "skillPath": "skills/composition-patterns/SKILL.md",
-      "computedHash": "575757e3e25761c8c562d6e395d29f0b76c98b1273c0bd72d88e6ab1bc9c7d42"
+      "skillFolderHash": "bf90d0a4b83ea054653350f9c67f6de235d3a368",
+      "installedAt": "2026-07-08T01:30:42.712Z",
+      "updatedAt": "2026-07-08T01:30:42.712Z"
     },
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
       "skillPath": "skills/react-best-practices/SKILL.md",
-      "computedHash": "ca7b0c0c6e5f2750043f7f0cd72d16ac4e2abc48f9b5500d047a4b77a2506212"
+      "skillFolderHash": "343db72180d05814949fef7d46be96b5c6ee86b3",
+      "installedAt": "2026-07-08T01:30:42.712Z",
+      "updatedAt": "2026-07-08T01:30:42.712Z"
     },
     "verify-user-comprehension": {
       "source": "tp6gw94/skills",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
       "skillPath": "verify-user-comprehension/SKILL.md",
-      "computedHash": "8a174933e6faa6364419d6e5ee28a5540662f711a23a4988ca90c7c3d94fe8a7"
+      "skillFolderHash": "a58ccde7d47400724e6bbfa45d51ddded87e1d7e",
+      "installedAt": "2026-07-08T01:25:36.066Z",
+      "updatedAt": "2026-07-08T01:29:02.193Z"
     },
     "watch": {
       "source": "getcompanion-ai/feynman",
-      "ref": "main",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/getcompanion-ai/feynman.git",
+      "ref": "main",
       "skillPath": "skills/watch/SKILL.md",
-      "computedHash": "a5033b3a750871a3ccb97aa44986b6084eff8f2d19af4e0f1746c7b55a1fe8d7"
+      "skillFolderHash": "cff03d4fb6674e465139fcda9b47bf0ad6ed3654",
+      "installedAt": "2026-07-08T01:29:09.356Z",
+      "updatedAt": "2026-07-08T01:29:09.356Z"
     },
     "writing-great-skills": {
       "source": "mattpocock/skills",
       "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/productivity/writing-great-skills/SKILL.md",
-      "computedHash": "dd555ce552f82784c3d2b8d13a8e26a6677a07ddc00032e142dec33bfd5438c6"
+      "skillFolderHash": "c84411b360fad91b8756e60fa17fd5b5761422dd",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-07-08T01:30:37.318Z",
+      "updatedAt": "2026-07-08T01:30:37.318Z"
     },
     "handoff": {
       "source": "mattpocock/skills",
@@ -287,7 +409,16 @@
       "skillFolderHash": "aa82ffd61d7a3bda110060b4e24ec782b983cb8d",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-07T07:31:22.661Z",
-      "updatedAt": "2026-07-07T07:31:22.661Z"
+      "updatedAt": "2026-07-08T01:30:37.318Z"
+    },
+    "do-i-understand": {
+      "source": "AnthonyPAlicea/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/AnthonyPAlicea/skills.git",
+      "skillPath": "skills/do-i-understand/SKILL.md",
+      "skillFolderHash": "d14b4424f85b8a1a7ef5761452eff670ca3d425c",
+      "installedAt": "2026-07-08T01:13:23.153Z",
+      "updatedAt": "2026-07-08T01:30:45.235Z"
     }
   },
   "lastSelectedAgents": [

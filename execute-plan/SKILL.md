@@ -29,9 +29,9 @@ If the plan does not use waves, treat the whole table as one wave.
 
 ## Preconditions
 
-1. Read `/Users/todd/.pi/agent/npm/node_modules/pi-subagents/skills/pi-subagents/SKILL.md` to confirm pi-subagents usage.
+1. Use the **pi-subagents** skill for launch/wait patterns.
 2. Optionally run `subagent({ action: "list" })` to discover available agents.
-3. Read `.plan/<slug>/questions.md`. If it is not exactly `NO_QUESTIONS`, surface the questions to the user and stop until they are answered.
+3. Confirm `.plan/<slug>/task.md` exists and is decision-complete. If blocking decisions remain, stop and use the **grill-me** skill first.
 
 ## Parse the plan
 

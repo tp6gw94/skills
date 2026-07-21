@@ -22,7 +22,7 @@ You are the parent orchestrator. Execute the plan in `.plan/<slug>/task.md` by d
 
 - **Wave**: a group of sub-tasks that can run in parallel.
 - **Sub-task**: short name of the work.
-- **Assignee**: the pi-subagents target name, such as `developer`, `designer`, `tester`, `debugger`, `explorer`, or a custom agent. Use this as the `agent` argument.
+- **Assignee**: the pi-subagents target name, such as `worker`, `scout`, `reviewer`, `researcher` or a custom agent. Use this as the `agent` argument.
 - **Details**: implementation hints and acceptance criteria.
 
 If the plan does not use waves, treat the whole table as one wave.

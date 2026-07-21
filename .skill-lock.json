@@ -15,9 +15,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/tp6gw94/skills.git",
       "skillPath": "align/SKILL.md",
-      "skillFolderHash": "26c7949ea4f8819ab059980c97e652c29683b688",
+      "skillFolderHash": "f74e7cc89936bf6536f4157b0cf22bb8b97a28b0",
       "installedAt": "2026-07-06T09:15:29.155Z",
-      "updatedAt": "2026-07-14T08:50:13.758Z"
+      "updatedAt": "2026-07-20T00:17:22.924Z"
     },
     "alpha-research": {
       "source": "getcompanion-ai/feynman",
@@ -434,9 +434,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/tp6gw94/skills.git",
       "skillPath": "execute-plan/SKILL.md",
-      "skillFolderHash": "a334ae8a50128fbb854e8d43d19c4ba2ee6b2439",
+      "skillFolderHash": "aaef98054e29f63a9e476ba146b3b3da360dd8e5",
       "installedAt": "2026-07-14T08:53:15.150Z",
-      "updatedAt": "2026-07-14T08:53:15.150Z"
+      "updatedAt": "2026-07-21T07:20:49.836Z"
+    },
+    "debug-hypothesis": {
+      "source": "LichAmnesia/lich-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/LichAmnesia/lich-skills.git",
+      "skillPath": "skills/debug-hypothesis/SKILL.md",
+      "skillFolderHash": "92f25dedb5fa45e4fa00be966d994d932be8ebf4",
+      "installedAt": "2026-07-21T07:27:02.049Z",
+      "updatedAt": "2026-07-21T07:27:02.049Z"
     }
   },
   "lastSelectedAgents": [

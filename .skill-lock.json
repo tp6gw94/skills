@@ -455,6 +455,15 @@
       "skillFolderHash": "162e96f55a04f56aae9762b9de99f39e5e8081c6",
       "installedAt": "2026-07-31T01:48:13.092Z",
       "updatedAt": "2026-07-31T01:48:13.092Z"
+    },
+    "hunk-review": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "skillPath": "hunk-review/SKILL.md",
+      "skillFolderHash": "51152b0bfc487d9af59cb9078428c8a97e1f8db5",
+      "installedAt": "2026-07-31T01:50:43.290Z",
+      "updatedAt": "2026-07-31T01:50:43.290Z"
     }
   },
   "lastSelectedAgents": [

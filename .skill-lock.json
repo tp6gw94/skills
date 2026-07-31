@@ -17,7 +17,7 @@
       "skillPath": "align/SKILL.md",
       "skillFolderHash": "f74e7cc89936bf6536f4157b0cf22bb8b97a28b0",
       "installedAt": "2026-07-06T09:15:29.155Z",
-      "updatedAt": "2026-07-20T00:17:22.924Z"
+      "updatedAt": "2026-07-27T08:31:21.607Z"
     },
     "alpha-research": {
       "source": "getcompanion-ai/feynman",
@@ -446,6 +446,15 @@
       "skillFolderHash": "92f25dedb5fa45e4fa00be966d994d932be8ebf4",
       "installedAt": "2026-07-21T07:27:02.049Z",
       "updatedAt": "2026-07-21T07:27:02.049Z"
+    },
+    "open-code-review": {
+      "source": "alibaba/open-code-review",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/alibaba/open-code-review.git",
+      "skillPath": "skills/open-code-review/SKILL.md",
+      "skillFolderHash": "162e96f55a04f56aae9762b9de99f39e5e8081c6",
+      "installedAt": "2026-07-31T01:48:13.092Z",
+      "updatedAt": "2026-07-31T01:48:13.092Z"
     }
   },
   "lastSelectedAgents": [
@@ -461,7 +470,8 @@
     "kimi-code-cli",
     "opencode",
     "warp",
-    "zed"
+    "zed",
+    "kiro-cli"
   ],
   "dismissed": {
     "findSkillsPrompt": true

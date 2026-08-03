@@ -13,7 +13,7 @@ You are the parent orchestrator. Execute the plan in `.plan/<slug>/task.md` by d
 ### Wave 1: <goal>
 | Sub-task | Assignee | Details |
 | --- | --- | --- |
-| ... | developer | ... |
+| ... | worker | ... |
 
 ### Wave 2: <goal>
 | Sub-task | Assignee | Details |

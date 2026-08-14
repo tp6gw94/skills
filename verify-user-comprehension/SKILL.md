@@ -1,6 +1,7 @@
 ---
 name: verify-user-comprehension
 description: Use when file changes need user comprehension verification after agent edits, observed diffs, unstaged changes, or specified commits before new implementation.
+disable-model-invocation: true
 ---
 
 # Verify User Comprehension

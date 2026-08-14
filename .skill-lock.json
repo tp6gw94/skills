@@ -139,24 +139,6 @@
       "installedAt": "2026-07-08T01:13:23.153Z",
       "updatedAt": "2026-08-11T02:18:02.681Z"
     },
-    "write-plan": {
-      "source": "tp6gw94/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/tp6gw94/skills.git",
-      "skillPath": "write-plan/SKILL.md",
-      "skillFolderHash": "dd5a09b99aec2970950d96bdf7b1411878ae92f5",
-      "installedAt": "2026-07-14T08:52:48.954Z",
-      "updatedAt": "2026-08-11T02:16:25.125Z"
-    },
-    "execute-plan": {
-      "source": "tp6gw94/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/tp6gw94/skills.git",
-      "skillPath": "execute-plan/SKILL.md",
-      "skillFolderHash": "92839470b64a5b670e7e4554b0bcaa9d060f2970",
-      "installedAt": "2026-07-14T08:53:15.150Z",
-      "updatedAt": "2026-08-11T02:16:25.123Z"
-    },
     "debug-hypothesis": {
       "source": "LichAmnesia/lich-skills",
       "sourceType": "github",
@@ -436,6 +418,33 @@
       "skillFolderHash": "a4dc26040e0f880d2bed91b4cb2e848b9b31e8e0",
       "installedAt": "2026-08-11T02:25:04.591Z",
       "updatedAt": "2026-08-11T02:25:04.591Z"
+    },
+    "orchestration": {
+      "source": "stablyai/orca",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/stablyai/orca.git",
+      "skillPath": "skills/orchestration/SKILL.md",
+      "skillFolderHash": "9aa26fde93c0592e5983cdca1ccd33b402802255",
+      "installedAt": "2026-08-12T14:32:45.575Z",
+      "updatedAt": "2026-08-12T14:32:45.575Z"
+    },
+    "orca-cli": {
+      "source": "stablyai/orca",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/stablyai/orca.git",
+      "skillPath": "skills/orca-cli/SKILL.md",
+      "skillFolderHash": "a5a90c9731fbee834eca6d655b39eaa795dd2323",
+      "installedAt": "2026-08-12T14:35:56.565Z",
+      "updatedAt": "2026-08-12T14:35:56.565Z"
+    },
+    "computer-use": {
+      "source": "stablyai/orca",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/stablyai/orca.git",
+      "skillPath": "skills/computer-use/SKILL.md",
+      "skillFolderHash": "2072384f53670cb61d93f4f6264ad2d8f6b5239c",
+      "installedAt": "2026-08-13T11:37:59.547Z",
+      "updatedAt": "2026-08-13T11:37:59.547Z"
     }
   },
   "lastSelectedAgents": [

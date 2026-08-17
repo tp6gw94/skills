@@ -445,6 +445,15 @@
       "skillFolderHash": "2072384f53670cb61d93f4f6264ad2d8f6b5239c",
       "installedAt": "2026-08-13T11:37:59.547Z",
       "updatedAt": "2026-08-13T11:37:59.547Z"
+    },
+    "explain-diff-html": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "skillPath": "explain-diff/SKILL.md",
+      "skillFolderHash": "660693f84a5e53175609729541026f2b975956d8",
+      "installedAt": "2026-08-17T01:38:27.735Z",
+      "updatedAt": "2026-08-17T01:38:27.735Z"
     }
   },
   "lastSelectedAgents": [

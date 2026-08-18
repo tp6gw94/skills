@@ -464,6 +464,15 @@
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-08-18T06:54:48.647Z",
       "updatedAt": "2026-08-18T06:54:48.647Z"
+    },
+    "use-ego-browser": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "skillPath": "use-ego-browser/SKILL.md",
+      "skillFolderHash": "8aef5ab07260f814d07176271ad77e5af8459dde",
+      "installedAt": "2026-08-18T07:03:14.826Z",
+      "updatedAt": "2026-08-18T07:03:14.826Z"
     }
   },
   "lastSelectedAgents": [

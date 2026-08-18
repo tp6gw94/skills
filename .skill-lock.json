@@ -101,15 +101,6 @@
       "installedAt": "2026-07-08T01:30:42.712Z",
       "updatedAt": "2026-08-17T05:49:22.064Z"
     },
-    "verify-user-comprehension": {
-      "source": "tp6gw94/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/tp6gw94/skills.git",
-      "skillPath": "verify-user-comprehension/SKILL.md",
-      "skillFolderHash": "2100629dc933c936fa724138c72b3fc66affd028",
-      "installedAt": "2026-07-08T01:25:36.066Z",
-      "updatedAt": "2026-08-17T05:49:11.950Z"
-    },
     "writing-great-skills": {
       "source": "mattpocock/skills",
       "sourceType": "github",

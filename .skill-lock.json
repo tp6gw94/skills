@@ -465,6 +465,15 @@
       "skillFolderHash": "8aef5ab07260f814d07176271ad77e5af8459dde",
       "installedAt": "2026-08-18T07:03:14.826Z",
       "updatedAt": "2026-08-18T14:54:19.321Z"
+    },
+    "visual-eli5": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "skillPath": "visiual-eli5/SKILL.md",
+      "skillFolderHash": "29325425e1b1819243abd04b00dfe8eb90cf1657",
+      "installedAt": "2026-08-22T02:39:49.544Z",
+      "updatedAt": "2026-08-22T02:39:49.544Z"
     }
   },
   "lastSelectedAgents": [

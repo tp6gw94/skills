@@ -1,16 +1,6 @@
 {
   "version": 3,
   "skills": {
-    "agent-browser": {
-      "source": "vercel-labs/agent-browser",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/vercel-labs/agent-browser.git",
-      "skillPath": "skills/agent-browser/SKILL.md",
-      "skillFolderHash": "037e8078db4b20b4aa25c04f21c6de7d335ec449",
-      "pluginName": "agent-browser",
-      "installedAt": "2026-07-08T01:25:20.177Z",
-      "updatedAt": "2026-08-18T14:54:16.675Z"
-    },
     "align": {
       "source": "tp6gw94/skills",
       "sourceType": "github",
@@ -78,11 +68,10 @@
       "source": "microsoft/playwright-cli",
       "sourceType": "github",
       "sourceUrl": "https://github.com/microsoft/playwright-cli.git",
-      "ref": "main",
       "skillPath": "skills/playwright-cli/SKILL.md",
       "skillFolderHash": "ef9a12fdadfb2ad4b67d512a10e840979f162c3a",
       "installedAt": "2026-07-08T01:30:39.034Z",
-      "updatedAt": "2026-08-18T14:54:29.913Z"
+      "updatedAt": "2026-08-26T03:52:17.685Z"
     },
     "vercel-composition-patterns": {
       "source": "vercel-labs/agent-skills",
@@ -203,15 +192,6 @@
       "skillFolderHash": "f7eefe1133c8540d00f279a171053cc9551ec5c4",
       "installedAt": "2026-08-11T02:25:04.577Z",
       "updatedAt": "2026-08-18T14:54:53.336Z"
-    },
-    "browser-testing-with-devtools": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/browser-testing-with-devtools/SKILL.md",
-      "skillFolderHash": "42be59520831f02c46bce7bed1aac6ab0592947c",
-      "installedAt": "2026-08-11T02:25:04.579Z",
-      "updatedAt": "2026-08-18T14:54:53.338Z"
     },
     "ci-cd-and-automation": {
       "source": "addyosmani/agent-skills",

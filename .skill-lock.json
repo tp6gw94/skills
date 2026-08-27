@@ -427,6 +427,15 @@
       "skillFolderHash": "29325425e1b1819243abd04b00dfe8eb90cf1657",
       "installedAt": "2026-08-22T02:39:49.544Z",
       "updatedAt": "2026-08-26T12:44:18.259Z"
+    },
+    "write-testing": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "skillPath": "write-testing/SKILL.md",
+      "skillFolderHash": "e7acceff5169bfb3a3c5cdd20cd99eddfc62fb2a",
+      "installedAt": "2026-08-27T01:03:26.389Z",
+      "updatedAt": "2026-08-27T01:03:26.389Z"
     }
   },
   "lastSelectedAgents": [

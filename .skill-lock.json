@@ -6,9 +6,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/tp6gw94/skills.git",
       "skillPath": "align/SKILL.md",
-      "skillFolderHash": "f74e7cc89936bf6536f4157b0cf22bb8b97a28b0",
+      "skillFolderHash": "fd0fa3c50e13c09964756b2eb4655a3885e5bc3e",
       "installedAt": "2026-07-06T09:15:29.155Z",
-      "updatedAt": "2026-08-29T08:35:59.003Z"
+      "updatedAt": "2026-09-09T02:53:24.528Z"
     },
     "caveman": {
       "source": "JuliusBrussee/caveman",
@@ -445,6 +445,15 @@
       "skillFolderHash": "f66fcdefe6801e8c70f8e172d52faa6445e37ab5",
       "installedAt": "2026-08-29T08:37:52.304Z",
       "updatedAt": "2026-08-29T08:37:52.304Z"
+    },
+    "show-me": {
+      "source": "humanlayer/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/humanlayer/skills.git",
+      "skillPath": "plugins/show-me/skills/show-me/SKILL.md",
+      "skillFolderHash": "0bdb821a21e793a4f6f82a7078c052154447e5cc",
+      "installedAt": "2026-09-05T01:38:17.041Z",
+      "updatedAt": "2026-09-05T01:38:17.041Z"
     }
   },
   "lastSelectedAgents": [

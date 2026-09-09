@@ -454,18 +454,26 @@
       "skillFolderHash": "0bdb821a21e793a4f6f82a7078c052154447e5cc",
       "installedAt": "2026-09-05T01:38:17.041Z",
       "updatedAt": "2026-09-05T01:38:17.041Z"
+    },
+    "agent-instruction-audit": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "skillPath": "agent-instruction-audit/SKILL.md",
+      "skillFolderHash": "64103de3320ff2b81cf74283dcacf0a902aa4d82",
+      "installedAt": "2026-09-09T07:48:45.454Z",
+      "updatedAt": "2026-09-09T07:48:45.454Z"
     }
   },
   "lastSelectedAgents": [
     "amp",
-    "antigravity",
-    "antigravity-cli",
     "cline",
     "codex",
     "cursor",
-    "deepagents",
+    "droid",
     "gemini-cli",
     "github-copilot",
+    "kilo",
     "kimi-code-cli",
     "opencode",
     "warp",

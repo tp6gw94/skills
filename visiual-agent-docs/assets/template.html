@@ -1,0 +1,2127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; child-src 'self' blob: data:; frame-src 'self' blob: data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none';">
+  <title>visual-agent-docs</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --canvas: #f3f5f8;
+      --surface: #ffffff;
+      --surface-muted: #e9edf3;
+      --surface-tint: #f7f8fb;
+      --ink: #18202b;
+      --muted: #5c6877;
+      --faint: #7a8593;
+      --line: #d4dbe5;
+      --accent: #4058a6;
+      --accent-soft: #e7ebfb;
+      --accent-ink: #20326f;
+      --ok: #2d6b4f;
+      --warn: #8a5b16;
+      --danger: #a23838;
+      --shadow: 0 8px 24px rgb(35 48 70 / 8%);
+      --radius: 10px;
+      --content-width: 1240px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --canvas: #171b22;
+        --surface: #202631;
+        --surface-muted: #2a323e;
+        --surface-tint: #1c222b;
+        --ink: #edf1f6;
+        --muted: #b6c0cc;
+        --faint: #94a0ae;
+        --line: #3b4654;
+        --accent: #aebcf4;
+        --accent-soft: #303958;
+        --accent-ink: #edf0ff;
+        --ok: #8bc4a7;
+        --warn: #e3be72;
+        --danger: #ee9a9a;
+        --shadow: 0 10px 28px rgb(0 0 0 / 18%);
+      }
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--canvas); }
+    body {
+      min-width: 320px;
+      margin: 0;
+      color: var(--ink);
+      background: var(--canvas);
+      line-height: 1.55;
+    }
+    button, textarea { font: inherit; }
+    button { color: inherit; }
+    button:focus-visible, textarea:focus-visible, summary:focus-visible,
+    [role="button"]:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+    button:disabled { cursor: not-allowed; opacity: .55; }
+    .skip-link {
+      position: absolute;
+      top: -4rem;
+      left: 1rem;
+      z-index: 20;
+      padding: .55rem .8rem;
+      color: var(--surface);
+      background: var(--accent-ink);
+      border-radius: 6px;
+    }
+    .skip-link:focus { top: 1rem; }
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--surface) 95%, transparent);
+      backdrop-filter: blur(10px);
+    }
+    .header-inner, .main-inner {
+      width: min(var(--content-width), calc(100% - 2rem));
+      margin: 0 auto;
+    }
+    .header-inner { padding: .9rem 0 .7rem; }
+    .brand-row, .header-actions, .section-heading, .detail-header,
+    .feedback-header, .comment-footer, .mobile-switch { display: flex; gap: .75rem; }
+    .brand-row, .section-heading, .detail-header, .feedback-header, .comment-footer {
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .header-actions { align-items: center; justify-content: flex-end; flex-wrap: wrap; }
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      color: var(--accent-ink);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+    .brand-mark::before {
+      width: .7rem;
+      height: .7rem;
+      content: "";
+      background: var(--accent);
+      border-radius: 3px;
+    }
+    .source-line, .small-meta, .eyebrow { color: var(--muted); font-size: .78rem; }
+    .source-line { margin: .12rem 0 0; overflow-wrap: anywhere; }
+    .eyebrow { margin: 0 0 .35rem; font-weight: 750; letter-spacing: .08em; }
+    .page-title {
+      max-width: 30ch;
+      margin: .2rem 0 .25rem;
+      font-size: clamp(1.55rem, 3vw, 2.25rem);
+      line-height: 1.18;
+      letter-spacing: -.025em;
+    }
+    .page-summary { max-width: 68ch; margin: 0; color: var(--muted); }
+    .main-inner { padding: 1.55rem 0 4rem; }
+    .overview {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
+      gap: 2rem;
+      align-items: end;
+      padding: .8rem 0 1.25rem;
+    }
+    .source-disclosure {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-tint);
+    }
+    .source-disclosure > summary {
+      padding: .72rem .85rem;
+      cursor: pointer;
+      color: var(--accent-ink);
+      font-size: .86rem;
+      font-weight: 750;
+    }
+    .overview-meta {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: .35rem .8rem;
+      margin: 0;
+      padding: 0 .85rem .8rem;
+      font-size: .8rem;
+    }
+    .overview-meta dt { color: var(--muted); }
+    .overview-meta dd {
+      min-width: 0;
+      margin: 0;
+      overflow-wrap: anywhere;
+      font: .72rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    .notice-stack { display: grid; gap: .6rem; margin: 0 0 1rem; }
+    .notice {
+      padding: .68rem .85rem;
+      border-left: 3px solid var(--warn);
+      color: var(--warn);
+      background: color-mix(in srgb, var(--surface) 78%, var(--accent-soft));
+      border-radius: 4px;
+      font-size: .84rem;
+    }
+    .view-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .3rem;
+      margin-top: .7rem;
+      padding: .25rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-muted);
+    }
+    .tab-button, .action-button, .item-button, .relation-link,
+    .map-text-button, .graph-node {
+      cursor: pointer;
+      border: 1px solid transparent;
+      background: transparent;
+    }
+    .tab-button {
+      min-height: 2.25rem;
+      padding: .4rem .78rem;
+      border-radius: 7px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .tab-button[aria-selected="true"] {
+      color: var(--accent-ink);
+      background: var(--surface);
+      box-shadow: 0 1px 3px rgb(35 48 70 / 10%);
+    }
+    .action-button {
+      min-height: 2.35rem;
+      padding: .43rem .78rem;
+      border-color: var(--line);
+      border-radius: 7px;
+      background: var(--surface);
+      font-weight: 700;
+    }
+    .action-button.primary { color: var(--surface); border-color: var(--accent); background: var(--accent); }
+    .action-button.danger { color: var(--danger); }
+    .action-button:active, .item-button:active, .map-text-button:active { transform: translateY(1px); }
+    .view-panel { margin-top: .9rem; }
+    .section-heading { align-items: end; margin-bottom: .85rem; }
+    .section-heading h2, .feedback-header h2 { margin: 0; font-size: 1.22rem; line-height: 1.25; }
+    .section-heading p { max-width: 68ch; margin: .35rem 0 0; color: var(--muted); font-size: .9rem; }
+    .spec-workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.32fr) minmax(21rem, .78fr);
+      gap: 1rem;
+      align-items: start;
+    }
+    .spec-map-panel, .spec-detail-panel, .panel, .detail-card, .feedback-panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .spec-map-panel, .spec-detail-panel {
+      position: sticky;
+      top: 7.6rem;
+      max-height: calc(100dvh - 8.6rem);
+      overflow: auto;
+    }
+    .spec-map-panel { padding: 1rem; }
+    .spec-detail-panel { padding: .9rem; }
+    .spec-detail-panel > h2 { margin: .1rem .2rem .2rem; font-size: 1.05rem; }
+    .spec-detail-panel > .panel-help { margin: 0 .2rem .85rem; color: var(--muted); font-size: .8rem; }
+    .spec-detail-panel .detail-grid { grid-template-columns: 1fr; }
+    .map-heading h2 { margin: 0; font-size: 1.12rem; }
+    .map-heading p { max-width: 62ch; margin: .35rem 0 0; color: var(--muted); font-size: .86rem; }
+    .map-legend { display: flex; flex-wrap: wrap; gap: .45rem .7rem; margin: .85rem 0; color: var(--muted); font-size: .76rem; }
+    .legend-item { display: inline-flex; align-items: center; gap: .3rem; }
+    .legend-swatch { width: .65rem; height: .65rem; border: 1px solid currentColor; border-radius: 3px; }
+    .legend-swatch.in { color: var(--ok); background: color-mix(in srgb, var(--ok) 18%, var(--surface)); }
+    .legend-swatch.out { color: var(--danger); background: color-mix(in srgb, var(--danger) 16%, var(--surface)); }
+    .legend-swatch.unknown { color: var(--warn); background: color-mix(in srgb, var(--warn) 16%, var(--surface)); }
+    .graph-figure { margin: .85rem 0 0; }
+    .graph-figure figcaption { margin: 0; }
+    .graph-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-tint); }
+    .spec-graph { display: block; width: 100%; min-width: 700px; min-height: 300px; }
+    .graph-lane { fill: var(--surface-muted); stroke: var(--line); }
+    .graph-lane-title { fill: var(--muted); font: 700 14px system-ui, sans-serif; }
+    .graph-edge { fill: none; stroke: var(--accent); stroke-width: 2; opacity: .86; }
+    .graph-edge-label { fill: var(--accent-ink); font: 600 12px system-ui, sans-serif; }
+    .graph-edge-label-mask { fill: var(--surface); stroke: var(--line); stroke-width: .8; opacity: .96; }
+    .graph-node rect { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+    .graph-node:hover rect, .graph-node[aria-current="true"] rect { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2; }
+    .graph-node-title { fill: var(--ink); font: 700 14px system-ui, sans-serif; }
+    .graph-node-meta { fill: var(--muted); font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .graph-empty { margin: .75rem 0 0; color: var(--muted); font-size: .8rem; }
+    .map-text { margin-top: .85rem; border-top: 1px solid var(--line); }
+    .map-text summary { padding: .72rem 0 .35rem; cursor: pointer; color: var(--accent-ink); font-size: .83rem; font-weight: 750; }
+    .map-text p { margin: 0 0 .45rem; color: var(--muted); font-size: .78rem; }
+    .map-text-list, .relation-text-list { display: grid; gap: .35rem; margin: 0; padding: 0 0 .7rem 1.1rem; font-size: .78rem; }
+    .map-text-list li::marker { color: var(--accent); }
+    .relation-text-list { padding-left: 1.1rem; }
+    .relation-text-list li + li { margin-top: .3rem; }
+    .map-text-button { padding: 0; color: var(--accent-ink); text-align: left; font-weight: 650; }
+    .map-text-button:hover { text-decoration: underline; }
+    .spec-back { display: none; }
+    .mobile-switch { display: none; grid-column: 1 / -1; margin-bottom: .8rem; }
+    .mobile-switch .action-button { flex: 1; }
+    .mobile-switch .action-button[aria-selected="true"] { color: var(--accent-ink); border-color: var(--accent); background: var(--accent-soft); }
+    .detail-card { padding: 1rem; box-shadow: none; }
+    .detail-header { align-items: flex-start; }
+    .detail-heading { margin: 0; font-size: clamp(1.25rem, 2.5vw, 1.7rem); line-height: 1.25; overflow-wrap: anywhere; }
+    .detail-kicker { margin: 0 0 .24rem; color: var(--muted); font: .73rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .detail-summary { margin: .85rem 0 .8rem; font-size: 1rem; font-weight: 650; }
+    .detail-example { margin: 0 0 1rem; padding: .8rem; border-left: 3px solid var(--accent); background: var(--surface-tint); border-radius: 4px; }
+    .detail-example h3, .detail-block h3 { margin: 0 0 .3rem; font-size: .83rem; }
+    .detail-example p, .detail-block p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; }
+    .detail-block { min-width: 0; }
+    .detail-block ul { margin: 0; padding-left: 1.15rem; }
+    .detail-block li + li { margin-top: .22rem; }
+    .boundary-value { font-weight: 700; }
+    .boundary-value.in { color: var(--ok); }
+    .boundary-value.out { color: var(--danger); }
+    .boundary-value.unknown { color: var(--warn); }
+    .source-disclosure.detail-source { margin-top: 1rem; border-top: 1px solid var(--line); border-right: 0; border-bottom: 0; border-left: 0; border-radius: 0; background: transparent; }
+    .source-disclosure.detail-source > summary { padding-left: 0; }
+    .source-meta { margin: 0 0 .55rem; color: var(--muted); font: .72rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+    .source-excerpt, .pseudo-code, .feedback-export {
+      overflow: auto;
+      padding: .75rem;
+      margin: 0;
+      color: var(--ink);
+      background: var(--surface-muted);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font: .76rem/1.55 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    .pseudocode-block { margin-top: .95rem; }
+    .diagram { margin: 1rem 0 0; padding: .85rem; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: color-mix(in srgb, var(--accent-soft) 38%, var(--surface)); }
+    .diagram figcaption { margin-bottom: .25rem; font-weight: 750; }
+    .diagram-note { margin: 0 0 .65rem; color: var(--muted); font-size: .74rem; }
+    .diagram-svg { display: block; width: 100%; height: auto; margin: .35rem 0 0; }
+    .diagram-svg-mobile { display: none; }
+    .diagram-svg .diagram-node-box { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+    .diagram-svg .diagram-node-box-flow { stroke: var(--accent); }
+    .diagram-svg .diagram-node-isolated { stroke-dasharray: 6 4; }
+    .diagram-svg .diagram-node-label { fill: var(--ink); font: 700 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .diagram-svg .diagram-node-description { fill: var(--muted); font: 12px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .diagram-svg .diagram-node-badge, .diagram-svg .diagram-lane-label { fill: var(--muted); font: 700 11px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .diagram-svg .diagram-edge { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .diagram-svg .diagram-edge-label-mask { fill: var(--surface); opacity: .97; }
+    .diagram-svg .diagram-edge-label { fill: var(--accent-ink); font: 600 12px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .diagram-svg .diagram-lane { fill: color-mix(in srgb, var(--surface-muted) 62%, var(--surface)); stroke: var(--line); stroke-width: 1; }
+    .diagram-svg .diagram-legend-line { stroke: var(--accent); stroke-width: 2; }
+    .diagram-svg .diagram-legend-text { fill: var(--muted); font: 12px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .diagram-text { margin: .65rem 0 0; padding-top: .55rem; border-top: 1px solid var(--line); }
+    .diagram-text summary { cursor: pointer; color: var(--accent-ink); font-size: .78rem; font-weight: 750; }
+    .diagram-text p { margin: .45rem 0 .25rem; color: var(--muted); font-size: .74rem; }
+    .diagram-text-list { display: grid; gap: .3rem; margin: .25rem 0 0; padding-left: 1.15rem; font-size: .76rem; }
+    .diagram-text-list li { overflow-wrap: anywhere; }
+    .diagram-text-list li + li { margin-top: .15rem; }
+    .diagram-text .diagram-edge-unknown { color: var(--warn); }
+    .diagram-fallback .diagram-text { margin-top: .15rem; padding-top: 0; border-top: 0; }
+    /* Kept for no-DOM/legacy renderers; browsers use the SVG above. */
+    .diagram-flow { display: grid; grid-template-columns: minmax(0, 1fr); gap: .3rem; margin: 0; padding: 0 0 .15rem; list-style: none; }
+    .diagram-step { min-width: 0; padding: .5rem; border: 1px solid var(--accent); border-radius: 6px; background: var(--surface); }
+    .diagram-step strong { display: block; overflow-wrap: anywhere; }
+    .diagram-step span { color: var(--muted); font-size: .74rem; }
+    .diagram-arrow { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .02rem; min-height: 2.25rem; color: var(--accent-ink); }
+    .diagram-arrow-line { font-size: 1.35rem; line-height: 1; }
+    .diagram-arrow-label { max-width: 100%; color: var(--muted); font-size: .68rem; line-height: 1.2; text-align: center; overflow-wrap: anywhere; }
+    .diagram-nodes { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: .45rem; margin: 0; padding: 0; list-style: none; }
+    .diagram-node { padding: .5rem; border: 1px solid var(--accent); border-radius: 6px; background: var(--surface); }
+    .diagram-node strong { display: block; overflow-wrap: anywhere; }
+    .diagram-node span { color: var(--muted); font-size: .74rem; }
+    .diagram-edges { display: grid; gap: .3rem; margin: .7rem 0 0; padding: .65rem 0 0; border-top: 1px solid var(--line); list-style: none; font-size: .78rem; }
+    .diagram-edge-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem; }
+    .diagram-edge-node { font-weight: 650; overflow-wrap: anywhere; }
+    .diagram-edge-arrow { color: var(--accent); font-weight: 800; }
+    .diagram-edge-label { color: var(--muted); overflow-wrap: anywhere; }
+    .toy { margin: 1rem 0 0; padding: .85rem; border: 1px solid var(--line); border-radius: 8px; }
+    .toy h3 { margin: 0 0 .2rem; font-size: .88rem; }
+    .toy p { margin: 0 0 .55rem; color: var(--muted); font-size: .78rem; }
+    .toy iframe { display: block; width: 100%; min-height: 10rem; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+    .comment-box { margin-top: 1rem; padding-top: .9rem; border-top: 1px solid var(--line); }
+    .comment-box label { display: block; margin-bottom: .3rem; font-weight: 750; }
+    .comment-help { margin: 0 0 .45rem; color: var(--muted); font-size: .76rem; }
+    .comment-input, .feedback-export { display: block; width: 100%; min-height: 6.5rem; resize: vertical; }
+    .comment-footer { align-items: center; margin-top: .5rem; }
+    .storage-state { margin: 0; color: var(--muted); font-size: .76rem; }
+    .storage-state.warn { color: var(--warn); }
+    .storage-state.ok { color: var(--ok); }
+    .detail-actions { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .85rem; }
+    .wizard { display: grid; gap: 1rem; }
+    .plan-tasks-workspace { display: grid; grid-template-columns: minmax(15rem, .4fr) minmax(0, 1.2fr); gap: 1rem; align-items: start; }
+    .plan-mainline-panel, .plan-task-detail-panel { min-width: 0; }
+    .plan-mainline-panel { position: sticky; top: 7.6rem; max-height: calc(100dvh - 8.6rem); overflow: auto; }
+    .plan-mainline-panel h2 { margin: 0; font-size: 1.08rem; }
+    .panel-help { margin: .35rem 0 .8rem; color: var(--muted); font-size: .8rem; }
+    .mapping-count { color: var(--muted); font-size: .72rem; }
+    .mapping-section, .pending-section, .mapping-issues { margin-top: 1rem; padding-top: .9rem; border-top: 1px solid var(--line); }
+    .mapping-section h3, .pending-section h3, .mapping-issues h3 { margin: 0 0 .25rem; font-size: .98rem; }
+    .mapping-section > .muted, .pending-section > .muted, .mapping-issues > .muted { margin: 0 0 .7rem; font-size: .8rem; }
+    .mapped-task, .pending-task { margin-top: .75rem; padding: .7rem; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-tint); }
+    .task-context-button { display: block; width: 100%; padding: .55rem .65rem; color: var(--accent-ink); border: 1px solid var(--line); border-radius: 6px; background: var(--surface); text-align: left; font-weight: 750; }
+    .task-context-button:hover, .task-context-button[aria-current="true"] { border-color: var(--accent); background: var(--accent-soft); }
+    .mapping-source { margin: .3rem 0 0; color: var(--muted); font: .7rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+    .task-detail-card { margin-top: .7rem; border-left: 3px solid var(--line); }
+    .selected-task-detail { border-left-color: var(--accent); }
+    .mapping-issues ul { display: grid; gap: .55rem; margin: .5rem 0 0; padding-left: 1.15rem; }
+    .mapping-issues li + li { margin-top: .35rem; }
+    .panel { padding: 1rem; }
+    .wizard-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .55rem; padding: 0; margin: 0; list-style: none; }
+    .doc-group + .doc-group { margin-top: 1rem; }
+    .doc-heading { display: flex; align-items: baseline; justify-content: space-between; gap: .6rem; margin: 0 0 .45rem; }
+    .doc-heading h3 { margin: 0; font-size: .9rem; overflow-wrap: anywhere; }
+    .doc-heading span { color: var(--muted); font-size: .74rem; }
+    .item-list { display: grid; gap: .42rem; padding: 0; margin: 0; list-style: none; }
+    .item-button { display: grid; width: 100%; gap: .12rem; padding: .65rem .7rem; text-align: left; border-color: var(--line); border-radius: 7px; background: var(--surface); }
+    .item-button:hover, .item-button[aria-current="true"] { border-color: var(--accent); background: var(--accent-soft); }
+    .item-button[aria-current="true"] { box-shadow: inset 3px 0 var(--accent); }
+    .item-label { font-weight: 720; overflow-wrap: anywhere; }
+    .item-meta { color: var(--muted); font: .69rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
+    .item-summary { color: var(--muted); font-size: .76rem; }
+    .boundary-label, .status-label, .synthetic-label { display: inline-block; width: fit-content; padding: .08rem .35rem; border: 1px solid currentColor; border-radius: 4px; font-size: .68rem; line-height: 1.35; }
+    .boundary-label.in { color: var(--ok); }
+    .boundary-label.out { color: var(--danger); }
+    .boundary-label.unknown { color: var(--warn); }
+    .status-label { color: var(--muted); }
+    .synthetic-label { color: var(--accent-ink); }
+    .feedback-panel { padding: 1rem; box-shadow: none; }
+    .feedback-header { align-items: center; }
+    .feedback-list { display: grid; gap: .7rem; margin: .9rem 0; }
+    .feedback-entry { padding: .75rem; border-left: 3px solid var(--accent); background: var(--surface-muted); border-radius: 4px; }
+    .feedback-entry h3 { margin: 0 0 .18rem; font-size: .9rem; }
+    .feedback-entry p { margin: .2rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .feedback-entry .small-meta { display: block; overflow-wrap: anywhere; }
+    .feedback-export { min-height: 12rem; margin-top: .8rem; }
+    .old-snapshots { margin-top: 1rem; padding-top: .9rem; border-top: 1px solid var(--line); }
+    .old-snapshots h3 { margin: 0 0 .25rem; font-size: .88rem; }
+    .old-snapshots p { margin: 0 0 .55rem; color: var(--muted); font-size: .76rem; }
+    .old-list { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .old-export { margin-top: .65rem; }
+    .empty-state { padding: .85rem; color: var(--muted); border: 1px dashed var(--line); border-radius: 7px; }
+    .muted { color: var(--muted); }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    .notes-dialog { width: min(42rem, calc(100% - 1.5rem)); max-height: min(85dvh, 52rem); padding: 0; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 24px 80px rgb(14 23 38 / 28%); }
+    .notes-dialog::backdrop { background: rgb(13 19 29 / 42%); }
+    .dialog-inner { padding: 1.1rem; overflow: auto; }
+    .dialog-header { display: flex; align-items: flex-start; justify-content: space-between; gap: .8rem; margin-bottom: .85rem; }
+    .dialog-header h2 { margin: 0; font-size: 1.2rem; }
+    .dialog-header p { margin: .2rem 0 0; color: var(--muted); font-size: .8rem; }
+    .dialog-close { min-width: 2.35rem; padding: .35rem .55rem; }
+    @media (max-width: 760px) {
+      .header-inner, .main-inner { width: min(100% - 1.2rem, var(--content-width)); }
+      .brand-row, .section-heading, .detail-header, .feedback-header, .comment-footer { flex-direction: column; align-items: stretch; }
+      .header-actions { justify-content: flex-start; }
+      .overview { grid-template-columns: 1fr; gap: 1rem; }
+      .spec-workspace { display: block; }
+      .spec-map-panel, .spec-detail-panel { position: static; max-height: none; overflow: visible; }
+      .spec-detail-panel { display: none; }
+      .spec-workspace[data-mobile-view="detail"] .spec-map-panel { display: none; }
+      .spec-workspace[data-mobile-view="detail"] .spec-detail-panel { display: block; }
+      .mobile-switch { display: flex; }
+      .spec-back { display: inline-flex; }
+      .detail-grid { grid-template-columns: 1fr; }
+      .action-button { width: fit-content; }
+      .wizard-list { grid-template-columns: 1fr; }
+      .plan-tasks-workspace { grid-template-columns: 1fr; }
+      .plan-mainline-panel { position: static; max-height: none; overflow: visible; }
+      .task-context-button { min-height: 2.6rem; }
+    }
+    @media (max-width: 520px) {
+      .diagram { padding: .7rem; }
+      .diagram-svg-desktop { display: none; }
+      .diagram-svg-mobile { display: block; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-row">
+        <div>
+          <div class="brand-mark">VISUAL AGENT DOCS</div>
+          <p id="source-line" class="source-line">Offline review snapshot</p>
+        </div>
+        <div class="header-actions">
+          <button id="current-note-button" class="action-button" type="button">Notes for this item</button>
+          <button id="feedback-shortcut" class="action-button" type="button">All feedback</button>
+        </div>
+      </div>
+      <nav id="view-tabs" class="view-tabs" role="tablist" aria-label="Review views"></nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="main-inner">
+    <section class="overview" aria-labelledby="page-title">
+      <div>
+        <p id="page-eyebrow" class="eyebrow">Spec review preview</p>
+        <h1 id="page-title" class="page-title"></h1>
+        <p id="page-summary" class="page-summary"></p>
+      </div>
+      <details class="source-disclosure">
+        <summary>Source and snapshot information</summary>
+        <dl class="overview-meta">
+          <dt>Snapshot</dt><dd id="snapshot-id"></dd>
+          <dt>Source root</dt><dd id="source-root"></dd>
+          <dt>Review status</dt><dd id="storage-status">Notes not loaded</dd>
+        </dl>
+      </details>
+    </section>
+    <div id="notices" class="notice-stack" aria-live="polite"></div>
+    <section id="view-panel" class="view-panel" aria-live="polite"></section>
+  </main>
+
+  <dialog id="notes-dialog" class="notes-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-inner">
+      <div class="dialog-header">
+        <div>
+          <h2 id="dialog-title">Notes</h2>
+          <p id="dialog-subtitle"></p>
+        </div>
+        <button id="dialog-close" class="action-button dialog-close" type="button" aria-label="Close">×</button>
+      </div>
+      <div id="dialog-content"></div>
+    </div>
+  </dialog>
+
+  <script id="review-data" type="application/json">__REVIEW_DATA__</script>
+  <script>
+    (() => {
+      "use strict";
+
+      const dataNode = document.getElementById("review-data");
+      let DATA;
+      try {
+        DATA = JSON.parse(dataNode.textContent || "{}");
+      } catch (error) {
+        document.getElementById("view-panel").textContent = "Review data could not be parsed.";
+        return;
+      }
+
+      const labels = {
+        spec: "Spec",
+        plan: "Plan",
+        todo: "Todo",
+        "plan-tasks": "Plan + Todo",
+        feedback: "All feedback",
+        in: "In scope",
+        out: "Out of scope",
+        unknown: "Unclear"
+      };
+      const state = {
+        view: defaultView(),
+        selectedKey: null,
+        selectedPlanKey: null,
+        selectedTaskKey: null,
+        comments: new Map(),
+        storage: { state: "unknown", message: "Notes not loaded" },
+        storageBlocked: false,
+        lastList: null,
+        mobileView: "map",
+        dialogMode: null,
+        dialogTriggerId: null
+      };
+      const byKey = new Map();
+      const byToyId = new Map((DATA.toys || []).map((toy) => [toy.id, toy]));
+
+      function itemKey(item) {
+        return item.uiKey || item.stableKey || "";
+      }
+      for (const doc of DATA.documents || []) {
+        for (const item of doc.items || []) {
+          if (itemKey(item)) byKey.set(itemKey(item), item);
+        }
+      }
+
+      function availableKinds() {
+        return [...new Set((DATA.documents || []).map((doc) => doc.kind))];
+      }
+
+      function defaultView() {
+        const kinds = availableKinds();
+        if (kinds.includes("spec")) return "spec";
+        if (kinds.includes("plan") && kinds.includes("todo")) return "plan-tasks";
+        if (kinds.includes("plan")) return "plan";
+        if (kinds.includes("todo")) return "todo";
+        return "feedback";
+      }
+
+      function visibleTabKinds() {
+        const kinds = availableKinds();
+        const views = [];
+        if (kinds.includes("spec")) views.push("spec");
+        if (kinds.includes("plan") && kinds.includes("todo")) views.push("plan-tasks");
+        else {
+          if (kinds.includes("plan")) views.push("plan");
+          if (kinds.includes("todo")) views.push("todo");
+        }
+        return views.concat("feedback");
+      }
+
+      function setText(node, value) {
+        if (node) node.textContent = value == null ? "" : String(value);
+      }
+
+      function make(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text != null) node.textContent = text;
+        return node;
+      }
+
+      function allItems(kind) {
+        const result = [];
+        for (const doc of DATA.documents || []) {
+          if (doc.kind !== kind) continue;
+          for (const item of doc.items || []) result.push({ doc, item });
+        }
+        return result;
+      }
+
+      function planTaskRelations() {
+        return (DATA.relations || []).filter((relation) => relation.type === "plan-task");
+      }
+
+      function mappedTasksForPlan(planItem) {
+        const planKey = itemKey(planItem);
+        return planTaskRelations()
+          .filter((relation) => !relation.issue && relation.fromKey === planKey && relation.toKey)
+          .map((relation) => ({ relation, item: byKey.get(relation.toKey) }))
+          .filter(({ item }) => item && item.kind === "todo");
+      }
+
+      function mappedTodoKeys() {
+        return new Set(mappedTasksForPlanItems().map(({ relation }) => relation.toKey));
+      }
+
+      function mappedTasksForPlanItems() {
+        return planTaskRelations()
+          .filter((relation) => !relation.issue && relation.fromKey && relation.toKey)
+          .map((relation) => ({ relation, item: byKey.get(relation.toKey) }))
+          .filter(({ item }) => item && item.kind === "todo");
+      }
+
+      function unmappedTodoItems() {
+        const mapped = mappedTodoKeys();
+        return allItems("todo").filter(({ item }) => !mapped.has(itemKey(item)));
+      }
+
+      function stepNumber(item) {
+        if (item.kind === "spec") return 0;
+        return allItems(item.kind).findIndex(({ item: candidate }) => itemKey(candidate) === itemKey(item)) + 1;
+      }
+
+      function itemCaption(item) {
+        const source = item.source || {};
+        const lineText = source.lines && source.lines.length === 2 ? `Lines ${source.lines[0]}-${source.lines[1]}` : "Line unknown";
+        const number = stepNumber(item);
+        return `${number ? `Step ${number} · ` : ""}${item.itemId} · ${lineText}`;
+      }
+
+      function docLabel(doc) {
+        return `${labels[doc.kind] || doc.kind} · ${doc.path}`;
+      }
+
+      function setStorage(message, status) {
+        state.storage = { state: status || "unknown", message };
+        setText(document.getElementById("storage-status"), message);
+        const field = document.querySelector(".storage-state");
+        if (field) {
+          setText(field, message);
+          field.className = `storage-state ${status === "warn" ? "warn" : status === "ok" ? "ok" : ""}`;
+        }
+      }
+
+      function storageKey(snapshotId) {
+        return `visual-agent-docs:${snapshotId}:comments`;
+      }
+
+      function commentPayload() {
+        const entries = [];
+        for (const [key, value] of state.comments) {
+          if (!value || !String(value.text || "").trim() || !byKey.has(key)) continue;
+          const item = byKey.get(key);
+          entries.push({
+            key,
+            text: String(value.text),
+            snapshotId: DATA.snapshotId,
+            docId: item.source && item.source.docId,
+            itemId: item.itemId,
+            title: item.title,
+            kind: item.kind,
+            stepNumber: stepNumber(item),
+            sourceVersion: item.source && item.source.sourceVersion,
+            source: item.source
+          });
+        }
+        return { version: 1, snapshotId: DATA.snapshotId, entries };
+      }
+
+      function validStoredEntry(entry) {
+        return entry && typeof entry === "object" &&
+          ["key", "text", "docId", "itemId", "title", "kind"].every((key) => typeof entry[key] === "string") &&
+          ["spec", "plan", "todo"].includes(entry.kind) &&
+          (!Object.prototype.hasOwnProperty.call(entry, "snapshotId") || entry.snapshotId === DATA.snapshotId) &&
+          entry.source && ["path", "sourceVersion", "anchor"].every((key) => typeof entry.source[key] === "string") &&
+          (!Object.prototype.hasOwnProperty.call(entry, "sourceVersion") || entry.sourceVersion === entry.source.sourceVersion) &&
+          Array.isArray(entry.source.lines) && entry.source.lines.every(Number.isInteger);
+      }
+
+      function persistComments() {
+        if (state.storageBlocked) {
+          setStorage("Stored notes are damaged or cannot be mapped; original data preserved. Copy new notes manually.", "warn");
+          return;
+        }
+        try {
+          window.localStorage.setItem(storageKey(DATA.snapshotId), JSON.stringify(commentPayload()));
+          setStorage("Temporarily saved in this browser", "ok");
+        } catch (error) {
+          setStorage("Not saved persistently; closing this page will lose it. Please copy it.", "warn");
+        }
+      }
+
+      function loadComments() {
+        try {
+          const raw = window.localStorage.getItem(storageKey(DATA.snapshotId));
+          if (!raw) {
+            setStorage("No saved notes", "unknown");
+            return;
+          }
+          const parsed = JSON.parse(raw);
+          if (!parsed || parsed.version !== 1 || parsed.snapshotId !== DATA.snapshotId || !Array.isArray(parsed.entries) || !parsed.entries.every(validStoredEntry)) {
+            state.storageBlocked = true;
+            setStorage("Note data format is invalid and was not restored. Check it and copy manually.", "warn");
+            return;
+          }
+          let skipped = false;
+          for (const entry of parsed.entries) {
+            const item = byKey.get(entry.key);
+            if (!item || item.mappingError || entry.key !== item.stableKey ||
+                entry.snapshotId && entry.snapshotId !== DATA.snapshotId ||
+                entry.docId !== item.source.docId || entry.itemId !== item.itemId || entry.kind !== item.kind ||
+                entry.source.docId !== item.source.docId || entry.source.path !== item.source.path ||
+                entry.source.sourceVersion !== item.source.sourceVersion ||
+                entry.sourceVersion && entry.sourceVersion !== item.source.sourceVersion) {
+              skipped = true;
+              state.storageBlocked = true;
+              continue;
+            }
+            if (entry.text.trim()) state.comments.set(entry.key, { text: entry.text });
+          }
+          setStorage(skipped ? "Some notes could not be mapped to this snapshot. Check and copy them." : "Notes restored for this snapshot", skipped ? "warn" : "ok");
+        } catch (error) {
+          state.storageBlocked = true;
+          setStorage("Notes could not be read and were not restored. Copy current notes before closing.", "warn");
+        }
+      }
+
+      function oldSnapshots() {
+        const snapshots = [];
+        try {
+          const prefix = "visual-agent-docs:";
+          for (let index = 0; index < window.localStorage.length; index += 1) {
+            const key = window.localStorage.key(index);
+            if (!key || !key.startsWith(prefix) || key === storageKey(DATA.snapshotId)) continue;
+            try {
+              const parsed = JSON.parse(window.localStorage.getItem(key));
+              if (!parsed || parsed.version !== 1 || typeof parsed.snapshotId !== "string" || key !== storageKey(parsed.snapshotId) || !Array.isArray(parsed.entries) || !parsed.entries.every(validStoredEntry)) throw new Error("invalid snapshot");
+              snapshots.push(parsed);
+            } catch (error) {
+              setStorage("Some old snapshot data is damaged; isolated but not deleted. Current notes are unaffected.", "warn");
+            }
+          }
+        } catch (error) {
+          return [];
+        }
+        return snapshots;
+      }
+
+      function renderNotices() {
+        const host = document.getElementById("notices");
+        host.replaceChildren();
+        for (const message of DATA.errors || []) host.appendChild(make("div", "notice", message));
+      }
+
+      function renderTabs() {
+        const host = document.getElementById("view-tabs");
+        host.replaceChildren();
+        for (const kind of visibleTabKinds()) {
+          const button = make("button", "tab-button", labels[kind]);
+          button.type = "button";
+          button.setAttribute("role", "tab");
+          button.dataset.view = kind;
+          button.setAttribute("aria-selected", state.view === kind ? "true" : "false");
+          button.setAttribute("aria-controls", "view-panel");
+          host.appendChild(button);
+        }
+      }
+
+      function updateHeaderActions() {
+        const note = document.getElementById("current-note-button");
+        if (!note) return;
+        const item = state.selectedKey && byKey.get(state.selectedKey);
+        note.disabled = !item || state.view === "feedback";
+        note.title = item && state.view !== "feedback" ? `Write notes for "${item.title}"` : "Select an item first";
+      }
+
+      function updateMapSelection() {
+        for (const node of document.querySelectorAll("[data-map-key]")) {
+          const selected = node.dataset.mapKey === state.selectedKey;
+          if (node.matches(".graph-node")) {
+            node.setAttribute("aria-current", selected ? "true" : "false");
+            node.setAttribute("aria-pressed", selected ? "true" : "false");
+          } else node.setAttribute("aria-current", selected ? "true" : "false");
+        }
+      }
+
+      function focusDetailHeading() {
+        const heading = document.getElementById("detail-heading");
+        if (heading) {
+          heading.setAttribute("tabindex", "-1");
+          heading.focus();
+        }
+      }
+
+      function focusSelectedMapNode() {
+        const node = [...document.querySelectorAll("[data-map-key]")].find((candidate) => candidate.dataset.mapKey === state.selectedKey);
+        if (node) node.focus();
+      }
+
+      function focusIntegratedHeading() {
+        const heading = document.getElementById(state.selectedTaskKey ? "task-detail-heading" : "integrated-plan-heading");
+        if (heading) {
+          heading.setAttribute("tabindex", "-1");
+          heading.focus();
+        }
+      }
+
+      function selectItem(key, focusDetail) {
+        if (!byKey.has(key)) return;
+        const selected = byKey.get(key);
+        state.selectedKey = key;
+        if (state.view === "plan-tasks") {
+          if (selected.kind === "plan") {
+            state.selectedPlanKey = key;
+            state.selectedTaskKey = null;
+          } else if (selected.kind === "todo") {
+            state.selectedTaskKey = key;
+            const relation = planTaskRelations().find((candidate) => !candidate.issue && candidate.toKey === key && candidate.fromKey);
+            if (!state.selectedPlanKey && relation) state.selectedPlanKey = relation.fromKey;
+          }
+          renderCurrentView();
+          if (focusDetail) focusIntegratedHeading();
+          return;
+        }
+        const workspace = document.querySelector(".spec-workspace");
+        if (state.view === "spec" && workspace) {
+          const item = byKey.get(key);
+          const detailHost = document.getElementById("spec-detail");
+          updateMapSelection();
+          if (detailHost) {
+            detailHost.replaceChildren(renderDetail(item, []));
+            if (window.matchMedia && window.matchMedia("(max-width: 760px)").matches) {
+              workspace.dataset.mobileView = "detail";
+            }
+          }
+          updateHeaderActions();
+          if (focusDetail) focusDetailHeading();
+          return;
+        }
+        renderCurrentView();
+        if (focusDetail) focusDetailHeading();
+      }
+
+      function makeItemButton(doc, item, index, extraClass) {
+        const button = make("button", extraClass || "item-button");
+        button.type = "button";
+        button.dataset.key = itemKey(item);
+        button.dataset.index = String(index);
+        const selectedKey = state.view === "plan-tasks" && item.kind === "plan" ? state.selectedPlanKey : state.selectedKey;
+        button.setAttribute("aria-current", selectedKey === itemKey(item) ? "true" : "false");
+        const label = make("span", "item-label", item.title);
+        const meta = make("span", "item-meta", itemCaption(item));
+        button.append(label, meta);
+        if (item.summary) button.appendChild(make("span", "item-summary", item.summary));
+        const flags = make("span", "small-meta");
+        if (item.boundary && item.kind === "spec") flags.appendChild(make("span", `boundary-label ${item.boundary}`, labels[item.boundary]));
+        if (item.status) flags.appendChild(make("span", "status-label", `Source status: ${item.status}`));
+        if (item.mappingError) flags.appendChild(make("span", "status-label", "Mapping error"));
+        if (flags.childNodes.length) button.appendChild(flags);
+        return button;
+      }
+
+      function renderItemGroups(kind, className) {
+        const host = make("div", className || "");
+        const docs = (DATA.documents || []).filter((doc) => doc.kind === kind);
+        if (!docs.length) {
+          host.appendChild(make("p", "empty-state", `${labels[kind]} not provided.`));
+          return host;
+        }
+        let flatIndex = 0;
+        for (const doc of docs) {
+          const group = make("section", "doc-group");
+          const heading = make("div", "doc-heading");
+          heading.append(make("h3", "", docLabel(doc)), make("span", "", `${doc.items.length} items`));
+          const list = make("ol", "item-list");
+          for (const item of doc.items || []) {
+            const li = make("li");
+            li.appendChild(makeItemButton(doc, item, flatIndex));
+            list.appendChild(li);
+            flatIndex += 1;
+          }
+          group.append(heading, list);
+          host.appendChild(group);
+        }
+        return host;
+      }
+
+      function endpointLabel(endpoint) {
+        const found = allItems("spec").concat(allItems("plan"), allItems("todo")).find(({ doc, item }) => doc.docId === endpoint.docId && item.itemId === endpoint.itemId);
+        return found ? `${found.item.title} (${found.doc.path})` : `${endpoint.docId} / ${endpoint.itemId}`;
+      }
+
+      function renderRelations() {
+        const list = make("ul", "relation-text-list");
+        if (!(DATA.relations || []).length) {
+          list.appendChild(make("li", "empty-state", "No explicit relationships were provided by the source, so no connections are added."));
+          return list;
+        }
+        for (const relation of (DATA.relations || []).filter((candidate) => candidate.type !== "plan-task")) {
+          const li = make("li");
+          const from = make("button", "map-text-button", endpointLabel(relation.from));
+          from.type = "button";
+          from.dataset.key = relation.fromKey || "";
+          from.disabled = !relation.fromKey || !byKey.has(relation.fromKey);
+          const to = make("button", "map-text-button", endpointLabel(relation.to));
+          to.type = "button";
+          to.dataset.key = relation.toKey || "";
+          to.disabled = !relation.toKey || !byKey.has(relation.toKey);
+          li.append(from, make("span", "", ` → ${relation.label} → `), to);
+          if (relation.issue) li.appendChild(make("p", "relation-issue", relation.issue));
+          list.appendChild(li);
+        }
+        return list;
+      }
+
+      const WIDE_CHAR_PATTERN = /^[\u1100-\u115F\u2014\u2015\u2E80-\u303E\u3041-\u33FF\u3400-\u4DBF\u4E00-\u9FFF\uA000-\uA4CF\uAC00-\uD7A3\uF900-\uFAFF\uFE10-\uFE6F\uFF00-\uFF60\uFFE0-\uFFE6]$/u;
+
+      function charWidthUnits(char) {
+        return WIDE_CHAR_PATTERN.test(char) ? 2 : 1;
+      }
+
+      function displayWidth(value) {
+        let total = 0;
+        for (const char of String(value == null ? "" : value)) total += charWidthUnits(char);
+        return total;
+      }
+
+      function graphText(value, max) {
+        const text = String(value || "");
+        if (displayWidth(text) <= max) return text;
+        const kept = [];
+        let used = 0;
+        for (const char of text) {
+          const width = charWidthUnits(char);
+          if (used + width > max - 1) break;
+          used += width;
+          kept.push(char);
+        }
+        return `${kept.join("").replace(/\s+$/, "")}…`;
+      }
+
+      function fitSvgText(node) {
+        const full = node.getAttribute("data-full-text");
+        const max = Number(node.getAttribute("data-fit-width"));
+        if (full == null || !(max > 0) || typeof node.getComputedTextLength !== "function") return;
+        node.textContent = full;
+        let width = 0;
+        try {
+          width = node.getComputedTextLength();
+        } catch (error) {
+          return;
+        }
+        if (!width || width <= max) return;
+        const chars = Array.from(full);
+        const clipped = (count) => `${chars.slice(0, count).join("").replace(/\s+$/, "")}…`;
+        let keep = Math.max(1, Math.min(chars.length - 1, Math.floor(chars.length * (max / width)) - 1));
+        node.textContent = clipped(keep);
+        while (keep > 1 && node.getComputedTextLength() > max) {
+          keep -= 1;
+          node.textContent = clipped(keep);
+        }
+        for (let step = 0; step < 8 && keep < chars.length - 1; step += 1) {
+          const previous = node.textContent;
+          node.textContent = clipped(keep + 1);
+          if (node.getComputedTextLength() > max) {
+            node.textContent = previous;
+            break;
+          }
+          keep += 1;
+        }
+      }
+
+      function fitSvgTextIn(root) {
+        for (const node of root.querySelectorAll("text[data-full-text]")) fitSvgText(node);
+      }
+
+      function svgElement(tag, attrs, text) {
+        const node = document.createElementNS("http://www.w3.org/2000/svg", tag);
+        for (const [name, value] of Object.entries(attrs || {})) node.setAttribute(name, value);
+        if (text != null) node.textContent = text;
+        return node;
+      }
+
+      function renderSpecGraph() {
+        const figure = make("figure", "graph-figure");
+        figure.appendChild(make("figcaption", "sr-only", "Spec scope and relationship map"));
+        const scroll = make("div", "graph-scroll");
+        const svg = svgElement("svg", { class: "spec-graph", viewBox: "0 0 760 320", role: "group", "aria-label": "Reading topics from the same Spec, grouped by source-declared scope; connections represent only source-declared relationships." });
+        const defs = svgElement("defs");
+        const marker = svgElement("marker", { id: "graph-arrow", markerWidth: "8", markerHeight: "8", refX: "7", refY: "4", orient: "auto", markerUnits: "strokeWidth" });
+        marker.appendChild(svgElement("path", { d: "M0,0 L8,4 L0,8 z", fill: "var(--accent)" }));
+        defs.appendChild(marker);
+        svg.appendChild(defs);
+
+        const groups = new Map(["in", "out", "unknown"].map((boundary) => [boundary, allItems("spec").filter(({ item }) => item.boundary === boundary)]));
+        const columns = { in: 16, out: 270, unknown: 524 };
+        const laneWidth = 220;
+        const nodeWidth = 210;
+        const nodeHeight = 66;
+        const gap = 12;
+        const textInset = 11;
+        const textWidth = nodeWidth - textInset - 15;
+        const titleUnits = Math.floor(textWidth / 8);
+        const metaUnits = Math.floor(textWidth / 7.2);
+        const maxCount = Math.max(...[...groups.values()].map((items) => items.length), 1);
+        const height = Math.max(300, 70 + maxCount * (nodeHeight + gap));
+        svg.setAttribute("viewBox", `0 0 760 ${height}`);
+        const positions = new Map();
+
+        for (const [boundary, entries] of groups) {
+          const x = columns[boundary];
+          svg.appendChild(svgElement("rect", { class: "graph-lane", x, y: "8", width: laneWidth, height: String(height - 16), rx: "9" }));
+          svg.appendChild(svgElement("text", { class: "graph-lane-title", x: String(x + 12), y: "31" }, labels[boundary]));
+          entries.forEach(({ item }, index) => {
+            const y = 45 + index * (nodeHeight + gap);
+            positions.set(itemKey(item), { x, y, cx: x + nodeWidth, cy: y + nodeHeight / 2 });
+          });
+        }
+
+        const edgeLabels = [];
+        for (const relation of (DATA.relations || []).filter((candidate) => candidate.type !== "plan-task")) {
+          const from = positions.get(relation.fromKey);
+          const to = positions.get(relation.toKey);
+          if (!from || !to) continue;
+          const startX = from.cx;
+          const endX = to.x;
+          const midX = (startX + endX) / 2;
+          const path = from.x === to.x
+            ? `M ${startX - 4} ${from.cy} C ${startX + 56} ${from.cy}, ${endX - 56} ${to.cy}, ${endX - 4} ${to.cy}`
+            : `M ${startX} ${from.cy} C ${midX} ${from.cy}, ${midX} ${to.cy}, ${endX} ${to.cy}`;
+          svg.appendChild(svgElement("path", { class: "graph-edge", d: path, "marker-end": "url(#graph-arrow)" }));
+          edgeLabels.push({ x: midX, y: (from.cy + to.cy) / 2 - 5, text: graphText(relation.label, 18) });
+        }
+
+        for (const [boundary, entries] of groups) {
+          const x = columns[boundary];
+          entries.forEach(({ item }) => {
+            const position = positions.get(itemKey(item));
+            const group = svgElement("g", { class: "graph-node", "data-map-key": itemKey(item), tabindex: "0", role: "button", "aria-current": state.selectedKey === itemKey(item) ? "true" : "false", "aria-pressed": state.selectedKey === itemKey(item) ? "true" : "false", "aria-label": `${item.title}, ${labels[item.boundary] || labels.unknown}, ${itemCaption(item)}` });
+            group.appendChild(svgElement("rect", { x: String(x + 5), y: String(position.y), width: String(nodeWidth), height: String(nodeHeight), rx: "8" }));
+            group.appendChild(svgElement("text", { class: "graph-node-title", x: String(x + 16), y: String(position.y + 25), "data-full-text": item.title || "", "data-fit-width": String(textWidth) }, graphText(item.title, titleUnits)));
+            group.appendChild(svgElement("text", { class: "graph-node-meta", x: String(x + 16), y: String(position.y + 47), "data-full-text": itemCaption(item) || "", "data-fit-width": String(textWidth) }, graphText(itemCaption(item), metaUnits)));
+            svg.appendChild(group);
+          });
+        }
+        for (const label of edgeLabels) {
+          const width = Math.max(30, displayWidth(label.text) * 6.8 + 10);
+          svg.appendChild(svgElement("rect", { class: "graph-edge-label-mask", x: String(label.x - width / 2), y: String(label.y - 12), width: String(width), height: "17", rx: "5" }));
+          svg.appendChild(svgElement("text", { class: "graph-edge-label", x: String(label.x), y: String(label.y), "text-anchor": "middle" }, label.text));
+        }
+        scroll.appendChild(svg);
+        figure.appendChild(scroll);
+        if (!(DATA.relations || []).length) figure.appendChild(make("p", "graph-empty", "No explicit directional relationships were provided by the source. Topics and scope are retained without inferring dependencies."));
+        return figure;
+      }
+
+      function renderSpecTextMap() {
+        const disclosure = make("details", "map-text");
+        disclosure.appendChild(make("summary", "", "Text map and explicit relationships"));
+        disclosure.appendChild(make("p", "", "These are reading topics from the same Spec, not independent modules; the text map does not rely on graphics or color."));
+        const topics = make("ul", "map-text-list");
+        for (const boundary of ["in", "out", "unknown"]) {
+          const entries = allItems("spec").filter(({ item }) => item.boundary === boundary);
+          const group = make("li");
+          group.appendChild(make("strong", "", `${labels[boundary]}:`));
+          if (!entries.length) group.appendChild(make("span", "", "Not provided"));
+          else entries.forEach(({ item }, index) => {
+            if (index) group.appendChild(document.createTextNode(", "));
+            const button = make("button", "map-text-button", item.title);
+            button.type = "button";
+            button.dataset.mapKey = itemKey(item);
+            button.dataset.key = itemKey(item);
+            button.setAttribute("aria-current", state.selectedKey === itemKey(item) ? "true" : "false");
+            group.appendChild(button);
+          });
+          topics.appendChild(group);
+        }
+        disclosure.appendChild(topics);
+        const relationHeading = make("h3", "", "Source-declared directional relationships");
+        relationHeading.style.margin = ".2rem 0 .35rem";
+        disclosure.appendChild(relationHeading);
+        disclosure.appendChild(renderRelations());
+        return disclosure;
+      }
+
+      function renderCommentEditor(parent, item, inputId) {
+        const box = make("section", "comment-box");
+        const label = make("label", "", "Notes for this item");
+        label.htmlFor = inputId;
+        const input = document.createElement("textarea");
+        input.className = "comment-input";
+        input.id = inputId;
+        input.dataset.commentKey = item.stableKey || "";
+        input.rows = 4;
+        input.placeholder = "Record anything odd, changes to make, or questions for the Agent";
+        const disabled = item.mappingError || !item.stableKey;
+        input.disabled = disabled;
+        input.value = disabled ? "" : (state.comments.get(item.stableKey) || {}).text || "";
+        const help = make("p", "comment-help", disabled ? "This item's mapping is invalid, so saving is paused; the source remains available." : "Notes stay in page memory first, then are saved to this browser on a best-effort basis. Blank notes are not exported.");
+        const footer = make("div", "comment-footer");
+        const status = make("p", "storage-state", state.storage.message);
+        const clear = make("button", "action-button danger", "Delete note");
+        clear.type = "button";
+        clear.disabled = disabled || !state.comments.has(item.stableKey);
+        input.addEventListener("input", () => {
+          if (disabled) return;
+          const text = input.value;
+          if (text.trim()) state.comments.set(item.stableKey, { text });
+          else state.comments.delete(item.stableKey);
+          clear.disabled = !text.trim();
+          persistComments();
+          syncCommentEditors(item.stableKey, input);
+          renderFeedbackIfVisible();
+        });
+        clear.addEventListener("click", () => {
+          if (disabled) return;
+          state.comments.delete(item.stableKey);
+          persistComments();
+          syncCommentEditors(item.stableKey);
+        });
+        footer.append(status, clear);
+        box.append(label, help, input, footer);
+        parent.appendChild(box);
+      }
+
+      function syncCommentEditors(key, origin) {
+        const value = (state.comments.get(key) || {}).text || "";
+        for (const input of document.querySelectorAll("textarea[data-comment-key]")) {
+          if (input.dataset.commentKey !== key || input === origin) continue;
+          input.value = value;
+          const clear = input.parentElement && input.parentElement.querySelector("button.danger");
+          if (clear) clear.disabled = !value.trim();
+        }
+      }
+
+      function renderSource(parent, item) {
+        const disclosure = make("details", "source-disclosure detail-source");
+        disclosure.appendChild(make("summary", "", "View full source excerpt"));
+        const source = item.source || {};
+        const meta = make("p", "source-meta", `${source.docId || "Unknown document"} · ${source.path || "Unknown path"} · ${formatLines(source.lines)} · Version ${source.sourceVersion || "Unknown"}${source.issue ? ` · ${source.issue}` : ""}`);
+        disclosure.append(meta, make("pre", "source-excerpt", source.excerpt || "No excerpt available"));
+        parent.appendChild(disclosure);
+      }
+
+      function renderDiagram(parent, diagram) {
+        if (!diagram) return;
+        const figure = make("figure", "diagram");
+        figure.appendChild(make("figcaption", "", diagram.title || "Explanatory diagram"));
+        const note = make("p", "diagram-note", "An explanatory diagram for understanding; it is not a formal relationship declared by the source.");
+        figure.appendChild(note);
+        const nodes = Array.isArray(diagram.nodes) ? diagram.nodes : [];
+        const edges = Array.isArray(diagram.edges) ? diagram.edges : [];
+        const nodeById = new Map();
+        const labelOwners = new Map();
+        for (const node of nodes) {
+          nodeById.set(node.id, node);
+          const owners = labelOwners.get(node.label) || [];
+          owners.push(node);
+          labelOwners.set(node.label, owners);
+        }
+        const resolve = (value) => {
+          if (nodeById.has(value)) return nodeById.get(value);
+          const owners = labelOwners.get(value) || [];
+          return owners.length === 1 ? owners[0] : null;
+        };
+        const resolvedEdges = edges.map((edge) => ({ edge, from: resolve(edge.from), to: resolve(edge.to) }));
+        const unknownEdges = resolvedEdges.filter(({ from, to }) => !from || !to);
+
+        const wrapText = (value, limit) => {
+          const source = String(value == null ? "" : value);
+          if (!source) return [""];
+          const lines = [];
+          for (const segment of source.split("\n")) {
+            const chars = Array.from(segment);
+            if (!chars.length) {
+              lines.push("");
+              continue;
+            }
+            let current = [];
+            let used = 0;
+            for (const char of chars) {
+              const width = charWidthUnits(char);
+              if (current.length && used + width > limit) {
+                lines.push(current.join(""));
+                current = [];
+                used = 0;
+              }
+              current.push(char);
+              used += width;
+            }
+            if (current.length) lines.push(current.join(""));
+          }
+          return lines.length ? lines : [""];
+        };
+        const safeId = (value) => String(value || "diagram").replace(/[^a-zA-Z0-9_-]+/g, "-").replace(/^-+|-+$/g, "") || "diagram";
+        const nodeText = (node) => node.description || node.id;
+        const textMetrics = (node, labelLimit, descriptionLimit) => {
+          const labelLines = wrapText(node.label, labelLimit);
+          const descriptionLines = wrapText(nodeText(node), descriptionLimit);
+          return {
+            labelLines,
+            descriptionLines,
+            height: Math.max(64, 24 + labelLines.length * 16 + descriptionLines.length * 14)
+          };
+        };
+        const appendSvgText = (parentNode, className, lines, x, y, extra = {}) => {
+          const attrs = { class: className, x: String(x), y: String(y), ...extra };
+          const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          for (const [name, value] of Object.entries(attrs)) text.setAttribute(name, value);
+          lines.forEach((line, index) => {
+            const tspan = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+            tspan.setAttribute("x", String(x));
+            if (index) tspan.setAttribute("dy", "16");
+            tspan.textContent = line;
+            text.appendChild(tspan);
+          });
+          parentNode.appendChild(text);
+          return text;
+        };
+        const svgElement = (tag, attrs, text) => {
+          const element = document.createElementNS("http://www.w3.org/2000/svg", tag);
+          for (const [name, value] of Object.entries(attrs || {})) element.setAttribute(name, String(value));
+          if (text != null) element.textContent = String(text);
+          return element;
+        };
+        const appendMaskedLabel = (group, lines, x, centerY, maxWidth, vertical = false) => {
+          const lineHeight = 14;
+          const width = Math.min(maxWidth, Math.max(52, Math.max(...lines.map((line) => displayWidth(line)), 1) * 7 + 16));
+          const height = lines.length * lineHeight + 8;
+          const textY = centerY - ((lines.length - 1) * lineHeight) / 2 + 4;
+          const rectX = vertical ? x - width / 2 : x;
+          const rectY = textY - 12;
+          group.appendChild(svgElement("rect", { class: "diagram-edge-label-mask", x: rectX, y: rectY, width, height, rx: 4 }));
+          appendSvgText(group, "diagram-edge-label", lines, vertical ? x : x + 8, textY, { "text-anchor": vertical ? "middle" : "start" });
+        };
+        const appendNode = (group, node, metrics, x, y, width, extraClass = "", badge = "") => {
+          const badgeOffset = badge ? 12 : 0;
+          const box = svgElement("rect", { class: `diagram-node-box ${extraClass}`.trim(), x, y, width, height: metrics.height + badgeOffset, rx: 8 });
+          group.appendChild(box);
+          const centerX = x + width / 2;
+          const labelY = y + 24 + badgeOffset;
+          appendSvgText(group, "diagram-node-label", metrics.labelLines, centerX, labelY, { "text-anchor": "middle" });
+          const descriptionY = labelY + metrics.labelLines.length * 16 + 10;
+          appendSvgText(group, "diagram-node-description", metrics.descriptionLines, centerX, descriptionY, { "text-anchor": "middle" });
+          if (badge) appendSvgText(group, "diagram-node-badge", [badge], x + width - 8, y + 15, { "text-anchor": "end" });
+        };
+        const appendTextAlternative = (host, expanded) => {
+          const details = make("details", "diagram-text");
+          details.open = Boolean(expanded);
+          const summary = make("summary", "", "Full text alternative (nodes and edges)");
+          details.appendChild(summary);
+          details.appendChild(make("p", "", "All node and edge text is retained below; it is the same explanatory view as the diagram above."));
+          details.appendChild(make("p", "", "Nodes"));
+          const nodeList = make("ul", "diagram-text-list");
+          for (const node of nodes) {
+            const row = make("li");
+            row.append(make("strong", "", node.label), make("span", "", `: ${nodeText(node)}${node.lane ? ` (${node.lane})` : ""}`));
+            nodeList.appendChild(row);
+          }
+          details.appendChild(nodeList);
+          details.appendChild(make("p", "", "Edges"));
+          const edgeList = make("ul", "diagram-text-list");
+          if (!edges.length) edgeList.appendChild(make("li", "", "No edge was provided by the source; no connections are added to the diagram."));
+          for (const resolved of resolvedEdges) {
+            const source = resolved.from ? resolved.from.label : `Unknown node: ${resolved.edge.from}`;
+            const target = resolved.to ? resolved.to.label : `Unknown node: ${resolved.edge.to}`;
+            const row = make("li", !resolved.from || !resolved.to ? "diagram-edge-unknown" : "");
+            row.append(make("span", "diagram-edge-node", source), make("span", "diagram-edge-arrow", " → "), make("span", "diagram-edge-label", resolved.edge.label || "Connection"), make("span", "diagram-edge-arrow", " → "), make("span", "diagram-edge-node", target));
+            if (!resolved.from || !resolved.to) row.appendChild(make("span", "", "(Unknown endpoint; no line drawn)"));
+            edgeList.appendChild(row);
+          }
+          details.appendChild(edgeList);
+          host.appendChild(details);
+        };
+        const appendLegacyFlow = () => {
+          const nodeRef = new Map();
+          for (const node of nodes) {
+            nodeRef.set(node.id, node);
+            nodeRef.set(node.label, node);
+          }
+          const edgeBetween = (from, to) => edges.find((edge) => nodeRef.get(edge.from) === from && nodeRef.get(edge.to) === to);
+          const linear = nodes.length > 1 && nodes.slice(0, -1).every((node, index) => edgeBetween(node, nodes[index + 1]));
+          if (linear) {
+            const flow = make("ol", "diagram-flow");
+            flow.setAttribute("aria-label", "Explanatory diagram flow");
+            nodes.forEach((node, index) => {
+              const step = make("li", "diagram-step");
+              step.append(make("strong", "", node.label), make("span", "", node.description || node.id));
+              flow.appendChild(step);
+              if (index >= nodes.length - 1) return;
+              const edge = edgeBetween(node, nodes[index + 1]);
+              const arrow = make("li", "diagram-arrow");
+              arrow.setAttribute("aria-hidden", "true");
+              arrow.append(make("span", "diagram-arrow-line", "↓"), make("span", "diagram-arrow-label", edge.label));
+              flow.appendChild(arrow);
+            });
+            figure.appendChild(flow);
+          } else {
+            const nodeList = make("ul", "diagram-nodes");
+            for (const node of nodes) {
+              const li = make("li", "diagram-node");
+              li.append(make("strong", "", node.label), make("span", "", node.description || node.id));
+              nodeList.appendChild(li);
+            }
+            figure.appendChild(nodeList);
+            if (edges.length) {
+              const edgeList = make("ul", "diagram-edges");
+              for (const edge of edges) {
+                const row = make("li", "diagram-edge-row");
+                const from = nodeRef.get(edge.from);
+                const to = nodeRef.get(edge.to);
+                const source = make("span", "diagram-edge-node", from ? from.label : edge.from);
+                const target = make("span", "diagram-edge-node", to ? to.label : edge.to);
+                const firstArrow = make("span", "diagram-edge-arrow", "→");
+                const label = make("span", "diagram-edge-label", edge.label);
+                const secondArrow = make("span", "diagram-edge-arrow", "→");
+                firstArrow.setAttribute("aria-hidden", "true");
+                secondArrow.setAttribute("aria-hidden", "true");
+                row.append(source, firstArrow, label, secondArrow, target);
+                edgeList.appendChild(row);
+              }
+              figure.appendChild(edgeList);
+            }
+          }
+        };
+        if (typeof document === "undefined" || typeof document.createElementNS !== "function") {
+          appendLegacyFlow();
+          parent.appendChild(figure);
+          return;
+        }
+
+        const fallback = (message) => {
+          note.textContent = `An explanatory diagram for understanding; ${message}; it is not a formal relationship declared by the source.`;
+          if (figure.classList && typeof figure.classList.add === "function") figure.classList.add("diagram-fallback");
+          else figure.className = `${figure.className || ""} diagram-fallback`.trim();
+          appendTextAlternative(figure, true);
+          parent.appendChild(figure);
+        };
+        if (!nodes.length) {
+          fallback("No nodes available; using the full text alternative below");
+          return;
+        }
+        if (nodes.length > 9 || edges.length > 12 || unknownEdges.length) {
+          fallback(unknownEdges.length ? "Unknown endpoint(s); incomplete connections were not drawn. Full text is retained below" : "Data exceeds the limited layout; full text is retained below");
+          return;
+        }
+
+        const incoming = new Map(nodes.map((node) => [node.id, 0]));
+        const outgoing = new Map(nodes.map((node) => [node.id, []]));
+        for (const { from, to } of resolvedEdges) {
+          if (!from || !to) continue;
+          incoming.set(to.id, (incoming.get(to.id) || 0) + 1);
+          outgoing.get(from.id).push(to);
+        }
+        const isSimpleChain = () => {
+          if (nodes.length < 2 || resolvedEdges.length !== nodes.length - 1) return false;
+          if ([...incoming.values()].some((count) => count > 1) || [...outgoing.values()].some((list) => list.length > 1)) return false;
+          const starts = nodes.filter((node) => incoming.get(node.id) === 0);
+          if (starts.length !== 1) return false;
+          const seen = new Set();
+          const path = [];
+          let current = starts[0];
+          while (current && !seen.has(current.id)) {
+            seen.add(current.id);
+            path.push(current);
+            current = (outgoing.get(current.id) || [])[0] || null;
+          }
+          return seen.size === nodes.length && path.every((node, index) => node === nodes[index]);
+        };
+        const mappingReady = () => {
+          const lanes = new Set(nodes.map((node) => node.lane));
+          const pairs = new Set(resolvedEdges.map(({ from, to }) => `${from.id}::${to.id}`));
+          return lanes.has("plan") && lanes.has("task") && pairs.size === resolvedEdges.length && nodes.every((node) => node.lane === "plan" || node.lane === "task") && resolvedEdges.every(({ from, to }) => from.lane === "plan" && to.lane === "task");
+        };
+        let layout = diagram.layout === "flow" || diagram.layout === "mapping" ? diagram.layout : "auto";
+        if (layout === "auto") layout = mappingReady() ? "mapping" : isSimpleChain() ? "flow" : "graph";
+        if (layout === "mapping" && !mappingReady()) {
+          fallback("Mapping lacks recognizable Plan/Task lanes; full text is retained below");
+          return;
+        }
+        if (layout === "flow" && !isSimpleChain()) {
+          fallback("Flow contains branches or isolated nodes; the linear shortcut was not applied. Full text is retained below");
+          return;
+        }
+        if (layout === "graph") {
+          fallback("The branching/relationship graph exceeds the current limited layout; full text is retained below");
+          return;
+        }
+
+        renderDiagram._sequence = (renderDiagram._sequence || 0) + 1;
+        const baseId = `diagram-${renderDiagram._sequence}-${safeId(diagram.title)}`;
+        const createSvg = (kind, width, height, draw) => {
+          const suffix = `${baseId}-${kind}`;
+          const titleId = `${suffix}-title`;
+          const descId = `${suffix}-desc`;
+          const markerId = `${suffix}-arrow`;
+          const svg = svgElement("svg", { class: `diagram-svg diagram-svg-${kind}`, viewBox: `0 0 ${width} ${height}`, role: "img", "aria-labelledby": `${titleId} ${descId}` });
+          svg.appendChild(svgElement("title", { id: titleId }, diagram.title || "Explanatory diagram"));
+          svg.appendChild(svgElement("desc", { id: descId }, `Spatial nodes and arrows show an explanatory view of ${diagram.title || "this diagram"}; full text appears below.`));
+          const defs = svgElement("defs");
+          const marker = svgElement("marker", { id: markerId, markerWidth: 8, markerHeight: 8, refX: 7, refY: 4, orient: "auto", markerUnits: "strokeWidth" });
+          marker.appendChild(svgElement("path", { d: "M0,0 L8,4 L0,8 z", fill: "var(--accent)" }));
+          defs.appendChild(marker);
+          svg.appendChild(defs);
+          draw(svg, markerId);
+          return svg;
+        };
+        const flowSvg = (mobile) => {
+          const width = mobile ? 200 : 640;
+          const nodeWidth = mobile ? 168 : 420;
+          const nodeX = mobile ? 16 : 110;
+          const lineX = mobile ? 8 : 320;
+          const labelLimit = mobile ? 12 : 28;
+          const descriptionLimit = mobile ? 16 : 48;
+          const metrics = nodes.map((node) => textMetrics(node, labelLimit, descriptionLimit));
+          if (metrics.some((entry) => entry.labelLines.length > 4 || entry.descriptionLines.length > 4)) return null;
+          const positions = new Map();
+          let y = 24;
+          nodes.forEach((node, index) => {
+            const entry = metrics[index];
+            positions.set(node.id, { node, metrics: entry, x: nodeX, y });
+            if (index < nodes.length - 1) {
+              const edge = resolvedEdges.find(({ from, to }) => from.id === node.id && to.id === nodes[index + 1].id);
+              const edgeLines = wrapText(edge ? edge.edge.label : "Connection", mobile ? 16 : 22);
+              y += entry.height + 56 + Math.max(0, edgeLines.length - 1) * 14;
+            }
+          });
+          const legendText = mobile ? "Input → process\n→ output\nExplanatory view" : "Arrow = input → process → output; explanatory view";
+          const legendLines = wrapText(legendText, mobile ? 17 : 56);
+          const legendHeight = Math.max(52, legendLines.length * 16 + 20);
+          const height = y + metrics[metrics.length - 1].height + legendHeight;
+          return createSvg(mobile ? "mobile" : "desktop", width, height, (svg, markerId) => {
+            const group = svgElement("g");
+            for (const { from, to, edge } of resolvedEdges) {
+              const source = positions.get(from.id);
+              const target = positions.get(to.id);
+              const startY = source.y + source.metrics.height;
+              const endY = target.y;
+              group.appendChild(svgElement("path", { class: "diagram-edge", d: `M ${lineX} ${startY} V ${endY}`, "marker-end": `url(#${markerId})` }));
+              appendMaskedLabel(group, wrapText(edge.label || "Connection", mobile ? 12 : 22), mobile ? 24 : lineX + 32, (startY + endY) / 2, mobile ? 160 : 164);
+            }
+            for (const node of nodes) {
+              const position = positions.get(node.id);
+              appendNode(group, node, position.metrics, position.x, position.y, nodeWidth, "diagram-node-box-flow");
+            }
+            const legendY = height - legendHeight + 16;
+            group.appendChild(svgElement("line", { class: "diagram-legend-line", x1: mobile ? 8 : 32, y1: legendY, x2: mobile ? 24 : 58, y2: legendY, "marker-end": `url(#${markerId})` }));
+            appendSvgText(group, "diagram-legend-text", legendLines, mobile ? 28 : 68, legendY + 4);
+            svg.appendChild(group);
+          });
+        };
+        const mappingSvg = (mobile) => {
+          const width = mobile ? 200 : 640;
+          const nodeWidth = mobile ? 168 : 208;
+          const nodeX = mobile ? 16 : 48;
+          const laneX = mobile ? 4 : 24;
+          const laneWidth = mobile ? 192 : 272;
+          const labelLimit = mobile ? 12 : 22;
+          const descriptionLimit = mobile ? 16 : 34;
+          const grouped = { plan: nodes.filter((node) => node.lane === "plan"), task: nodes.filter((node) => node.lane === "task") };
+          const metrics = new Map(nodes.map((node) => [node.id, textMetrics(node, labelLimit, descriptionLimit)]));
+          if ([...metrics.values()].some((entry) => entry.labelLines.length > 4 || entry.descriptionLines.length > 4)) return null;
+          const positions = new Map();
+          const lanePositions = {};
+          let planTop;
+          let taskTop;
+          if (mobile) {
+            planTop = 16;
+            let y = planTop + 36;
+            for (const node of grouped.plan) {
+              positions.set(node.id, { node, metrics: metrics.get(node.id), x: nodeX, y });
+              y += metrics.get(node.id).height + 24;
+            }
+            const planBottom = y - 24;
+            taskTop = planBottom + 56;
+            y = taskTop + 36;
+            for (const node of grouped.task) {
+              positions.set(node.id, { node, metrics: metrics.get(node.id), x: nodeX, y });
+              y += metrics.get(node.id).height + 24;
+            }
+            lanePositions.plan = { x: laneX, y: planTop, width: laneWidth, bottom: planBottom + 16, labelY: planTop + 20 };
+            lanePositions.task = { x: laneX, y: taskTop, width: laneWidth, bottom: y - 8, labelY: taskTop + 20 };
+          } else {
+            planTop = 16;
+            taskTop = 16;
+            for (const lane of ["plan", "task"]) {
+              let y = 52;
+              for (const node of grouped[lane]) {
+                const x = lane === "plan" ? nodeX : 384;
+                positions.set(node.id, { node, metrics: metrics.get(node.id), x, y });
+                y += metrics.get(node.id).height + 24;
+              }
+              lanePositions[lane] = { x: lane === "plan" ? 24 : 344, y: 16, width: 272, bottom: y + 8, labelY: 36 };
+            }
+          }
+          const contentBottom = Math.max(lanePositions.plan.bottom, lanePositions.task.bottom);
+          const legendText = mobile ? "Plan top / Task bottom\nExplicit mappings only\nDashed = pending review" : "Plan left / Task right\nExplicit mappings only\nDashed = pending review";
+          const legendLines = wrapText(legendText, mobile ? 24 : 52);
+          const legendHeight = Math.max(52, legendLines.length * 16 + 20);
+          const height = contentBottom + legendHeight;
+          return createSvg(mobile ? "mobile" : "desktop", width, height, (svg, markerId) => {
+            const group = svgElement("g");
+            for (const lane of ["plan", "task"]) {
+              const laneInfo = lanePositions[lane];
+              group.appendChild(svgElement("rect", { class: "diagram-lane", x: laneInfo.x, y: laneInfo.y, width: laneInfo.width, height: laneInfo.bottom - laneInfo.y, rx: 8 }));
+              appendSvgText(group, "diagram-lane-label", [mobile ? (lane === "plan" ? "Plan (top)" : "Task (bottom)") : lane === "plan" ? "Plan" : "Task"], mobile ? width / 2 : laneInfo.x + laneInfo.width / 2, laneInfo.labelY, { "text-anchor": "middle" });
+            }
+            const connected = new Set();
+            resolvedEdges.forEach(({ from, to }) => { connected.add(from.id); connected.add(to.id); });
+            resolvedEdges.forEach(({ from, to, edge }, index) => {
+              const source = positions.get(from.id);
+              const target = positions.get(to.id);
+              if (mobile) {
+                const sourceX = source.x + nodeWidth * (0.3 + (index % 3) * 0.2);
+                const targetX = target.x + nodeWidth * (0.7 - (index % 3) * 0.2);
+                const corridorX = 4 + index * 8;
+                const startY = source.y + source.metrics.height;
+                const endY = target.y;
+                const radius = 8;
+                const d = `M ${sourceX} ${startY} H ${corridorX + radius} Q ${corridorX} ${startY} ${corridorX} ${startY + radius} V ${endY - radius} Q ${corridorX} ${endY} ${corridorX + radius} ${endY} H ${targetX}`;
+                group.appendChild(svgElement("path", { class: "diagram-edge", d, "marker-end": `url(#${markerId})` }));
+                appendMaskedLabel(group, wrapText(edge.label || "Mapping", 12), 24 + (index % 3) * 56, lanePositions.task.y - 20, 64);
+              } else {
+                const sourceRight = source.x + nodeWidth;
+                const targetLeft = target.x;
+                if (Math.abs(source.y + source.metrics.height / 2 - (target.y + target.metrics.height / 2)) < 1) {
+                  const centerY = source.y + source.metrics.height / 2;
+                  group.appendChild(svgElement("path", { class: "diagram-edge", d: `M ${sourceRight} ${centerY} H ${targetLeft}`, "marker-end": `url(#${markerId})` }));
+                  appendMaskedLabel(group, wrapText(edge.label || "Mapping", 16), (sourceRight + targetLeft) / 2 - 40, centerY - 14, 96);
+                } else {
+                  const sourceY = source.y + source.metrics.height / 2;
+                  const targetY = target.y + target.metrics.height / 2;
+                  const baseCorridor = (sourceRight + targetLeft) / 2;
+                  const corridor = Math.max(sourceRight + 20, Math.min(targetLeft - 20, baseCorridor + (index % 3 - 1) * 16));
+                  const direction = targetY >= sourceY ? 1 : -1;
+                  const radius = 8;
+                  const d = direction > 0
+                    ? `M ${sourceRight} ${sourceY} H ${corridor - radius} Q ${corridor} ${sourceY} ${corridor} ${sourceY + radius} V ${targetY - radius} Q ${corridor} ${targetY} ${corridor + radius} ${targetY} H ${targetLeft}`
+                    : `M ${sourceRight} ${sourceY} H ${corridor + radius} Q ${corridor} ${sourceY} ${corridor} ${sourceY - radius} V ${targetY + radius} Q ${corridor} ${targetY} ${corridor - radius} ${targetY} H ${targetLeft}`;
+                  group.appendChild(svgElement("path", { class: "diagram-edge", d, "marker-end": `url(#${markerId})` }));
+                  appendMaskedLabel(group, wrapText(edge.label || "Mapping", 16), Math.min(corridor - 48, targetLeft - 88), sourceY - 14, 96);
+                }
+              }
+            });
+            for (const node of nodes) {
+              const position = positions.get(node.id);
+              appendNode(group, node, position.metrics, position.x, position.y, nodeWidth, !connected.has(node.id) ? "diagram-node-isolated" : "", !connected.has(node.id) ? "Unconnected" : "");
+            }
+            const legendY = height - legendHeight + 16;
+            appendSvgText(group, "diagram-legend-text", legendLines, mobile ? 8 : 32, legendY + 4);
+            svg.appendChild(group);
+          });
+        };
+        const desktop = layout === "flow" ? flowSvg(false) : mappingSvg(false);
+        const mobile = layout === "flow" ? flowSvg(true) : mappingSvg(true);
+        if (!desktop || !mobile) {
+          fallback("Long text exceeds the current limited layout; full text is retained below");
+          return;
+        }
+        figure.append(desktop, mobile);
+        appendTextAlternative(figure, false);
+        parent.appendChild(figure);
+      }
+
+      function renderToy(parent, toyId) {
+        if (!toyId) return;
+        const toy = byToyId.get(toyId);
+        if (!toy) {
+          parent.appendChild(make("p", "notice", `Toy not found: ${toyId}`));
+          return;
+        }
+        const section = make("section", "toy");
+        section.append(make("h3", "", toy.title), make("p", "", toy.description || ""), make("span", "synthetic-label", "Synthetic example"));
+        const frame = document.createElement("iframe");
+        frame.title = `${toy.title}, synthetic example`;
+        frame.setAttribute("sandbox", "allow-scripts");
+        frame.setAttribute("loading", "lazy");
+        frame.srcdoc = toy.html;
+        section.appendChild(frame);
+        parent.appendChild(section);
+      }
+
+      function appendListBlock(parent, title, values) {
+        if (!values || !values.length) return;
+        const block = make("section", "detail-block");
+        block.appendChild(make("h3", "", title));
+        const list = make("ul");
+        for (const value of values) list.appendChild(make("li", "", value));
+        block.appendChild(list);
+        parent.appendChild(block);
+      }
+
+      function safeDomId(value) {
+        return String(value || "item").replace(/[^a-zA-Z0-9_-]+/g, "-").replace(/^-+|-+$/g, "") || "item";
+      }
+
+      function renderDetail(item, positionItems, options = {}) {
+        const card = make("article", `detail-card${options.className ? ` ${options.className}` : ""}`);
+        const header = make("div", "detail-header");
+        const headingGroup = make("div");
+        const heading = make("h2", "detail-heading", item.title);
+        heading.id = options.headingId || "detail-heading";
+        headingGroup.append(make("p", "detail-kicker", `${labels[item.kind] || item.kind} · ${itemCaption(item)}`), heading);
+        if (!options.embedded && !options.hideBack) {
+          const back = make("button", item.kind === "spec" ? "action-button spec-back" : "action-button", item.kind === "spec" ? "Back to map" : "Back to item list");
+          back.type = "button";
+          back.addEventListener("click", returnToList);
+          header.append(headingGroup, back);
+        } else header.appendChild(headingGroup);
+        card.appendChild(header);
+        if (item.summary) card.appendChild(make("p", "detail-summary", item.summary));
+        if (item.example) {
+          const example = make("section", "detail-example");
+          example.append(make("h3", "", "Concrete example"), make("p", "", item.example));
+          card.appendChild(example);
+        }
+        const grid = make("div", "detail-grid");
+        if (item.kind === "spec") {
+          const block = make("section", "detail-block");
+          block.append(make("h3", "", "This item's scope"), make("p", `boundary-value ${item.boundary || "unknown"}`, labels[item.boundary] || labels.unknown));
+          grid.appendChild(block);
+        }
+        if (item.details) {
+          const block = make("section", "detail-block");
+          block.append(make("h3", "", "How to understand"), make("p", "", item.details));
+          grid.appendChild(block);
+        }
+        if (item.status) {
+          const block = make("section", "detail-block");
+          block.append(make("h3", "", "Source status"), make("p", "", item.status));
+          grid.appendChild(block);
+        }
+        appendListBlock(grid, "Limitations and risks", item.risks);
+        appendListBlock(grid, "Acceptance / checks", item.acceptance);
+        appendListBlock(grid, "Open questions", item.questions);
+        if (grid.childNodes.length) card.appendChild(grid);
+        if (item.pseudocode) {
+          const block = make("section", "detail-block pseudocode-block");
+          block.append(make("h3", "", "Pseudo code"), make("pre", "pseudo-code", item.pseudocode));
+          card.appendChild(block);
+        }
+        renderDiagram(card, item.diagram);
+        renderToy(card, item.toyId);
+        renderSource(card, item);
+        renderCommentEditor(card, item, options.inputId || "comment-input");
+        if (positionItems.length && options.showNavigation !== false) {
+          const actions = make("div", "detail-actions");
+          const index = positionItems.findIndex(({ item: candidate }) => itemKey(candidate) === itemKey(item));
+          const previousKey = adjacentKey(positionItems, itemKey(item), -1);
+          const nextKey = adjacentKey(positionItems, itemKey(item), 1);
+          const previous = make("button", "action-button", "Previous");
+          previous.type = "button";
+          previous.disabled = !previousKey;
+          previous.addEventListener("click", () => { if (previousKey) selectItem(previousKey, true); });
+          const next = make("button", "action-button primary", "Next");
+          next.type = "button";
+          next.disabled = !nextKey;
+          next.addEventListener("click", () => { if (nextKey) selectItem(nextKey, true); });
+          actions.append(previous, next);
+          if (index === positionItems.length - 1) actions.appendChild(make("span", "small-meta", "You have reached the last item. Open “All feedback” to collect notes."));
+          card.appendChild(actions);
+        }
+        return card;
+      }
+
+      function adjacentKey(items, currentKey, offset) {
+        const index = items.findIndex(({ item }) => itemKey(item) === currentKey);
+        const nextIndex = index + offset;
+        return index >= 0 && nextIndex >= 0 && nextIndex < items.length ? itemKey(items[nextIndex].item) : null;
+      }
+
+      function ensureSelection(items) {
+        if (!items.length) return null;
+        const current = items.find(({ item }) => itemKey(item) === state.selectedKey);
+        return current ? current.item : items[0].item;
+      }
+
+      function returnToList() {
+        const workspace = document.querySelector(".spec-workspace");
+        if (workspace) {
+          workspace.dataset.mobileView = "map";
+          state.mobileView = "map";
+          for (const button of workspace.querySelectorAll("button[data-spec-view]")) button.setAttribute("aria-selected", button.dataset.specView === "map" ? "true" : "false");
+          updateHeaderActions();
+          focusSelectedMapNode();
+          return;
+        }
+        const button = [...document.querySelectorAll(".item-button")].find((node) => node.dataset.key === state.selectedKey);
+        if (button) button.focus();
+      }
+
+      function renderWizard(kind) {
+        const items = allItems(kind);
+        const wrapper = make("div", "wizard");
+        const heading = make("div", "section-heading");
+        const copy = make("div");
+        copy.append(make("h2", "", `${labels[kind]} steps`), make("p", "", "Review in document order. Next only moves the reading position; it does not mean complete or approved."));
+        heading.appendChild(copy);
+        wrapper.appendChild(heading);
+        const listPanel = make("section", "panel");
+        const list = renderItemGroups(kind, "wizard-list");
+        listPanel.appendChild(list);
+        listPanel.id = "wizard-list";
+        state.lastList = listPanel;
+        wrapper.appendChild(listPanel);
+        const selected = ensureSelection(items);
+        if (!selected) {
+          wrapper.appendChild(make("p", "empty-state", `${labels[kind]} not provided.`));
+          return wrapper;
+        }
+        state.selectedKey = itemKey(selected);
+        wrapper.appendChild(renderDetail(selected, items));
+        return wrapper;
+      }
+
+      function relationSourceLabel(relation) {
+        const source = relation.source || {};
+        return `${source.docId || "Unknown source"} · ${source.path || "Unknown path"} · ${formatLines(source.lines)} · Anchor: ${source.anchor || "Unknown"}`;
+      }
+
+      function renderPlanTaskIssues() {
+        const issues = planTaskRelations().filter((relation) => relation.issue);
+        if (!issues.length) return null;
+        const section = make("section", "mapping-issues");
+        section.appendChild(make("h3", "", "Mapping needs review"));
+        section.appendChild(make("p", "muted", "These relationships retain their original endpoints and errors, but are not treated as task mappings."));
+        const list = make("ul");
+        for (const relation of issues) {
+          const row = make("li");
+          const from = endpointLabel(relation.from);
+          const to = endpointLabel(relation.to);
+          row.append(make("strong", "", `${from} → ${to}`), make("p", "mapping-source", `Type: ${relation.type || "Not provided"} · ${relation.issue}`));
+          if (relation.source) row.appendChild(make("p", "mapping-source", `Relationship source: ${relationSourceLabel(relation)}`));
+          list.appendChild(row);
+        }
+        section.appendChild(list);
+        return section;
+      }
+
+      function renderTaskDetail(relation, task, pending) {
+        const section = make("section", pending ? "pending-task" : "mapped-task");
+        const taskKey = itemKey(task);
+        const button = make("button", "task-context-button", `${itemCaption(task)} · ${task.title}`);
+        button.type = "button";
+        button.dataset.key = taskKey;
+        button.setAttribute("aria-current", state.selectedTaskKey === taskKey ? "true" : "false");
+        button.setAttribute("aria-controls", `task-card-${safeDomId(taskKey)}`);
+        section.appendChild(button);
+        if (pending) section.appendChild(make("p", "mapping-source", "Pending review: no explicit type=plan-task mapping found."));
+        else {
+          section.appendChild(make("p", "mapping-source", `Explicit relationship: type=plan-task · ${relation.label || "Relationship"}`));
+          if (relation.source) section.appendChild(make("p", "mapping-source", `Relationship source: ${relationSourceLabel(relation)}`));
+        }
+        const detail = renderDetail(task, [], {
+          embedded: true,
+          className: state.selectedTaskKey === taskKey ? "task-detail-card selected-task-detail" : "task-detail-card",
+          headingId: state.selectedTaskKey === taskKey ? "task-detail-heading" : `task-detail-${safeDomId(taskKey)}`,
+          inputId: `task-comment-${safeDomId(taskKey)}`,
+          hideBack: true,
+          showNavigation: false
+        });
+        detail.id = `task-card-${safeDomId(taskKey)}`;
+        section.appendChild(detail);
+        return section;
+      }
+
+      function renderPendingTasks() {
+        const pending = unmappedTodoItems();
+        const pendingSection = make("section", "pending-section");
+        pendingSection.appendChild(make("h3", "", "Pending-review tasks"));
+        pendingSection.appendChild(make("p", "muted", "Todo/Task items without a valid explicit mapping remain readable, can have separate notes, and can be exported."));
+        if (!pending.length) pendingSection.appendChild(make("p", "empty-state", "All saveable Todo/Task items already have explicit mappings."));
+        else pending.forEach(({ item }) => pendingSection.appendChild(renderTaskDetail(null, item, true)));
+        return pendingSection;
+      }
+
+      function renderPlanTaskDetail(plan, planItems) {
+        const host = make("div", "plan-task-detail");
+        host.appendChild(renderDetail(plan, planItems, {
+          className: "plan-detail-card",
+          headingId: "integrated-plan-heading",
+          inputId: "plan-comment-input",
+          hideBack: true
+        }));
+        const mapping = make("section", "mapping-section");
+        mapping.appendChild(make("h3", "", "This step's explicit tasks"));
+        mapping.appendChild(make("p", "muted", "Only source-declared type=plan-task relationships are used; no mapping is inferred from titles or labels."));
+        const mapped = mappedTasksForPlan(plan);
+        if (!allItems("todo").length) mapping.appendChild(make("p", "empty-state", "No Todo/Task document was provided in this review set, so this Plan has no task to map."));
+        else if (!mapped.length) mapping.appendChild(make("p", "empty-state", "This Plan step has no explicit task mapping; it remains visible. See the pending-review area for unmapped items."));
+        else mapped.forEach(({ relation, item }) => mapping.appendChild(renderTaskDetail(relation, item, false)));
+        host.appendChild(mapping);
+
+        host.appendChild(renderPendingTasks());
+        const issues = renderPlanTaskIssues();
+        if (issues) host.appendChild(issues);
+        return host;
+      }
+
+      function renderPlanMainline(items) {
+        const panel = make("section", "panel plan-mainline-panel");
+        panel.appendChild(make("h2", "", "Plan mainline"));
+        panel.appendChild(make("p", "panel-help", "Order follows each Plan's source; items with the same number remain separate by document identity."));
+        const docs = (DATA.documents || []).filter((doc) => doc.kind === "plan");
+        if (!docs.length) {
+          panel.appendChild(make("p", "empty-state", "Plan not provided."));
+          return panel;
+        }
+        let index = 0;
+        for (const doc of docs) {
+          const group = make("section", "doc-group");
+          group.appendChild(make("div", "doc-heading", ""));
+          const heading = group.querySelector(".doc-heading");
+          heading.append(make("h3", "", docLabel(doc)), make("span", "", `${doc.items.length} steps`));
+          const list = make("ol", "item-list");
+          for (const item of doc.items || []) {
+            const li = make("li");
+            const button = makeItemButton(doc, item, index);
+            const mappedCount = mappedTasksForPlan(item).length;
+            button.appendChild(make("span", "mapping-count", mappedCount ? `${mappedCount} explicit tasks` : "No explicit tasks yet"));
+            li.appendChild(button);
+            list.appendChild(li);
+            index += 1;
+          }
+          group.appendChild(list);
+          panel.appendChild(group);
+        }
+        return panel;
+      }
+
+      function renderPlanTasks() {
+        const planItems = allItems("plan");
+        const wrapper = make("div", "plan-tasks-view");
+        const heading = make("div", "section-heading");
+        const copy = make("div");
+        copy.append(make("h2", "", "Plan + Todo integrated review"), make("p", "", "Plan steps are ordered on the left; the selected step, explicit tasks, sources, and separate notes remain on the right. Next only moves the reading position; it does not mean complete or approved."));
+        heading.appendChild(copy);
+        wrapper.appendChild(heading);
+        const workspace = make("div", "plan-tasks-workspace");
+        const selected = state.selectedPlanKey && byKey.get(state.selectedPlanKey) && byKey.get(state.selectedPlanKey).kind === "plan"
+          ? byKey.get(state.selectedPlanKey)
+          : ensureSelection(planItems);
+        if (!selected) {
+          const detailPanel = make("section", "panel plan-task-detail-panel");
+          detailPanel.append(make("h2", "", "Plan has no reviewable steps."), make("p", "muted", "No Plan mainline is available; all Todo/Task items remain in the pending-review area of the same flow."), renderPendingTasks());
+          const issues = renderPlanTaskIssues();
+          if (issues) detailPanel.appendChild(issues);
+          workspace.append(renderPlanMainline(planItems), detailPanel);
+          wrapper.appendChild(workspace);
+          return wrapper;
+        }
+        state.selectedPlanKey = itemKey(selected);
+        state.selectedKey = state.selectedTaskKey && byKey.has(state.selectedTaskKey) ? state.selectedTaskKey : itemKey(selected);
+        if (state.selectedTaskKey && !mappedTasksForPlan(selected).some(({ item }) => itemKey(item) === state.selectedTaskKey)) state.selectedTaskKey = null;
+        const detailPanel = make("section", "panel plan-task-detail-panel");
+        detailPanel.appendChild(renderPlanTaskDetail(selected, planItems));
+        workspace.append(renderPlanMainline(planItems), detailPanel);
+        wrapper.appendChild(workspace);
+        return wrapper;
+      }
+
+      function renderSpec() {
+        const wrapper = make("div", "spec-workspace");
+        wrapper.dataset.mobileView = state.mobileView;
+        const items = allItems("spec");
+        const selected = ensureSelection(items);
+        if (selected) state.selectedKey = itemKey(selected);
+
+        const mapPanel = make("section", "spec-map-panel");
+        const heading = make("div", "map-heading");
+        heading.append(make("h2", "", "Spec reading map"), make("p", "", "This is a reading map for one Spec, not a module or dependency graph. See the overview first, then select a topic; the details on the right do not replace the map."));
+        mapPanel.appendChild(heading);
+        const legend = make("div", "map-legend");
+        for (const boundary of ["in", "out", "unknown"]) {
+          const item = make("span", "legend-item");
+          item.append(make("span", `legend-swatch ${boundary}`), make("span", "", labels[boundary]));
+          legend.appendChild(item);
+        }
+        mapPanel.append(legend, renderSpecGraph(), renderSpecTextMap());
+
+        const detailPanel = make("aside", "spec-detail-panel");
+        const switcher = make("div", "mobile-switch");
+        for (const view of ["map", "detail"]) {
+          const button = make("button", "action-button", view === "map" ? "Map" : "Current item");
+          button.type = "button";
+          button.dataset.specView = view;
+          button.setAttribute("aria-selected", wrapper.dataset.mobileView === view ? "true" : "false");
+          switcher.appendChild(button);
+        }
+        detailPanel.append(make("h2", "", "Current item"), make("p", "panel-help", "First review what it changes and how it behaves, then see examples, limitations, and acceptance. Source details and long hashes are below."));
+        const detailHost = make("div", "");
+        detailHost.id = "spec-detail";
+        if (selected) detailHost.appendChild(renderDetail(selected, []));
+        else detailHost.appendChild(make("p", "empty-state", "Spec has no reviewable items."));
+        detailPanel.appendChild(detailHost);
+        wrapper.append(switcher, mapPanel, detailPanel);
+        return wrapper;
+      }
+
+      function formatLines(lines) {
+        return lines && lines.length === 2 ? `Lines ${lines[0]}-${lines[1]}` : "Line unknown";
+      }
+
+      function exportEntries(entries, snapshotId) {
+        if (!entries.length) return `# ${DATA.title}\n\nSnapshot: ${snapshotId}\n\nNo notes yet.`;
+        const lines = [`# ${DATA.title}`, "", `Snapshot: ${snapshotId}`, "", "The following is review feedback. Verify it against the document and item identifiers:", ""];
+        for (const entry of entries) {
+          lines.push(`## ${entry.title || entry.itemId || "Unnamed item"}`);
+          lines.push(`Document: ${entry.docId || "Unknown document"}`);
+          lines.push(`Kind: ${labels[entry.kind] || entry.kind || "Unknown"}`);
+          lines.push(`Item: ${entry.itemId || "Unknown"}`);
+          if (entry.kind !== "spec") lines.push(entry.stepNumber ? `Step ${entry.stepNumber}` : "Step number: not provided by older data");
+          if (entry.key) lines.push(`Mapping: ${entry.key}`);
+          lines.push(`Item snapshot: ${entry.snapshotId || snapshotId}`);
+          if (entry.source) {
+            lines.push(`Source: ${entry.source.path || "Unknown path"} ${formatLines(entry.source.lines)}`);
+            lines.push(`Source version: ${entry.sourceVersion || entry.source.sourceVersion || "Unknown"}`);
+            lines.push(`Anchor: ${entry.source.anchor || "Unknown"}`);
+          }
+          lines.push(`Note:\n${entry.text || ""}`, "");
+        }
+        return lines.join("\n");
+      }
+
+      function currentFeedbackEntries() {
+        const entries = [];
+        for (const { item } of allItems("spec").concat(allItems("plan"), allItems("todo"))) {
+          const value = item.stableKey && state.comments.get(item.stableKey);
+          if (value && String(value.text || "").trim()) entries.push({ item, text: value.text, snapshotId: DATA.snapshotId, sourceVersion: item.source && item.source.sourceVersion });
+        }
+        return entries;
+      }
+
+      function renderFeedback() {
+        const panel = make("section", "feedback-panel");
+        const header = make("div", "feedback-header");
+        header.appendChild(make("h2", "", "All feedback"));
+        const copy = make("button", "action-button primary", "Copy for LLM");
+        copy.type = "button";
+        copy.id = "copy-feedback";
+        header.appendChild(copy);
+        panel.append(header, make("p", "muted", "Only notes from the current snapshot are included. Each entry includes a Spec ID or step, source, and snapshot identifier."));
+        const list = make("div", "feedback-list");
+        const entries = currentFeedbackEntries();
+        if (!entries.length) list.appendChild(make("p", "empty-state", "No notes yet. Add one from any topic or step; blank notes are not exported."));
+        else for (const entry of entries) {
+          const article = make("article", "feedback-entry");
+          article.append(make("h3", "", entry.item.title), make("span", "small-meta", `${labels[entry.item.kind]} · ${itemCaption(entry.item)} · ${entry.item.source.path || "Unknown path"}`), make("p", "", entry.text));
+          list.appendChild(article);
+        }
+        panel.appendChild(list);
+        const exportArea = document.createElement("textarea");
+        exportArea.className = "feedback-export";
+        exportArea.id = "feedback-export";
+        exportArea.setAttribute("aria-label", "Full feedback for current snapshot");
+        exportArea.readOnly = true;
+        exportArea.value = exportEntries(entries.map((entry) => ({ key: entry.item.stableKey, snapshotId: entry.snapshotId, stepNumber: stepNumber(entry.item), itemId: entry.item.itemId, title: entry.item.title, docId: entry.item.source.docId, kind: entry.item.kind, sourceVersion: entry.sourceVersion, source: entry.item.source, text: entry.text })), DATA.snapshotId);
+        panel.appendChild(exportArea);
+        const copyStatus = make("p", "storage-state", "");
+        copyStatus.id = "copy-status";
+        panel.appendChild(copyStatus);
+        const old = make("section", "old-snapshots");
+        old.append(make("h3", "", "Notes from other snapshots"), make("p", "", "Older snapshots are excluded from the current export; only a read-only copy is provided."));
+        const oldList = make("div", "old-list");
+        const oldStatus = make("p", "storage-state", "");
+        const oldExport = document.createElement("textarea");
+        oldExport.className = "feedback-export old-export";
+        oldExport.setAttribute("aria-label", "Full feedback for older snapshot");
+        oldExport.readOnly = true;
+        oldExport.rows = 5;
+        oldExport.value = "Select an older snapshot to show its read-only notes here.";
+        const snapshots = oldSnapshots();
+        if (!snapshots.length) oldList.appendChild(make("span", "small-meta", "No recognizable notes from older snapshots"));
+        for (const snapshot of snapshots) {
+          const button = make("button", "action-button", `Select ${snapshot.snapshotId}`);
+          button.type = "button";
+          button.addEventListener("click", () => {
+            oldExport.value = exportEntries(snapshot.entries, snapshot.snapshotId);
+            oldExport.focus();
+            oldExport.select();
+            setText(oldStatus, "Older snapshot content selected; copy it manually.", "");
+          });
+          oldList.appendChild(button);
+        }
+        old.append(oldList, oldStatus, oldExport);
+        panel.appendChild(old);
+        copy.addEventListener("click", () => copyText(exportArea.value, exportArea, copyStatus));
+        return panel;
+      }
+
+      function copyText(text, fallbackArea, statusNode) {
+        const fallback = () => {
+          fallbackArea.focus();
+          fallbackArea.select();
+          setText(statusNode, "Clipboard permission is unavailable. The full content is selected; copy it manually.", "");
+        };
+        if (!navigator.clipboard || typeof navigator.clipboard.writeText !== "function") {
+          fallback();
+          return;
+        }
+        try {
+          Promise.resolve(navigator.clipboard.writeText(text)).then(() => setText(statusNode, "Copied.", "")).catch(fallback);
+        } catch (error) {
+          fallback();
+        }
+      }
+
+      function renderFeedbackIfVisible() {
+        if (state.view === "feedback" && !document.getElementById("notes-dialog").open) renderCurrentView();
+      }
+
+      function renderCurrentView() {
+        renderTabs();
+        const panel = document.getElementById("view-panel");
+        panel.replaceChildren();
+        if (state.view === "spec") panel.appendChild(renderSpec());
+        else if (state.view === "plan-tasks") panel.appendChild(renderPlanTasks());
+        else if (state.view === "plan" || state.view === "todo") panel.appendChild(renderWizard(state.view));
+        else panel.appendChild(renderFeedback());
+        fitSvgTextIn(panel);
+        updateHeaderActions();
+      }
+
+      function renderDialogNote(item) {
+        const host = make("div");
+        host.appendChild(make("p", "muted", "This note belongs only to the current snapshot and this reading topic; it does not rewrite Markdown."));
+        renderCommentEditor(host, item, "dialog-comment-input");
+        return host;
+      }
+
+      function openDialog(mode, triggerId) {
+        const dialog = document.getElementById("notes-dialog");
+        const content = document.getElementById("dialog-content");
+        state.dialogMode = mode;
+        state.dialogTriggerId = triggerId;
+        content.replaceChildren();
+        if (mode === "note") {
+          const item = state.selectedKey && byKey.get(state.selectedKey);
+          if (!item) return;
+          setText(document.getElementById("dialog-title"), "Notes for this item");
+          setText(document.getElementById("dialog-subtitle"), `${item.title} · ${itemCaption(item)}`);
+          content.appendChild(renderDialogNote(item));
+        } else {
+          setText(document.getElementById("dialog-title"), "All feedback");
+          setText(document.getElementById("dialog-subtitle"), "Only the current snapshot is shown. Closing returns to the previous reading position.");
+          content.appendChild(renderFeedback());
+        }
+        if (typeof dialog.showModal === "function") dialog.showModal();
+        else dialog.setAttribute("open", "");
+        const first = content.querySelector("textarea, button");
+        if (first) first.focus();
+      }
+
+      function closeDialog() {
+        const dialog = document.getElementById("notes-dialog");
+        if (dialog.open && typeof dialog.close === "function") dialog.close();
+        else {
+          dialog.removeAttribute("open");
+          restoreDialogFocus();
+        }
+      }
+
+      function restoreDialogFocus() {
+        const triggerId = state.dialogTriggerId;
+        state.dialogMode = null;
+        state.dialogTriggerId = null;
+        const trigger = triggerId && document.getElementById(triggerId);
+        if (trigger && !trigger.disabled) {
+          trigger.focus();
+          return;
+        }
+        if (state.view === "spec") focusSelectedMapNode();
+      }
+
+      const eyebrow = document.getElementById("page-eyebrow");
+      const kinds = availableKinds();
+      if (eyebrow) eyebrow.textContent = kinds.includes("plan") && kinds.includes("todo") ? "Plan + Todo integrated preview" : kinds.includes("plan") ? "Plan review preview" : kinds.includes("todo") ? "Todo review preview" : "Spec review preview";
+      document.getElementById("page-title").textContent = DATA.title || "Document review";
+      document.getElementById("page-summary").textContent = DATA.summary || "Understand the selected documents first, then leave verifiable notes.";
+      document.getElementById("source-line").textContent = `${(DATA.documents || []).length} selected documents · read-only sources · no remote requests`;
+      document.getElementById("snapshot-id").textContent = DATA.snapshotId || "Unknown";
+      document.getElementById("source-root").textContent = DATA.sourceRoot || "Unknown";
+      document.title = `${DATA.title || "Document review"} · visual-agent-docs`;
+      document.getElementById("view-tabs").addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-view]");
+        if (!button) return;
+        state.view = button.dataset.view;
+        state.lastList = null;
+        renderCurrentView();
+      });
+      document.getElementById("feedback-shortcut").addEventListener("click", (event) => openDialog("feedback", event.currentTarget.id));
+      document.getElementById("current-note-button").addEventListener("click", (event) => openDialog("note", event.currentTarget.id));
+      document.getElementById("dialog-close").addEventListener("click", closeDialog);
+      document.getElementById("notes-dialog").addEventListener("close", restoreDialogFocus);
+      document.getElementById("view-panel").addEventListener("click", (event) => {
+        const switchButton = event.target.closest("button[data-spec-view]");
+        if (switchButton) {
+          const workspace = document.querySelector(".spec-workspace");
+          if (workspace) {
+            workspace.dataset.mobileView = switchButton.dataset.specView;
+            for (const button of workspace.querySelectorAll("button[data-spec-view]")) button.setAttribute("aria-selected", button.dataset.specView === workspace.dataset.mobileView ? "true" : "false");
+            if (switchButton.dataset.specView === "map") focusSelectedMapNode();
+            else focusDetailHeading();
+          }
+          return;
+        }
+        const target = event.target.closest("[data-key], [data-map-key]");
+        if (!target || target.disabled) return;
+        const key = target.dataset.key || target.dataset.mapKey;
+        if (!key) return;
+        selectItem(key, true);
+      });
+      document.getElementById("view-panel").addEventListener("keydown", (event) => {
+        const target = event.target.closest(".graph-node[data-map-key]");
+        if (!target || (event.key !== "Enter" && event.key !== " ")) return;
+        event.preventDefault();
+        selectItem(target.dataset.mapKey, true);
+      });
+
+      loadComments();
+      renderNotices();
+      renderCurrentView();
+    })();
+  </script>
+</body>
+</html>

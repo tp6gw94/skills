@@ -18,6 +18,7 @@
           "boundary": "in",
           "summary": "What this item changes for the reader",
           "example": "A concrete, source-grounded situation",
+          "glossary": [{"term": "merge gate", "plain": "One plain sentence: what it is and why it matters here"}],
           "details": "Only the context needed to understand it",
           "acceptance": ["A checkable condition from the source"],
           "risks": ["A stated limitation"],
@@ -47,7 +48,8 @@
 - The renderer computes each document's `docId` as `sourceRoot:path`. If the manifest supplies a different `docId`, the renderer warns and uses the computed value.
 - `itemId` should come from the source. If it is omitted, the renderer derives an ID from `kind`, `source.anchor` (or title), and the starting line. A blank or duplicate ID remains readable but cannot be used for stable note or relation mapping.
 - `source.lines` is a 1-based inclusive pair. The renderer reads the selected file and rebuilds the excerpt from those lines; it does not trust an excerpt supplied in the manifest. `source.anchor` is retained for locating the passage and may produce a warning if it is absent from the excerpt.
-- Optional item fields are `order`, `status`, `example`, `pseudocode`, `diagram`, `toyId`, and `questions`. The renderer also accepts `summary`, `details`, `acceptance`, and `risks` as shown above. Lists must contain strings.
+- Optional item fields are `order`, `status`, `example`, `glossary`, `pseudocode`, `diagram`, `toyId`, and `questions`. The renderer also accepts `summary`, `details`, `acceptance`, and `risks` as shown above. Lists must contain strings.
+- `glossary` is an ordered array of `{term, plain}` objects; both values must be non-empty strings. It explains vocabulary and is never evidence: keep `term` exactly as the source writes it, keep each `plain` value to one sentence, and keep requirements in `acceptance` or `risks`. The renderer shows it directly under the concrete example. See [explanation style](explanation-style.md) for the writing rules.
 - `boundary` accepts only `in`, `out`, or `unknown`. Use `unknown` when the source does not state the scope.
 
 ## Diagrams

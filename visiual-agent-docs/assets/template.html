@@ -230,9 +230,21 @@
     }
     .spec-map-panel { padding: 1rem; }
     .spec-detail-panel { padding: .9rem; }
-    .spec-detail-panel > h2 { margin: .1rem .2rem .2rem; font-size: 1.05rem; }
-    .spec-detail-panel > .panel-help { margin: 0 .2rem .85rem; color: var(--muted); font-size: .8rem; }
+    .detail-panel-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: .5rem; margin: .1rem .2rem .85rem; }
+    .detail-panel-head > div { min-width: 12rem; flex: 1 1 12rem; }
+    .detail-panel-head h2 { margin: 0 0 .2rem; font-size: 1.05rem; }
+    .detail-panel-head .panel-help { margin: 0; color: var(--muted); font-size: .8rem; }
+    .detail-zoom-button { flex: 0 0 auto; }
     .spec-detail-panel .detail-grid { grid-template-columns: 1fr; }
+    .spec-workspace[data-detail-size="wide"] { grid-template-columns: minmax(0, 1fr); }
+    .spec-workspace[data-detail-size="wide"] .spec-map-panel { display: none; }
+    .spec-workspace[data-detail-size="wide"] .spec-back { display: inline-flex; }
+    .spec-workspace[data-detail-size="wide"] .spec-detail-panel { position: static; max-height: none; overflow: visible; padding: 1.1rem; }
+    .spec-workspace[data-detail-size="wide"] .spec-detail-panel .detail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .spec-workspace[data-detail-size="wide"] .detail-summary,
+    .spec-workspace[data-detail-size="wide"] .detail-example p,
+    .spec-workspace[data-detail-size="wide"] .detail-block p { max-width: 82ch; }
+    .main-inner:has(.spec-workspace[data-detail-size="wide"]) { width: min(1640px, calc(100% - 2rem)); }
     .map-heading h2 { margin: 0; font-size: 1.12rem; }
     .map-heading p { max-width: 62ch; margin: .35rem 0 0; color: var(--muted); font-size: .86rem; }
     .map-legend { display: flex; flex-wrap: wrap; gap: .45rem .7rem; margin: .85rem 0; color: var(--muted); font-size: .76rem; }
@@ -276,6 +288,13 @@
     .detail-example { margin: 0 0 1rem; padding: .8rem; border-left: 3px solid var(--accent); background: var(--surface-tint); border-radius: 4px; }
     .detail-example h3, .detail-block h3 { margin: 0 0 .3rem; font-size: .83rem; }
     .detail-example p, .detail-block p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .detail-glossary { margin: 0 0 1rem; padding: .8rem; border: 1px dashed var(--line); border-radius: 4px; background: var(--surface-tint); }
+    .detail-glossary h3 { margin: 0 0 .4rem; font-size: .83rem; }
+    .glossary-list { display: grid; gap: .28rem; margin: 0; font-size: .88rem; }
+    .glossary-list dt { font-weight: 700; overflow-wrap: anywhere; }
+    .glossary-list dd { margin: 0 0 .15rem; color: var(--muted); overflow-wrap: anywhere; }
+    .spec-workspace[data-detail-size="wide"] .glossary-list { grid-template-columns: minmax(6rem, auto) minmax(0, 1fr); align-items: baseline; column-gap: .9rem; }
+    .spec-workspace[data-detail-size="wide"] .glossary-list dd { margin-bottom: 0; }
     .detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; }
     .detail-block { min-width: 0; }
     .detail-block ul { margin: 0; padding-left: 1.15rem; }
@@ -417,6 +436,7 @@
     .dialog-close { min-width: 2.35rem; padding: .35rem .55rem; }
     @media (max-width: 760px) {
       .header-inner, .main-inner { width: min(100% - 1.2rem, var(--content-width)); }
+      .main-inner:has(.spec-workspace[data-detail-size="wide"]) { width: min(100% - 1.2rem, var(--content-width)); }
       .brand-row, .section-heading, .detail-header, .feedback-header, .comment-footer { flex-direction: column; align-items: stretch; }
       .header-actions { justify-content: flex-start; }
       .overview { grid-template-columns: 1fr; gap: 1rem; }
@@ -425,6 +445,10 @@
       .spec-detail-panel { display: none; }
       .spec-workspace[data-mobile-view="detail"] .spec-map-panel { display: none; }
       .spec-workspace[data-mobile-view="detail"] .spec-detail-panel { display: block; }
+      .spec-workspace[data-detail-size="wide"] .spec-map-panel { display: none; }
+      .spec-workspace[data-detail-size="wide"] .spec-detail-panel { display: block; }
+      .spec-workspace[data-detail-size="wide"] .mobile-switch { display: none; }
+      .spec-workspace[data-detail-size="wide"] .spec-detail-panel .detail-grid { grid-template-columns: 1fr; }
       .mobile-switch { display: flex; }
       .spec-back { display: inline-flex; }
       .detail-grid { grid-template-columns: 1fr; }
@@ -529,6 +553,7 @@
         storageBlocked: false,
         lastList: null,
         mobileView: "map",
+        specDetailSize: "split",
         dialogMode: null,
         dialogTriggerId: null
       };
@@ -829,8 +854,9 @@
           const detailHost = document.getElementById("spec-detail");
           updateMapSelection();
           if (detailHost) {
-            detailHost.replaceChildren(renderDetail(item, []));
-            if (window.matchMedia && window.matchMedia("(max-width: 760px)").matches) {
+            detailHost.replaceChildren(renderDetail(item, state.specDetailSize === "wide" ? allItems("spec") : []));
+            fitSvgTextIn(detailHost);
+            if (state.specDetailSize !== "wide" && window.matchMedia && window.matchMedia("(max-width: 760px)").matches) {
               workspace.dataset.mobileView = "detail";
             }
           }
@@ -1615,6 +1641,14 @@
           example.append(make("h3", "", "Concrete example"), make("p", "", item.example));
           card.appendChild(example);
         }
+        if ((item.glossary || []).length) {
+          const block = make("section", "detail-glossary");
+          block.appendChild(make("h3", "", "Terms in plain words"));
+          const list = make("dl", "glossary-list");
+          for (const entry of item.glossary) list.append(make("dt", "", entry.term), make("dd", "", entry.plain));
+          block.appendChild(list);
+          card.appendChild(block);
+        }
         const grid = make("div", "detail-grid");
         if (item.kind === "spec") {
           const block = make("section", "detail-block");
@@ -1679,6 +1713,13 @@
       function returnToList() {
         const workspace = document.querySelector(".spec-workspace");
         if (workspace) {
+          if (state.specDetailSize === "wide") {
+            state.specDetailSize = "split";
+            state.mobileView = "map";
+            renderCurrentView();
+            focusSelectedMapNode();
+            return;
+          }
           workspace.dataset.mobileView = "map";
           state.mobileView = "map";
           for (const button of workspace.querySelectorAll("button[data-spec-view]")) button.setAttribute("aria-selected", button.dataset.specView === "map" ? "true" : "false");
@@ -1863,6 +1904,7 @@
       function renderSpec() {
         const wrapper = make("div", "spec-workspace");
         wrapper.dataset.mobileView = state.mobileView;
+        wrapper.dataset.detailSize = state.specDetailSize;
         const items = allItems("spec");
         const selected = ensureSelection(items);
         if (selected) state.selectedKey = itemKey(selected);
@@ -1888,10 +1930,23 @@
           button.setAttribute("aria-selected", wrapper.dataset.mobileView === view ? "true" : "false");
           switcher.appendChild(button);
         }
-        detailPanel.append(make("h2", "", "Current item"), make("p", "panel-help", "First review what it changes and how it behaves, then see examples, limitations, and acceptance. Source details and long hashes are below."));
+        const wide = state.specDetailSize === "wide";
+        const head = make("div", "detail-panel-head");
+        const headText = make("div");
+        headText.append(make("h2", "", "Current item"), make("p", "panel-help", wide
+          ? "Enlarged view: this item uses the full page width, so diagrams and examples render larger. The map is hidden here; use Previous/Next, or exit the enlarged view to pick another topic."
+          : "First review what it changes and how it behaves, then see examples, limitations, and acceptance. Enlarge the item when a diagram is too small to read. Source details and long hashes are below."));
+        const zoom = make("button", "action-button detail-zoom-button", wide ? "Exit enlarged view" : "Enlarge item");
+        zoom.type = "button";
+        zoom.id = "spec-zoom-button";
+        zoom.dataset.detailZoom = wide ? "split" : "wide";
+        zoom.setAttribute("aria-pressed", wide ? "true" : "false");
+        zoom.title = wide ? "Return to the map and the narrow item panel" : "Show this item across the full page width so diagrams render larger";
+        head.append(headText, zoom);
+        detailPanel.appendChild(head);
         const detailHost = make("div", "");
         detailHost.id = "spec-detail";
-        if (selected) detailHost.appendChild(renderDetail(selected, []));
+        if (selected) detailHost.appendChild(renderDetail(selected, wide ? items : []));
         else detailHost.appendChild(make("p", "empty-state", "Spec has no reviewable items."));
         detailPanel.appendChild(detailHost);
         wrapper.append(switcher, mapPanel, detailPanel);
@@ -2094,6 +2149,16 @@
       document.getElementById("dialog-close").addEventListener("click", closeDialog);
       document.getElementById("notes-dialog").addEventListener("close", restoreDialogFocus);
       document.getElementById("view-panel").addEventListener("click", (event) => {
+        const zoomButton = event.target.closest("button[data-detail-zoom]");
+        if (zoomButton) {
+          state.specDetailSize = zoomButton.dataset.detailZoom === "wide" ? "wide" : "split";
+          if (state.specDetailSize === "wide") state.mobileView = "detail";
+          renderCurrentView();
+          const restored = document.getElementById("spec-zoom-button");
+          if (restored) restored.focus();
+          else focusDetailHeading();
+          return;
+        }
         const switchButton = event.target.closest("button[data-spec-view]");
         if (switchButton) {
           const workspace = document.querySelector(".spec-workspace");

@@ -20,4 +20,5 @@ Use a diagram only when it answers a specific reader question more directly than
 - The renderer's SVG includes a `title` and `desc`; keep both meaningful by giving the diagram a clear title and concise labels.
 - Preserve the complete text alternative listing every node and edge. It must remain useful without color, SVG, or pointer interaction.
 - Check that labels remain readable at the narrow layout (including roughly 320px). Mapping diagrams switch to Plan-above/Task-below on small screens; do not rely on left/right position alone to convey meaning.
+- A reader can enlarge the Spec view's current item to full page width, which scales the diagram up with it. That is a reading aid, not extra room: the narrow layout and the text alternative must still carry the same meaning, so keep labels short.
 - When geometry, text length, endpoint validity, or density exceeds the supported layout, prefer the complete text fallback. A readable text record is safer than a clipped or misleading picture.

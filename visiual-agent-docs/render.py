@@ -40,6 +40,24 @@ def _string_list(value: Any, field: str) -> List[str]:
     return value
 
 
+def _glossary(raw: Any, field: str) -> List[Dict[str, str]]:
+    if raw is None:
+        return []
+    if not isinstance(raw, list):
+        raise ManifestError(f"{field} must be an array of {{term, plain}} objects")
+    entries: List[Dict[str, str]] = []
+    for index, entry in enumerate(raw):
+        if not isinstance(entry, dict):
+            raise ManifestError(f"{field}[{index}] must be an object with term and plain")
+        entries.append(
+            {
+                "term": _text(entry.get("term"), f"{field}[{index}].term", required=True),
+                "plain": _text(entry.get("plain"), f"{field}[{index}].plain", required=True),
+            }
+        )
+    return entries
+
+
 def _safe_relative_path(raw: Any) -> str:
     path = _text(raw, "document path", required=True)
     if "\\" in path or "\x00" in path:
@@ -255,6 +273,7 @@ def _normalize_item(
         "boundary": boundary,
         "summary": _text(raw.get("summary"), f"{field}.summary"),
         "example": _text(raw.get("example"), f"{field}.example"),
+        "glossary": _glossary(raw.get("glossary"), f"{field}.glossary"),
         "details": _text(raw.get("details"), f"{field}.details"),
         "acceptance": _string_list(raw.get("acceptance"), f"{field}.acceptance"),
         "risks": _string_list(raw.get("risks"), f"{field}.risks"),

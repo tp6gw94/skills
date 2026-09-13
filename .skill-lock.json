@@ -478,9 +478,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/tp6gw94/skills.git",
       "skillPath": "visiual-agent-docs/SKILL.md",
-      "skillFolderHash": "d2e284d5a66639bdee76a887065f5995ce2ab230",
+      "skillFolderHash": "9205c98e3c5b9a8f1b34302a706bdacadb24e0ed",
       "installedAt": "2026-09-10T14:28:41.761Z",
-      "updatedAt": "2026-09-11T03:27:26.223Z"
+      "updatedAt": "2026-09-11T04:10:58.369Z"
+    },
+    "understanding-first-workbook": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "skillPath": "understand-first/SKILL.md",
+      "skillFolderHash": "0f203fada252534e8330004ba7edfcad95c1e0f5",
+      "installedAt": "2026-09-13T03:44:44.128Z",
+      "updatedAt": "2026-09-13T03:44:44.128Z"
     }
   },
   "lastSelectedAgents": [

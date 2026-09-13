@@ -1,0 +1,2526 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src 'none'; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; media-src 'none'">
+  <title>{{TITLE}}</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --canvas: #f1eee8;
+      --paper: #fffdf8;
+      --paper-warm: #f8f4ec;
+      --ink: #1d2b2b;
+      --muted: #52615e;
+      --faint: #74817d;
+      --line: #d3d8d1;
+      --accent: #0e6261;
+      --accent-dark: #084847;
+      --accent-soft: #e1f0eb;
+      --coral: #b9503d;
+      --coral-soft: #f9e6df;
+      --gold: #88611e;
+      --gold-soft: #fbf1d7;
+      --green: #2e694b;
+      --green-soft: #e4f0e5;
+      --danger: #8b3838;
+      --danger-soft: #fae5e3;
+      --reading-width: 49rem;
+      --shadow: 0 9px 28px rgba(22, 43, 41, .07);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--canvas); }
+    body {
+      min-width: 320px;
+      margin: 0;
+      color: var(--ink);
+      background: var(--canvas);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+    button, textarea, input { font: inherit; }
+    button { color: inherit; cursor: pointer; }
+    button:focus-visible,
+    textarea:focus-visible,
+    input:focus-visible,
+    a:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+    button:disabled { cursor: not-allowed; opacity: .6; }
+    a { color: var(--accent-dark); }
+    .skip-link {
+      position: absolute;
+      z-index: 20;
+      top: -4rem;
+      left: 1rem;
+      padding: .55rem .8rem;
+      color: var(--paper);
+      background: var(--accent-dark);
+      border-radius: .35rem;
+    }
+    .skip-link:focus { top: 1rem; }
+    .site-header {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 253, 248, .96);
+    }
+    .header-inner, .main-inner {
+      width: min(var(--reading-width), calc(100% - 2rem));
+      margin: 0 auto;
+    }
+    .header-inner { padding: 1.1rem 0 .85rem; }
+    .header-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .eyebrow {
+      margin: 0 0 .2rem;
+      color: var(--accent-dark);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+    h1, h2, h3, p { max-width: 42rem; }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.55rem, 4vw, 2.25rem);
+      line-height: 1.2;
+      letter-spacing: -.025em;
+    }
+    h2 {
+      margin: .2rem 0 .55rem;
+      font-size: clamp(1.32rem, 3vw, 1.72rem);
+      line-height: 1.3;
+      letter-spacing: -.015em;
+    }
+    h3 { margin: 0 0 .35rem; font-size: 1.03rem; line-height: 1.4; }
+    p { margin: .55rem 0; }
+    .header-note {
+      margin: .4rem 0 0;
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.5;
+    }
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: .45rem;
+      max-width: 18rem;
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.55rem;
+      padding: .48rem .78rem;
+      border: 1px solid var(--line);
+      border-radius: .45rem;
+      background: var(--paper);
+      font-size: .82rem;
+      font-weight: 700;
+      line-height: 1.25;
+      text-align: center;
+    }
+    .button:hover { border-color: var(--accent); background: var(--accent-soft); }
+    .button.primary { color: var(--paper); border-color: var(--accent-dark); background: var(--accent); }
+    .button.primary:hover { background: var(--accent-dark); }
+    .button.small { min-height: 2.2rem; padding: .35rem .58rem; font-size: .78rem; }
+    .phase-nav {
+      display: flex;
+      gap: .35rem;
+      overflow-x: auto;
+      padding: .75rem 0 .15rem;
+      scrollbar-width: thin;
+    }
+    .phase {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: .38rem;
+      min-height: 2rem;
+      padding: .3rem .62rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: var(--paper-warm);
+      font-size: .78rem;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .phase strong { color: inherit; }
+    .phase.current { color: var(--accent-dark); border-color: #9dcac0; background: var(--accent-soft); }
+    .phase.disabled { color: var(--faint); background: transparent; cursor: not-allowed; }
+    .phase small { font-size: .72rem; }
+    .phase-footer-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: .65rem;
+      margin: 1.2rem 0 0;
+      padding: .8rem 0 0;
+      border-top: 1px solid var(--line);
+    }
+    .phase-footer-nav:empty,
+    .phase-footer-nav[hidden] { display: none; }
+    .phase-footer-nav a { max-width: 48%; text-decoration: none; }
+    .phase-footer-nav a:last-child { margin-left: auto; }
+    @media (max-width: 680px) {
+      .phase-footer-nav { align-items: stretch; flex-direction: column; }
+      .phase-footer-nav a { max-width: none; width: 100%; }
+      .phase-footer-nav a:last-child { margin-left: 0; }
+    }
+    .main-inner { padding: 1.25rem 0 4rem; }
+    .notice {
+      display: flex;
+      align-items: flex-start;
+      gap: .65rem;
+      margin: 0 0 1rem;
+      padding: .8rem .9rem;
+      border: 1px solid #e4c983;
+      border-radius: .55rem;
+      color: var(--gold);
+      background: var(--gold-soft);
+      font-size: .88rem;
+    }
+    .notice strong { display: block; color: #6b4a16; }
+    .notice p { margin: 0; max-width: none; }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(14rem, .72fr);
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding: 1.2rem;
+      border: 1px solid var(--line);
+      border-radius: .65rem;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+    .hero h2 { margin-top: 0; font-size: clamp(1.6rem, 4vw, 2.25rem); }
+    .hero-lead { font-size: 1.1rem; line-height: 1.55; }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+      margin-top: .8rem;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 1.8rem;
+      padding: .22rem .55rem;
+      border-radius: 999px;
+      color: var(--accent-dark);
+      background: var(--accent-soft);
+      font-size: .76rem;
+      font-weight: 750;
+      line-height: 1.2;
+    }
+    .tag.neutral { color: var(--muted); background: var(--paper-warm); }
+    .truth-card {
+      align-self: stretch;
+      padding: .9rem;
+      border-left: 4px solid var(--coral);
+      background: var(--coral-soft);
+    }
+    .truth-card h3 { color: #763323; }
+    .truth-card p { color: #603b31; font-size: .88rem; }
+    .truth-card ul { margin: .45rem 0 0; padding-left: 1.2rem; color: #603b31; font-size: .84rem; }
+    .contents {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: .35rem .75rem;
+      margin: 0 0 1.25rem;
+      padding: .65rem .8rem;
+      border: 1px solid var(--line);
+      border-radius: .5rem;
+      background: var(--paper-warm);
+      font-size: .8rem;
+    }
+    .contents strong { margin-right: .2rem; }
+    .contents a { text-decoration-thickness: 1px; text-underline-offset: 2px; }
+    .workbook-item {
+      position: relative;
+      margin: 0 0 1rem;
+      padding: 1.05rem 1.15rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: .65rem;
+      background: var(--paper);
+      box-shadow: 0 3px 13px rgba(22, 43, 41, .035);
+      scroll-margin-top: 1rem;
+    }
+    .item-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: .75rem;
+    }
+    .item-kicker {
+      margin: 0 0 .18rem;
+      color: var(--accent);
+      font-size: .74rem;
+      font-weight: 850;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .item-note {
+      margin: .15rem 0 .8rem;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+    .selectable { cursor: text; }
+    .selectable::selection, .selectable *::selection { color: var(--paper); background: var(--accent); }
+    .callout {
+      margin: .85rem 0;
+      padding: .75rem .85rem;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+    }
+    .callout p { margin: .2rem 0; }
+    .callout strong { color: var(--accent-dark); }
+    .analogy {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: start;
+      gap: .75rem;
+      margin: .8rem 0;
+      padding: .85rem;
+      border: 1px dashed #9fc4bc;
+      background: #f2faf6;
+    }
+    .analogy-icon {
+      display: grid;
+      place-items: center;
+      width: 3.2rem;
+      height: 3.2rem;
+      border: 1px solid #9fc4bc;
+      border-radius: .45rem;
+      color: var(--accent-dark);
+      background: var(--paper);
+      font-size: 1.55rem;
+    }
+    .diagram {
+      margin: .9rem 0;
+      padding: .8rem;
+      border: 1px solid var(--line);
+      background: var(--paper-warm);
+      overflow-x: auto;
+    }
+    .diagram-title { margin: 0 0 .6rem; color: var(--muted); font-size: .77rem; font-weight: 800; letter-spacing: .04em; }
+    .flow-row {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(8rem, 1fr));
+      align-items: stretch;
+      gap: .55rem;
+      min-width: 42rem;
+    }
+    .flow-label { grid-column: 1 / -1; margin-top: .15rem; color: var(--muted); font-size: .78rem; font-weight: 800; }
+    .flow-box {
+      position: relative;
+      min-height: 4.2rem;
+      padding: .58rem;
+      border: 1px solid var(--line);
+      border-radius: .4rem;
+      background: var(--paper);
+      font-size: .79rem;
+      line-height: 1.4;
+    }
+    .flow-box:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      top: 50%;
+      right: -.68rem;
+      z-index: 1;
+      color: var(--coral);
+      font-weight: 900;
+      transform: translateY(-50%);
+    }
+    .flow-box.old { border-color: #e6c2ba; background: #fff8f5; }
+    .flow-box.new { border-color: #a9d1c6; background: #f3fbf6; }
+    .flow-box strong { display: block; margin-bottom: .2rem; font-size: .82rem; }
+    .flow-box small { display: block; color: var(--muted); font-size: .72rem; }
+    .story {
+      counter-reset: story;
+      display: grid;
+      gap: .5rem;
+      margin: .9rem 0;
+      padding: 0;
+      list-style: none;
+    }
+    .story li {
+      display: grid;
+      grid-template-columns: 2rem minmax(0, 1fr);
+      gap: .6rem;
+      align-items: start;
+      padding: .58rem .7rem;
+      border: 1px solid var(--line);
+      background: var(--paper-warm);
+    }
+    .story li::before {
+      counter-increment: story;
+      content: counter(story);
+      display: grid;
+      place-items: center;
+      width: 1.7rem;
+      height: 1.7rem;
+      border-radius: 50%;
+      color: var(--paper);
+      background: var(--accent);
+      font-size: .78rem;
+      font-weight: 800;
+    }
+    .story strong { display: block; color: var(--accent-dark); font-size: .89rem; }
+    .story span { display: block; color: var(--muted); font-size: .84rem; }
+    .demo-thread {
+      margin: .9rem 0;
+      padding: .8rem;
+      border: 1px solid #d8c69d;
+      background: #fffaf0;
+    }
+    .demo-label { margin: 0 0 .55rem; color: var(--gold); font-size: .75rem; font-weight: 850; letter-spacing: .04em; }
+    .bubble { margin: .45rem 0; padding: .55rem .7rem; border-radius: .45rem; font-size: .84rem; }
+    .bubble.user { margin-right: 1.8rem; background: #f5e9d5; }
+    .bubble.agent { margin-left: 1.8rem; background: #e5f1ec; }
+    .bubble strong { display: block; margin-bottom: .1rem; font-size: .75rem; }
+    .code-block {
+      margin: .85rem 0;
+      padding: .75rem .85rem;
+      border: 1px solid #364b4b;
+      border-radius: .4rem;
+      color: #e9f2ee;
+      background: #1f3030;
+      overflow-x: auto;
+      font: .82rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      white-space: pre;
+    }
+    .code-caption { margin: .7rem 0 .2rem; color: var(--muted); font-size: .78rem; }
+    .toy {
+      margin: .9rem 0;
+      padding: .9rem;
+      border: 1px solid #aacbc1;
+      background: #f4fbf7;
+    }
+    .toy legend { padding: 0 .3rem; color: var(--accent-dark); font-size: .9rem; font-weight: 800; }
+    .toy-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: .45rem; margin: .2rem 0 .8rem; }
+    .toy-option {
+      display: block;
+      padding: .55rem .6rem;
+      border: 1px solid #b9d1c8;
+      border-radius: .4rem;
+      background: var(--paper);
+      font-size: .82rem;
+      cursor: pointer;
+    }
+    .toy-option:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+    .toy-option input { margin-right: .3rem; accent-color: var(--accent); }
+    .toy-output {
+      min-height: 6.2rem;
+      padding: .7rem;
+      border: 1px solid #c5ddd4;
+      background: var(--paper);
+      font-size: .85rem;
+    }
+    .toy-output p { margin: .15rem 0; }
+    .toy-output strong { color: var(--accent-dark); }
+    .toy-output code { color: #713b2e; font-size: .82em; }
+    .toy-note { margin: .2rem 0 .7rem; color: var(--muted); font-size: .78rem; }
+    .impact-output { padding: .7rem; border: 1px solid #c5ddd4; background: var(--paper); }
+    .impact-panel[hidden] { display: none; }
+    .impact-map { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; margin-top: .65rem; }
+    .impact-node { min-width: 0; padding: .6rem .65rem; border: 1px solid var(--line); border-left: .3rem solid var(--accent); background: var(--paper-warm); }
+    .impact-node.changed { border-left-color: var(--coral); background: var(--coral-soft); }
+    .impact-node.retained { border-left-color: var(--green); background: var(--green-soft); }
+    .impact-status { display: block; margin-bottom: .15rem; font-size: .75rem; font-weight: 850; }
+    .impact-node.changed .impact-status { color: var(--coral); }
+    .impact-node.retained .impact-status { color: var(--green); }
+    .impact-node code { display: block; color: var(--accent-dark); font-size: .8rem; overflow-wrap: anywhere; }
+    .impact-node p { margin: .25rem 0 0; color: var(--muted); font-size: .78rem; line-height: 1.5; }
+    .scope-list, .risk-list { display: grid; gap: .45rem; margin: .7rem 0; padding: 0; list-style: none; }
+    .scope-list li, .risk-list li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .55rem; align-items: start; padding: .55rem .65rem; border: 1px solid var(--line); background: var(--paper-warm); font-size: .86rem; }
+    .scope-list .mark { color: var(--green); font-weight: 900; }
+    .scope-list .no { color: var(--coral); font-weight: 900; }
+    .risk-list .mark { color: var(--gold); font-weight: 900; }
+    .validation-cards { display: grid; gap: .65rem; margin: .9rem 0; }
+    .validation-card { min-width: 0; padding: .75rem .8rem; border: 1px solid var(--line); background: var(--paper-warm); }
+    .validation-card h3 { margin-bottom: .55rem; color: var(--accent-dark); }
+    .validation-card dl { display: grid; gap: .55rem; margin: 0; }
+    .validation-card dl > div { display: grid; grid-template-columns: minmax(7rem, .28fr) minmax(0, 1fr); gap: .5rem; align-items: start; min-width: 0; }
+    .validation-card dt { color: var(--accent-dark); font-size: .82rem; font-weight: 800; }
+    .validation-card dd { min-width: 0; margin: 0; color: var(--muted); font-size: .86rem; }
+    .validation-card pre { max-width: 100%; margin: .1rem 0 0; padding: .45rem .55rem; border: 1px solid #364b4b; border-radius: .3rem; color: #e9f2ee; background: #1f3030; overflow-x: auto; font: .76rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre; }
+    .validation-card pre code { overflow-wrap: normal; word-break: normal; white-space: inherit; }
+    .review-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .55rem;
+      margin-top: 1rem;
+      padding-top: .7rem;
+      border-top: 1px solid var(--line);
+    }
+    .review-hint { margin: 0; color: var(--faint); font-size: .75rem; }
+    .thread {
+      display: grid;
+      gap: .55rem;
+      margin-top: .7rem;
+    }
+    .thread:empty { display: none; }
+    .comment {
+      padding: .7rem .75rem;
+      border: 1px solid #c4d7d0;
+      border-left: 4px solid var(--accent);
+      background: #f6fbf8;
+    }
+    .comment.resolved { border-left-color: var(--green); background: #f4faf4; }
+    .comment-details > summary { cursor: pointer; color: var(--green); font-weight: 800; }
+    .comment-details[open] > summary { margin-bottom: .6rem; }
+    .comment-actions { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .45rem; }
+    .comment-actions button { padding: .2rem .4rem; border: 1px solid var(--line); border-radius: .25rem; background: var(--paper); font-size: .72rem; }
+    .comment-actions button:hover { border-color: var(--accent); background: var(--accent-soft); }
+    .comment-warning { margin: .45rem 0; padding: .4rem .5rem; border-left: 3px solid var(--gold); color: var(--gold); background: var(--gold-soft); font-size: .76rem; }
+    .comment-revision { margin: .45rem 0; color: var(--faint); font-size: .75rem; }
+    .reply.user { border-left-color: var(--accent); background: var(--accent-soft); }
+    .reply-actions { display: inline-flex; gap: .3rem; margin-left: .4rem; }
+    .reply-actions button { padding: .1rem .3rem; border: 1px solid var(--line); border-radius: .2rem; background: var(--paper); font-size: .68rem; }
+    .review-kind-note { margin: .3rem 0 .7rem; color: var(--muted); font-size: .76rem; }
+    .comment-head { display: flex; align-items: baseline; justify-content: space-between; gap: .5rem; }
+    .comment-id { color: var(--faint); font: .7rem ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .comment-quote { margin: .3rem 0; padding: .35rem .5rem; border-left: 2px solid #9fc4bb; color: var(--muted); background: var(--paper); font-size: .78rem; }
+    .comment-quote-note { display: block; margin-bottom: .15rem; color: var(--faint); font-size: .7rem; font-style: normal; }
+    .comment-question { margin: .35rem 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .comment-meta { display: flex; align-items: center; flex-wrap: wrap; gap: .35rem .6rem; color: var(--faint); font-size: .72rem; }
+    .comment-meta button { padding: .18rem .35rem; border: 1px solid var(--line); border-radius: .25rem; background: var(--paper); font-size: .72rem; }
+    .comment-meta button:hover { border-color: var(--accent); background: var(--accent-soft); }
+    .reply { margin: .55rem 0 0 1rem; padding: .5rem .6rem; border-left: 2px solid var(--coral); background: var(--coral-soft); font-size: .82rem; }
+    .reply strong { display: block; color: #763323; font-size: .74rem; }
+    .reply.deleted, .comment.deleted { border-style: dashed; border-left-color: var(--faint); color: var(--muted); background: var(--paper-warm); }
+    .tombstone { margin: .45rem 0; color: var(--muted); font-size: .78rem; }
+    .inline-followup { margin: .7rem 0 0 1rem; padding: .65rem; border: 1px solid #9fc4bb; background: var(--paper-warm); }
+    .inline-followup label { display: block; color: var(--accent-dark); font-size: .78rem; font-weight: 800; }
+    .inline-followup textarea { display: block; width: 100%; min-height: 4.4rem; margin-top: .3rem; padding: .45rem; border: 1px solid var(--line); border-radius: .3rem; color: var(--ink); background: var(--paper); resize: vertical; }
+    .inline-followup-actions { display: flex; justify-content: flex-end; gap: .35rem; margin-top: .4rem; }
+    .inline-followup-actions button { padding: .2rem .4rem; border: 1px solid var(--line); border-radius: .25rem; background: var(--paper); font-size: .72rem; }
+    .inline-followup-actions button:hover { border-color: var(--accent); background: var(--accent-soft); }
+    .inline-block-composer { margin-top: .7rem; padding: .65rem; border: 1px solid #9fc4bb; background: var(--paper-warm); }
+    .inline-block-composer label { display: block; color: var(--accent-dark); font-size: .78rem; font-weight: 800; }
+    .inline-block-composer textarea { display: block; width: 100%; min-height: 4.4rem; margin-top: .3rem; padding: .45rem; border: 1px solid var(--line); border-radius: .3rem; color: var(--ink); background: var(--paper); resize: vertical; }
+    .comment-status { color: var(--accent-dark); font-weight: 750; }
+    .comment-status[data-status="resolved"] { color: var(--green); }
+    .comment-status[data-status="later"] { color: var(--gold); }
+    .comment-status[data-status="open"] { color: var(--coral); }
+    .composer {
+      position: fixed;
+      z-index: 15;
+      width: min(23rem, calc(100vw - 1.5rem));
+      max-height: calc(100vh - 1rem);
+      padding: .8rem;
+      border: 1px solid var(--accent);
+      border-radius: .55rem;
+      background: var(--paper);
+      box-shadow: 0 15px 40px rgba(15, 43, 41, .23);
+      overflow: auto;
+    }
+    .composer[hidden] { display: none; }
+    .composer-header { display: flex; align-items: center; justify-content: space-between; gap: .55rem; }
+    .composer h2 { margin: 0 0 .35rem; font-size: 1rem; }
+    .composer-drag-handle { flex: 0 0 auto; min-height: 2rem; min-width: 2rem; padding: .25rem .4rem; cursor: grab; touch-action: none; }
+    .composer-drag-handle:active, .composer.is-dragging .composer-drag-handle { cursor: grabbing; }
+    .composer-move-help { margin: 0 0 .4rem; color: var(--faint); font-size: .7rem; line-height: 1.4; }
+    .composer-context { margin: 0 0 .5rem; color: var(--muted); font-size: .75rem; }
+    .composer blockquote { max-height: 5rem; margin: .35rem 0 .55rem; padding: .35rem .5rem; border-left: 2px solid var(--accent); color: var(--muted); background: var(--paper-warm); font-size: .78rem; overflow: auto; }
+    .composer textarea { display: block; width: 100%; min-height: 5.4rem; resize: vertical; padding: .5rem; border: 1px solid var(--line); border-radius: .35rem; color: var(--ink); background: var(--paper); }
+    .composer-actions { display: flex; justify-content: flex-end; gap: .4rem; margin-top: .5rem; }
+    .status-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+      position: sticky;
+      bottom: .75rem;
+      z-index: 5;
+      min-height: 2rem;
+      margin: 1rem 0;
+      padding: .45rem .65rem;
+      border: 1px solid var(--line);
+      border-radius: .4rem;
+      color: var(--muted);
+      background: rgba(255, 253, 248, .94);
+      box-shadow: 0 5px 15px rgba(22, 43, 41, .08);
+      font-size: .78rem;
+    }
+    .status-bar.warning { color: var(--danger); border-color: #e0aaa5; background: var(--danger-soft); }
+    .export-panel {
+      margin: 0 0 1rem;
+      padding: .8rem;
+      border: 1px solid #c6d4ce;
+      background: var(--paper);
+    }
+    .export-panel[hidden] { display: none; }
+    .export-panel h2 { margin: 0 0 .25rem; font-size: 1rem; }
+    .export-panel p { color: var(--muted); font-size: .78rem; }
+    .export-panel textarea { width: 100%; min-height: 11rem; padding: .6rem; border: 1px solid var(--line); color: var(--ink); background: var(--paper-warm); font: .74rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .backup-panel { border-color: #d8c69d; background: #fffaf0; }
+    .backup-panel textarea { background: #fffdf7; }
+    .export-controls { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .65rem; }
+    .footer-note { margin: 2rem 0 0; color: var(--faint); font-size: .78rem; text-align: center; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    @media (max-width: 680px) {
+      body { font-size: 17px; }
+      .header-row { display: block; }
+      .header-actions { justify-content: flex-start; max-width: none; margin-top: .7rem; }
+      .hero { grid-template-columns: 1fr; padding: .9rem; }
+      .workbook-item { padding: .9rem; }
+      .item-heading { display: block; }
+      .item-heading .button { margin-top: .4rem; }
+      .toy-options { grid-template-columns: 1fr; }
+      .impact-map { grid-template-columns: 1fr; }
+      .flow-row { min-width: 37rem; }
+      .validation-card dl > div { grid-template-columns: 1fr; gap: .1rem; }
+      .validation-card dd code { overflow-wrap: anywhere; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  
+    .spec-diagram, .storage-flow { display:block; max-width:100%; height:auto; margin:1rem 0; background:#f8fafc; }
+    pre code .code-key { color:#075985; font-weight:700; }
+    pre code .code-string { color:#166534; }
+    .spec-content .review-actions { margin-top:1rem; }
+    .spec-content .thread { margin-top:.75rem; }
+    .spec-content textarea { display:block; width:100%; min-height:5rem; margin:.5rem 0; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-row">
+        <div>
+          <p class="eyebrow">理解優先工作冊 · <span data-phase-label>{{PHASE_LABEL}}</span></p>
+          <h1>先讓我看懂，再決定要不要做</h1>
+          <p class="header-note">工作冊版本 <span data-phase-version>{{VERSION_LABEL}}</span></p>
+        </div>
+        <div class="header-actions" aria-label="審閱工具">
+          <label for="language-selector" data-i18n="language.label">語言</label>
+          <select id="language-selector" aria-label="語言">
+            <option value="zh-Hant" data-i18n="language.zh">繁體中文</option>
+            <option value="en" data-i18n="language.en">English</option>
+          </select>
+          <button class="button" id="copy-review" type="button" data-i18n="export.copy">複製 TOON</button>
+        </div>
+      </div>
+      <nav class="phase-nav" aria-label="工作階段">
+{{PHASE_NAV}}
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-inner" id="main">
+{{CONTENT}}
+    <div class="status-bar" id="status" role="status" aria-live="polite" hidden><span><span data-i18n="status.local">本機討論</span>：<strong id="review-count">0</strong> 則</span><span><span data-i18n="status.agent">待送 Agent</span>：<strong id="open-count">0</strong> 則</span><span id="status-message"></span></div>
+    <section class="export-panel" id="export-panel" hidden aria-labelledby="export-title">
+      <h2 id="export-title" data-i18n="export.title">給 Agent 的 TOON 預覽</h2>
+      <p class="review-kind-note" data-i18n="export.note">這不是完整備份：只包含 status 為 open 的完整討論串；已 resolve 的內容仍留在本機，之後重新開啟才會回到這裡。如果下載或剪貼簿不可用，請點文字框後使用系統複製。</p>
+      <textarea id="export-preview" readonly aria-label="只含 open 討論的 TOON 預覽" data-i18n-aria-label="export.aria"></textarea>
+      <div class="export-controls">
+        <button class="button small" id="select-export" type="button" data-i18n="export.select">選取全部 JSON</button>
+        <button class="button small" id="preview-review" type="button" data-i18n="export.preview">重新預覽 review</button>
+      </div>
+    </section>
+    <section class="export-panel backup-panel" id="backup-panel" hidden aria-labelledby="backup-title">
+      <h2 id="backup-title" data-i18n="backup.title">完整本機討論備份</h2>
+      <p>這份備份包含 open、later、resolved 的所有本機討論、回覆、刪除 tombstone 與目前草稿，和給 Agent 的 TOON 不同；刪除只是本機 soft-delete，完整備份保留資料並明示這不是永久抹除。儲存失敗或偵測到別頁更新時，請優先下載或複製它，保存後再重新載入。</p>
+      <textarea id="backup-preview" readonly aria-label="包含全部本機討論的備份預覽" data-i18n-aria-label="backup.aria"></textarea>
+      <div class="export-controls">
+        <button class="button small" id="backup-preview-button" type="button" data-i18n="backup.preview">預覽完整備份</button>
+        <button class="button small" id="download-backup" type="button" data-i18n="backup.download">下載完整備份</button>
+        <button class="button small" id="select-backup" type="button" data-i18n="backup.select">選取備份 JSON</button>
+        <label class="button small" for="import-backup-file" data-i18n="backup.import">匯入完整備份</label>
+        <input class="sr-only" id="import-backup-file" type="file" accept=".json,application/json" aria-label="匯入完整備份 JSON" data-i18n-aria-label="backup.fileAria">
+      </div>
+      <p id="import-result" class="review-hint" role="status" aria-live="polite"></p>
+    </section>
+    <div class="review-actions footer-export" aria-label="頁尾審閱工具" data-i18n-aria-label="footer.tools">
+      <p class="review-hint">讀到頁尾了，可以直接保存這次審閱。</p>
+      <div class="composer-actions">
+        <button class="button small" id="footer-copy-review" type="button" data-i18n="export.copy">複製 TOON</button>
+      </div>
+    </div>
+    <nav class="phase-footer-nav" id="phase-footer-nav" data-i18n-aria-label="footer.phaseNavigation" aria-label="階段前後導覽" hidden></nav>
+    <p class="footer-note"><span data-phase-version>{{VERSION_LABEL}}</span></p>
+  </main>
+
+  <aside class="composer" id="composer" hidden aria-labelledby="composer-title">
+    <div class="composer-header">
+      <h2 id="composer-title">留下你的問題</h2>
+      <button class="button small composer-drag-handle" id="composer-drag-handle" type="button" title="移動留言框" aria-label="移動留言框" aria-describedby="composer-move-help"><span aria-hidden="true">⠿</span></button>
+    </div>
+    <p class="composer-move-help" id="composer-move-help">可拖曳把手移動留言框；鍵盤操作可使用「重設位置」。</p>
+    <p class="composer-context" id="composer-context"></p>
+    <blockquote id="composer-quote"></blockquote>
+    <label for="composer-input" id="composer-input-label">你的問題或修改建議</label>
+    <textarea id="composer-input" placeholder="例如：這裡的局部修改，怎麼知道哪些下游項目受影響？"></textarea>
+    <div class="composer-actions">
+      <button class="button small" id="reset-composer-position" type="button" aria-label="重設留言框位置">重設位置</button>
+      <button class="button small" id="cancel-comment" type="button">取消</button>
+      <button class="button small primary" id="save-comment" type="button">只保存到本機</button>
+    </div>
+  </aside>
+
+  <script id="workbook-manifest" type="application/json">
+{{MANIFEST}}
+  </script>
+  <script id="review-seed" type="application/json">
+{{SEED}}
+  </script>
+  <script id="review-seed-extra" type="application/json">
+{{SEED_EXTRA}}
+  </script>
+  <script>
+    (() => {
+/* TOON_CODEC_BEGIN */
+{{TOON_CODEC}}
+/* TOON_CODEC_END */
+    })();
+    (() => {
+      'use strict';
+      const manifest = JSON.parse(document.getElementById('workbook-manifest').textContent);
+      const PHASE_ORDER = ['idea', 'spec', 'plan', 'build', 'ship'];
+      const PHASE_LABELS = { idea: 'Idea', spec: 'Spec', plan: 'Plan', build: 'Build', ship: 'Ship' };
+      let activePhase = manifest.phase;
+      const FILE_STEM = manifest.workbookId + '-' + manifest.phase;
+      const phaseMetadata = (phase) => manifest.phaseMetadata?.[phase] || { workbookVersion: manifest.workbookVersion, sourceVersion: manifest.sourceVersion };
+      const reviewSeed = JSON.parse(document.getElementById('review-seed').textContent);
+      const reviewSeedExtra = JSON.parse(document.getElementById('review-seed-extra').textContent);
+      const specReviewSeedElement = document.getElementById('spec-review-seed');
+      const specReviewSeed = specReviewSeedElement ? JSON.parse(specReviewSeedElement.textContent) : { comments: [] };
+      const planReviewSeedElement = document.getElementById('plan-review-seed');
+      const planReviewSeed = planReviewSeedElement ? JSON.parse(planReviewSeedElement.textContent) : { comments: [] };
+      const buildReviewSeedElement = document.getElementById('build-review-seed');
+      const buildReviewSeed = buildReviewSeedElement ? JSON.parse(buildReviewSeedElement.textContent) : { comments: [] };
+      const shipReviewSeedElement = document.getElementById('ship-review-seed');
+      const shipReviewSeed = shipReviewSeedElement ? JSON.parse(shipReviewSeedElement.textContent) : { comments: [] };
+      const seedById = new Map();
+      [...(reviewSeed.comments || []), ...(reviewSeedExtra.comments || []), ...(specReviewSeed.comments || []), ...(planReviewSeed.comments || []), ...(buildReviewSeed.comments || []), ...(shipReviewSeed.comments || [])].forEach((comment) => {
+        if (comment && comment.id) seedById.set(comment.id, comment);
+      });
+      reviewSeed.comments = [...seedById.values()];
+      // Legacy migration key remains workbook-scoped; IndexedDB is the write source.
+      const STORAGE_KEY = manifest.workbookId + ':reviews:v1';
+      const LANGUAGE_PREFERENCE_KEY = manifest.workbookId + ':language:v1';
+      const DB_NAME = manifest.workbookId + ':workbook';
+      const DB_VERSION = 1;
+      const STORE_NAME = 'threads';
+      const MAX_BACKUP_BYTES = 2 * 1024 * 1024;
+      const MAX_TEXT_LENGTH = 100000;
+      const MAX_ID_LENGTH = 240;
+      const statusLabels = { open: '待處理', resolved: '已解決（不代表核准）', later: '稍後再看' };
+      const statusAliases = {
+        open: 'open', pending: 'open', question: 'open', unanswered: 'open',
+        resolved: 'resolved', understood: 'resolved', done: 'resolved',
+        later: 'later', snoozed: 'later', deferred: 'later'
+      };
+      const dictionaries = {
+        'zh-Hant': {
+          'language.label': '語言', 'language.zh': '繁體中文', 'language.en': 'English',
+          'export.download': '複製 TOON', 'export.copy': '複製 TOON', 'export.save': '複製 TOON',
+          'export.title': '給 Agent 的 TOON 預覽', 'export.note': '這不是完整備份：只包含 status 為 open 的完整討論串；已 resolve 的內容仍留在本機，之後重新開啟才會回到這裡。如果下載或剪貼簿不可用，請點文字框後使用系統複製。',
+          'export.select': '選取全部 TOON', 'export.preview': '重新預覽 review', 'export.aria': '只含 open 討論的 TOON 預覽',
+          'backup.title': '完整本機討論備份', 'backup.note': '這份備份包含 open、later、resolved 的所有本機討論、回覆、刪除 tombstone 與目前草稿，和給 Agent 的 TOON 不同；刪除只是本機 soft-delete，完整備份保留資料並明示這不是永久抹除。儲存失敗或偵測到別頁更新時，請優先下載或複製它，保存後再重新載入。',
+          'backup.aria': '包含全部本機討論的備份預覽', 'backup.preview': '預覽完整備份', 'backup.download': '下載完整備份', 'backup.select': '選取備份 JSON', 'backup.import': '匯入完整備份', 'backup.fileAria': '匯入完整備份 JSON',
+          'footer.tools': '頁尾審閱工具', 'footer.hint': '讀到頁尾了，可以直接保存這次審閱。', 'footer.phaseNavigation': '階段前後導覽', 'footer.previous': '← 回看 {phase}', 'footer.next': '繼續到 {phase} →', 'footer.previousAria': '回到上一階段：{phase}', 'footer.nextAria': '繼續到下一階段：{phase}',
+          'composer.newTitle': '新增留言', 'composer.editTitle': '編輯留言', 'composer.label': '留言內容', 'composer.newPlaceholder': '例如：這裡的局部修改，怎麼知道哪些下游項目受影響？', 'composer.cancel': '取消', 'composer.reset': '重設位置', 'composer.save': '只保存到本機', 'composer.saveEdit': '保存修改', 'composer.saveComment': '保存留言', 'composer.dragTitle': '移動留言框', 'composer.dragAria': '移動留言框', 'composer.dragHelp': '可拖曳把手移動留言框；鍵盤操作可使用「重設位置」。', 'composer.context': '項目：{context} · 版本：{version}', 'composer.inputAria': '留言內容',
+          'inline.label': '新增留言（留在這串討論底部）', 'inline.aria': '你的留言', 'inline.placeholder': '輸入要接著留言給 Agent 的內容', 'inline.cancel': '取消', 'inline.save': '保存留言',
+          'thread.title': '你的留言', 'thread.deleted': '整串討論已刪除（含回覆）；本機 soft-delete tombstone 仍保留，可還原。', 'thread.restore': '還原整串討論（重新開啟）', 'thread.resolvedSummary': '已解決的討論（點擊展開；本機仍保留完整內容）',
+          'reply.user': '你的留言', 'reply.userDeleted': '你的留言（已刪除）', 'reply.agent': 'Agent 回覆（由聊天回填；本頁未自動連線）', 'reply.deletedUser': '這則留言已刪除；完整備份仍保留，可還原。', 'reply.deletedAgent': '這則 Agent 歷史回覆標記為刪除。', 'reply.restore': '還原這則留言', 'reply.edit': '編輯留言', 'reply.delete': '刪除這則留言', 'reply.revision': '這則留言曾修改；保留先前版本。',
+          'quote.current': '目前版本的選取文字', 'quote.old': '留言當時的舊版本選取文字', 'quote.block': '針對此區塊', 'question.warning': '原留言曾修改；既有 Agent 回覆可能針對舊問題，不能直接視為已回答目前版本。', 'question.revision': '已保留 {count} 個先前留言版本。', 'meta.current': '目前版本', 'meta.old': '留言舊版本', 'meta.legacy': '原始狀態：{status}',
+          'action.edit': '編輯留言', 'action.add': '新增留言', 'action.deleteThread': '刪除整串討論（含回覆）', 'action.reopen': '重新開啟', 'action.resolve': 'Resolve',
+          'status.open': '待處理', 'status.resolved': '已解決（不代表核准）', 'status.later': '稍後再看', 'status.local': '本機討論', 'status.agent': '待送 Agent', 'status.loading': '正在載入本機討論，請稍候再保存。',
+          'storage.conflict': '另一個頁面的更新較新；本次保存未覆蓋本機資料，請先保存此頁草稿或完整備份，再重新載入。', 'storage.unavailable': '不可用', 'storage.blocked': '被其他頁面阻塞', 'storage.abort': '交易中止', 'storage.error': '發生錯誤', 'storage.memory': 'IndexedDB {reason}；留言只暫留在本頁記憶體，尚未持久化，請保存完整本機備份。',
+          'saved.comment': '留言已保存到本機；複製 TOON 後貼回聊天。', 'saved.followup': '留言已保存並重新開啟；複製 TOON 後貼回聊天。', 'saved.deletedThread': '整串討論已刪除；完整備份仍保留，可從此頁還原。', 'saved.restoredThread': '整串討論已還原並重新開啟，會回到 TOON。', 'saved.resolved': '已 Resolve；完整討論仍保留在本機。', 'saved.reopened': '留言已重新開啟並會進入 TOON。', 'saved.deletedReply': '這則留言已刪除；Agent 回覆與完整備份仍保留。', 'saved.restoredReply': '這則留言已還原，討論已重新開啟並會回到 TOON。', 'confirm.delete': '刪除整串討論（含回覆）？這只會建立可還原的本機 soft-delete tombstone，不是永久抹除。',
+          'import.failure': '匯入失敗：{message}', 'import.done': '備份匯入完成：新增 {added} 則；{conflicts} 則同串衝突已保留本機。', 'import.memorySuffix': ' 目前只暫留記憶體，尚未持久化。', 'import.invalidFile': '請選擇 JSON 備份檔。', 'import.noRead': '此瀏覽器無法讀取備份檔。', 'import.readFailed': '備份檔讀取失敗，未改變本地資料。', 'import.tooLarge': '備份檔超過 2 MB 上限。', 'import.invalidBackup': '備份不是有效 JSON。', 'import.invalidJson': '備份不是有效 JSON。', 'import.invalidSchema': '備份格式不正確。', 'import.unsupportedSchema': '不支援的備份 schema。', 'import.wrongWorkbook': '備份屬於不同工作冊，未匯入。', 'import.invalidProvenance': '備份階段與目前工作冊不一致。', 'import.missingData': '備份缺少有效版本或討論串資料。', 'import.invalidComment': '備份含有無效的 item、provenance 或討論內容。', 'import.duplicate': '備份含有重複的討論串 ID。', 'import.invalidDraft': '備份含有無效草稿。',
+          'export.downloadError': '下載不可用；下方預覽仍可選取並複製。', 'export.previewed': '已更新 review 預覽；它只包含 open 討論。', 'export.copied': 'open review TOON 已複製；請貼回聊天交給 Agent。', 'export.clipboardError': '剪貼簿不可用；TOON 已選取，請使用系統複製。', 'export.pickerUnsupported': '此瀏覽器不支援選擇位置保存；review 預覽、下載與複製仍可使用。', 'export.saved': 'review JSON 已保存到你選擇的位置。', 'export.cancelled': '已取消保存；review 預覽仍保留。', 'export.saveFailed': '保存失敗；review 預覽仍保留，沒有自動下載。', 'backup.previewed': '已更新完整本機討論備份預覽；它包含 resolved。', 'backup.selected': '完整本機備份 JSON 已選取，請使用系統複製。', 'export.selected': 'TOON 已選取，請使用系統複製。',
+          'toy.understand.title': '不懂：先補理解材料', 'toy.understand.action': '保留 Spec／Plan 原文，只補白話說明、例子或圖；不需要整份重寫。', 'toy.understand.scope': '目前 item', 'toy.requirement.title': '需求改動：改本體，再查影響', 'toy.requirement.action': '修改受影響的 Spec item，再找有證據的下游 Plan item；其他內容先保留。', 'toy.requirement.scope': 'Spec item + 直接依賴的 Plan item', 'toy.implementation.title': '實作錯誤：修 code，再補驗證', 'toy.implementation.action': '不先重寫 Idea／Spec；修正實際 code，新增或更新能證明行為的 test。', 'toy.implementation.scope': 'code + focused test'
+        },
+        en: {
+          'language.label': 'Language', 'language.zh': '繁體中文', 'language.en': 'English',
+          'export.download': 'Copy TOON', 'export.copy': 'Copy TOON', 'export.save': 'Copy TOON', 'export.title': 'TOON for Agent', 'export.note': 'This is not a full backup: it contains only open discussions. Resolved content stays local and returns here when reopened. If download or clipboard is unavailable, select the text box and use system copy.', 'export.select': 'Select all TOON', 'export.preview': 'Refresh TOON preview', 'export.aria': 'Open-only TOON preview',
+          'backup.title': 'Complete local discussion backup', 'backup.note': 'This backup contains all local open, later, and resolved discussions, replies, deletion tombstones, and current drafts. It differs from the review JSON for Agent; deletion is a local soft-delete, not permanent erasure. If saving fails or another page changes data, download or copy this first, then reload.', 'backup.aria': 'Backup preview containing all local discussions', 'backup.preview': 'Preview full backup', 'backup.download': 'Download full backup', 'backup.select': 'Select backup JSON', 'backup.import': 'Import full backup', 'backup.fileAria': 'Import full backup JSON', 'footer.tools': 'Footer review tools', 'footer.hint': 'You reached the footer; save this review directly.', 'footer.phaseNavigation': 'Previous and next phase navigation', 'footer.previous': '← Back to {phase}', 'footer.next': 'Continue to {phase} →', 'footer.previousAria': 'Back to previous phase: {phase}', 'footer.nextAria': 'Continue to next phase: {phase}',
+          'composer.newTitle': 'Add comment', 'composer.editTitle': 'Edit comment', 'composer.label': 'Comment', 'composer.newPlaceholder': 'Example: How do we know which downstream items are affected by this local change?', 'composer.cancel': 'Cancel', 'composer.reset': 'Reset position', 'composer.save': 'Save locally only', 'composer.saveEdit': 'Save changes', 'composer.saveComment': 'Save comment', 'composer.dragTitle': 'Move comment box', 'composer.dragAria': 'Move comment box', 'composer.dragHelp': 'Drag the handle to move the comment box; keyboard users can use “Reset position”.', 'composer.context': 'Item: {context} · Version: {version}', 'composer.inputAria': 'Comment',
+          'inline.label': 'Add comment (at the bottom of this thread)', 'inline.aria': 'Your comment', 'inline.placeholder': 'Write the next comment for the Agent', 'inline.cancel': 'Cancel', 'inline.save': 'Save comment',
+          'thread.title': 'Your comment', 'thread.deleted': 'This discussion was deleted (including replies); its local soft-delete tombstone is retained and can be restored.', 'thread.restore': 'Restore discussion (reopen)', 'thread.resolvedSummary': 'Resolved discussion (click to expand; full content stays local)', 'reply.user': 'Your comment', 'reply.userDeleted': 'Your comment (deleted)', 'reply.agent': 'Agent reply (filled in from chat; this page does not connect automatically)', 'reply.deletedUser': 'This comment was deleted; the full backup retains it and it can be restored.', 'reply.deletedAgent': 'This Agent history reply is marked deleted.', 'reply.restore': 'Restore this comment', 'reply.edit': 'Edit comment', 'reply.delete': 'Delete this comment', 'reply.revision': 'This comment was edited; previous versions are retained.', 'quote.current': 'Selection from current version', 'quote.old': 'Selection from the older version when this comment was made', 'question.warning': 'The original comment was edited; existing Agent replies may address the older text and cannot be treated as an answer to the current version.', 'question.revision': '{count} previous comment version(s) retained.', 'meta.current': 'Current version', 'meta.old': 'Older comment version', 'meta.legacy': 'Original status: {status}', 'action.edit': 'Edit comment', 'action.add': 'Add comment', 'action.deleteThread': 'Delete discussion (including replies)', 'action.reopen': 'Reopen', 'action.resolve': 'Resolve', 'status.open': 'Open', 'status.resolved': 'Resolved (not approval)', 'status.later': 'Later', 'status.local': 'Local discussions', 'status.agent': 'To Agent', 'status.loading': 'Loading local discussions; please wait before saving.', 'storage.conflict': 'Another page has a newer update; this save did not overwrite local data. Save this draft or a full backup, then reload.', 'storage.unavailable': 'unavailable', 'storage.blocked': 'blocked by another page', 'storage.abort': 'transaction aborted', 'storage.error': 'error', 'storage.memory': 'IndexedDB {reason}; comments remain only in this page memory and are not persisted. Save a complete local backup.', 'saved.comment': 'Comment saved locally; download the review JSON and return it to chat.', 'saved.followup': 'Comment saved and reopened; download the review JSON and return it to chat.', 'saved.deletedThread': 'Discussion deleted; the full backup still retains it and can restore it here.', 'saved.restoredThread': 'Discussion restored and reopened; it will return to the review JSON.', 'saved.resolved': 'Resolved; the full discussion remains local.', 'saved.reopened': 'Comment reopened and will return to the review JSON.', 'saved.deletedReply': 'Comment deleted; Agent replies and the full backup remain.', 'saved.restoredReply': 'Comment restored; the discussion reopened and will return to the review JSON.', 'confirm.delete': 'Delete this discussion (including replies)? This creates a restorable local soft-delete tombstone; it is not permanent erasure.', 'import.failure': 'Import failed: {message}', 'import.done': 'Backup import complete: {added} added; {conflicts} same-thread conflicts kept local.', 'import.memorySuffix': ' It is currently only in memory and is not persisted.', 'import.invalidFile': 'Choose a JSON backup file.', 'import.noRead': 'This browser cannot read backup files.', 'import.readFailed': 'Backup file read failed; local data was not changed.', 'import.tooLarge': 'Backup file exceeds the 2 MB limit.', 'import.invalidBackup': 'Backup is not valid JSON.', 'import.invalidJson': 'Backup is not valid JSON.', 'import.invalidSchema': 'Backup format is invalid.', 'import.unsupportedSchema': 'Unsupported backup schema.', 'import.wrongWorkbook': 'Backup belongs to a different workbook; nothing was imported.', 'import.invalidProvenance': 'Backup phase does not match this workbook.', 'import.missingData': 'Backup lacks valid version or discussion data.', 'import.invalidComment': 'Backup contains invalid item, provenance, or discussion content.', 'import.duplicate': 'Backup contains duplicate discussion IDs.', 'import.invalidDraft': 'Backup contains an invalid draft.', 'export.downloadError': 'Download unavailable; the preview below can still be selected and copied.', 'export.previewed': 'TOON preview updated; it contains open discussions only.', 'export.copied': 'Open TOON copied; paste it into chat for the Agent.', 'export.clipboardError': 'Clipboard unavailable; TOON is selected for system copy.', 'export.pickerUnsupported': 'This browser cannot save to a chosen location; review preview, download, and copy remain available.', 'export.saved': 'Review JSON saved to the location you chose.', 'export.cancelled': 'Save cancelled; the review preview remains.', 'export.saveFailed': 'Save failed; the review preview remains and nothing was downloaded automatically.', 'backup.previewed': 'Full local backup preview updated; it includes resolved discussions.', 'backup.selected': 'Full local backup JSON selected; use system copy.', 'export.selected': 'Review JSON selected; use system copy.', 'toy.understand.title': 'Not understood: add understanding material first', 'toy.understand.action': 'Keep Spec/Plan originals; add plain language, examples, or a diagram instead of rewriting everything.', 'toy.understand.scope': 'Current item', 'toy.requirement.title': 'Requirement changed: change the source, then trace impact', 'toy.requirement.action': 'Change affected Spec items, then find evidence-based downstream Plan items; leave the rest.', 'toy.requirement.scope': 'Spec item + directly dependent Plan item', 'toy.implementation.title': 'Implementation bug: fix code, then add verification', 'toy.implementation.action': 'Do not rewrite Idea/Spec first; fix the actual code and add or update a test that proves the behavior.', 'toy.implementation.scope': 'code + focused test'
+        }
+      };
+      let language = 'zh-Hant';
+      function loadLanguagePreference() {
+        try {
+          const stored = window.localStorage.getItem(LANGUAGE_PREFERENCE_KEY);
+          if (stored === 'en' || stored === 'zh-Hant') language = stored;
+        } catch (error) { /* language selection still works for this page */ }
+      }
+      function saveLanguagePreference() {
+        try { window.localStorage.setItem(LANGUAGE_PREFERENCE_KEY, language); } catch (error) { /* optional preference */ }
+      }
+      function t(key, values = {}) {
+        const table = dictionaries[language] || dictionaries['zh-Hant'];
+        const template = table[key] || dictionaries['zh-Hant'][key] || key || '';
+        return String(template).replace(/\{(\w+)\}/g, (_, name) => values[name] === undefined ? '' : String(values[name]));
+      }
+      let comments = [];
+      let storageHealthy = true;
+      let storageOverride = null;
+      let storageConflict = false;
+      let storageMode = 'initializing';
+      let storageFailureReason = '';
+      let database = null;
+      let initialized = false;
+      let readyResolve;
+      const ready = new Promise((resolve) => { readyResolve = resolve; });
+      let threadRevisions = new Map();
+      let pendingWrites = new Map();
+      const pendingSaves = new Set();
+      let composerSavePending = false;
+      let restoredDrafts = []; 
+      let lastStorageRaw = null;
+      let pending = null;
+      let inlineFollowUp = null;
+      let inlineBlock = null;
+      let inlineEdit = null;
+      let commentSequence = 0;
+      let replySequence = 0;
+      let dragState = null;
+      const composer = document.getElementById('composer');
+      const composerInput = document.getElementById('composer-input');
+      const composerContext = document.getElementById('composer-context');
+      const composerQuote = document.getElementById('composer-quote');
+      const composerDragHandle = document.getElementById('composer-drag-handle');
+      const status = document.getElementById('status');
+      const exportPanel = document.getElementById('export-panel');
+      const exportPreview = document.getElementById('export-preview');
+
+      function storage() {
+        // Legacy storage is read-only migration input; IndexedDB is the only write source.
+        return storageOverride || window.localStorage;
+      }
+
+      function setStatus(message = '', warning = false) {
+        const text = String(message || '');
+        status.classList.toggle('warning', warning);
+        status.hidden = !text;
+        document.getElementById('status-message').textContent = text;
+      }
+
+      function updateComposerLanguage() {
+        if (!pending || composer.hidden) return;
+        composer.querySelector('#composer-title').textContent = t(pending.titleKey || 'composer.newTitle');
+        composerContext.textContent = t('composer.context', { context: pending.context, version: pending.sourceVersion || manifest.sourceVersion });
+        document.getElementById('composer-input-label').textContent = t(pending.labelKey || 'composer.label');
+        composerInput.setAttribute('aria-label', t('composer.inputAria'));
+        composerInput.placeholder = t(pending.placeholderKey || 'composer.newPlaceholder');
+        document.getElementById('save-comment').textContent = t(pending.saveKey || 'composer.save');
+        document.getElementById('cancel-comment').textContent = t('composer.cancel');
+        document.getElementById('reset-composer-position').textContent = t('composer.reset');
+        composerDragHandle.title = t('composer.dragTitle');
+        composerDragHandle.setAttribute('aria-label', t('composer.dragAria'));
+        document.getElementById('composer-move-help').textContent = t('composer.dragHelp');
+      }
+
+      function applyLanguage() {
+        rememberInlineDraft();
+        if (pending && !composer.hidden) pending.text = composerInput.value;
+        document.documentElement.lang = language;
+        document.querySelectorAll('[data-i18n]').forEach((element) => { element.textContent = t(element.getAttribute('data-i18n')); });
+        document.querySelectorAll('[data-i18n-title]').forEach((element) => { element.title = t(element.getAttribute('data-i18n-title')); });
+        document.querySelectorAll('[data-i18n-aria-label]').forEach((element) => { element.setAttribute('aria-label', t(element.getAttribute('data-i18n-aria-label'))); });
+        updateComposerLanguage();
+        if (typeof renderThreads === 'function') renderThreads();
+        if (typeof updateFooterNavigation === 'function') updateFooterNavigation();
+      }
+
+      function setLanguage(nextLanguage) {
+        language = nextLanguage === 'en' ? 'en' : 'zh-Hant';
+        const selector = document.getElementById('language-selector');
+        if (selector) { try { selector.value = language; } catch (error) { /* lightweight DOM harness */ } }
+        saveLanguagePreference();
+        applyLanguage();
+        return language;
+      }
+
+      function safeText(value, max = MAX_TEXT_LENGTH) {
+        return typeof value === 'string' && value.length <= max && !/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(value);
+      }
+
+      function safeId(value) {
+        return safeText(value, MAX_ID_LENGTH) && value.length > 0;
+      }
+
+      function safeNonEmptyText(value, max = MAX_TEXT_LENGTH) {
+        return safeText(value, max) && value.length > 0;
+      }
+
+      function normalizeReply(value, index) {
+        if (!value || typeof value !== 'object' || !safeText(value.text)) return null;
+        const id = typeof value.id === 'string' && value.id ? value.id : 'legacy-reply-' + index;
+        const author = typeof value.author === 'string' && value.author ? value.author : 'agent';
+        if (!safeId(id) || !safeText(author, 80)) return null;
+        const reply = { id, author, text: value.text };
+        if (typeof value.createdAt === 'string' && safeText(value.createdAt, 120)) reply.createdAt = value.createdAt;
+        if (typeof value.updatedAt === 'string' && safeText(value.updatedAt, 120)) reply.updatedAt = value.updatedAt;
+        if (Array.isArray(value.revisions)) {
+          reply.revisions = value.revisions
+            .filter((revision) => revision && safeText(revision.text))
+            .map((revision) => ({ text: revision.text, savedAt: typeof revision.savedAt === 'string' && safeText(revision.savedAt, 120) ? revision.savedAt : '' }));
+        }
+        if (value.deleted === true || (typeof value.deletedAt === 'string' && value.deletedAt)) {
+          reply.deleted = true;
+          reply.deletedAt = typeof value.deletedAt === 'string' && safeText(value.deletedAt, 120) ? value.deletedAt : '';
+          if (typeof value.deletedBy === 'string' && safeText(value.deletedBy, 80)) reply.deletedBy = value.deletedBy;
+        }
+        return reply;
+      }
+
+      function isDeleted(value) {
+        return Boolean(value && (value.deleted === true || (typeof value.deletedAt === 'string' && value.deletedAt)));
+      }
+
+      function normalizeStatus(value) {
+        if (typeof value !== 'string' || !value || !safeText(value, 80)) return null;
+        const status = statusAliases[value] || 'open';
+        return { status, legacyStatus: status === value ? '' : value };
+      }
+
+      function normalizeComment(value) {
+        if (!value || typeof value !== 'object' || !safeId(value.id) || !safeId(value.itemId) || !safeText(value.question)) return null;
+        const normalizedStatus = normalizeStatus(value.status);
+        if (!normalizedStatus) return null;
+        const revisions = Array.isArray(value.questionRevisions)
+          ? value.questionRevisions
+            .filter((revision) => revision && safeText(revision.text))
+            .map((revision) => ({ text: revision.text, savedAt: typeof revision.savedAt === 'string' && safeText(revision.savedAt, 120) ? revision.savedAt : '' }))
+          : [];
+        const workbookId = typeof value.workbookId === 'string' ? value.workbookId : manifest.workbookId;
+        const itemPhase = manifest.phaseItems?.[value.itemId.split('.')[0]] ? value.itemId.split('.')[0] : manifest.phase;
+        const phase = typeof value.phase === 'string' ? value.phase : itemPhase;
+        const workbookVersion = typeof value.workbookVersion === 'string' ? value.workbookVersion : (manifest.phaseMetadata?.[phase]?.workbookVersion || manifest.workbookVersion);
+        const sourceVersion = typeof value.sourceVersion === 'string' ? value.sourceVersion : manifest.sourceVersion;
+        const quote = typeof value.quote === 'string' ? value.quote : '';
+        const context = typeof value.context === 'string' ? value.context : itemTitle(value.itemId);
+        if (!safeId(workbookId) || !safeText(workbookVersion, 120) || !safeText(sourceVersion, 120) || (quote && !safeText(quote)) || !safeText(context)) return null;
+        const comment = {
+          id: value.id,
+          itemId: value.itemId,
+          workbookId,
+          phase,
+          workbookVersion,
+          sourceVersion,
+          quote,
+          context,
+          question: value.question,
+          questionRevisions: revisions,
+          replies: Array.isArray(value.replies) ? value.replies.map(normalizeReply).filter(Boolean) : [],
+          status: normalizedStatus.status,
+          createdAt: typeof value.createdAt === 'string' && safeText(value.createdAt, 120) ? value.createdAt : '',
+          updatedAt: typeof value.updatedAt === 'string' && safeText(value.updatedAt, 120) ? value.updatedAt : ''
+        };
+        const legacyStatus = typeof value.legacyStatus === 'string' && value.legacyStatus
+          ? value.legacyStatus
+          : normalizedStatus.legacyStatus;
+        if (legacyStatus && safeText(legacyStatus, 80)) comment.legacyStatus = legacyStatus;
+        if (value.deleted === true || (typeof value.deletedAt === 'string' && value.deletedAt)) {
+          comment.deleted = true;
+          comment.deletedAt = typeof value.deletedAt === 'string' && safeText(value.deletedAt, 120) ? value.deletedAt : '';
+          if (typeof value.deletedBy === 'string' && safeText(value.deletedBy, 80)) comment.deletedBy = value.deletedBy;
+        }
+        return comment;
+      }
+
+      function isAllowedComment(comment) {
+        if (!comment || comment.workbookId !== manifest.workbookId || !manifest.items.includes(comment.itemId)) return false;
+        // The canonical Idea entry embeds pending Spec cards; retain each thread's own provenance.
+        const itemPhase = comment.itemId.split('.')[0];
+        return comment.phase === manifest.phase || (comment.phase === itemPhase && manifest.phaseItems?.[itemPhase]?.includes(comment.itemId));
+      }
+
+      function mergeRevisions(seedRevisions, localRevisions) {
+        const merged = [];
+        const keys = new Set();
+        [...seedRevisions, ...localRevisions].forEach((revision) => {
+          const key = revision.text + '\\u0000' + revision.savedAt;
+          if (keys.has(key)) return;
+          keys.add(key);
+          merged.push(revision);
+        });
+        return merged;
+      }
+
+      function mergeReplies(seedReplies, localReplies) {
+        const merged = [];
+        const indexes = new Map();
+        [...seedReplies, ...localReplies].forEach((reply) => {
+          if (!reply || !reply.id) return;
+          const existingIndex = indexes.get(reply.id);
+          if (existingIndex === undefined) {
+            indexes.set(reply.id, merged.length);
+            merged.push(reply);
+          } else if (isDeleted(reply) || reply.author === 'user') {
+            // Local tombstones and user edits win; a new seeded Agent reply wins over stale storage.
+            merged[existingIndex] = reply;
+          }
+        });
+        return merged;
+      }
+
+      function mergeComments(seedItems, localItems) {
+        const localById = new Map();
+        localItems.forEach((item) => {
+          const comment = normalizeComment(item);
+          if (isAllowedComment(comment) && !localById.has(comment.id)) localById.set(comment.id, comment);
+        });
+        const merged = seedItems.map((seed) => {
+          const normalizedSeed = normalizeComment(seed);
+          if (!isAllowedComment(normalizedSeed)) return null;
+          const local = localById.get(normalizedSeed.id);
+          if (!local) return normalizedSeed;
+          localById.delete(normalizedSeed.id);
+          return {
+            ...normalizedSeed,
+            ...local,
+            questionRevisions: mergeRevisions(normalizedSeed.questionRevisions, local.questionRevisions),
+            replies: mergeReplies(normalizedSeed.replies, local.replies)
+          };
+        }).filter(Boolean);
+        localById.forEach((comment) => merged.push(comment));
+        return merged;
+      }
+
+      const seedComments = Array.isArray(reviewSeed.comments)
+        ? reviewSeed.comments.map(normalizeComment).filter(Boolean)
+        : [];
+
+      function rememberInlineDraft() {
+        if (inlineBlock) { const input = document.querySelector('[data-inline-block="' + CSS.escape(inlineBlock.itemId) + '"] [data-inline-input]'); if (input) inlineBlock.text = input.value; }
+        if (!inlineFollowUp) return;
+        const input = document.querySelector('[data-inline-followup="' + CSS.escape(inlineFollowUp.commentId) + '"] [data-inline-input]');
+        if (input) inlineFollowUp.text = input.value;
+      }
+
+      function getDrafts() {
+        rememberInlineDraft();
+        const drafts = restoredDrafts.map((draft) => ({ ...draft }));
+        if (pending && !composer.hidden) {
+          drafts.push({
+            kind: pending.mode || 'new',
+            commentId: pending.commentId || '',
+            itemId: pending.itemId || '',
+            text: composerInput.value
+          });
+        }
+        if (inlineBlock) drafts.push({ kind: 'block', itemId: inlineBlock.itemId, text: inlineBlock.text || '' });
+        if (inlineFollowUp) drafts.push({ kind: 'follow-up', commentId: inlineFollowUp.commentId, text: inlineFollowUp.text || '' });
+        return drafts;
+      }
+
+      function storageConflictMessage() {
+        return t('storage.conflict');
+      }
+
+      function memoryStorageMessage(reason = storageFailureReason) {
+        const labels = { unavailable: 'storage.unavailable', blocked: 'storage.blocked', abort: 'storage.abort', error: 'storage.error' };
+        return t('storage.memory', { reason: t(labels[reason] || labels.unavailable) });
+      }
+
+      function showBackupTools() {
+        const panel = document.getElementById('backup-panel');
+        if (panel) panel.hidden = false;
+        const preview = document.getElementById('backup-preview');
+        if (preview) preview.value = jsonText(buildBackupPayload());
+      }
+
+      function markStorageConflict() {
+        storageConflict = true;
+        storageHealthy = false;
+        showBackupTools();
+        setStatus(storageConflictMessage(), true);
+      }
+
+      function readLegacyComments() {
+        try {
+          const raw = storage().getItem(STORAGE_KEY);
+          lastStorageRaw = raw;
+          if (!raw) return [];
+          const localItems = JSON.parse(raw);
+          if (!Array.isArray(localItems)) throw new Error('invalid legacy review storage shape');
+          return localItems.map(normalizeComment).filter(isAllowedComment);
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function finishInitialization(result) {
+        initialized = true;
+        renderThreads();
+        updateCount();
+        if (readyResolve) {
+          readyResolve(result);
+          readyResolve = null;
+        }
+      }
+
+      function markMemoryFallback(reason = 'unavailable') {
+        if (database) {
+          try { database.close(); } catch (error) { /* already closed */ }
+          database = null;
+        }
+        storageMode = 'memory';
+        storageHealthy = false;
+        storageFailureReason = reason;
+        showBackupTools();
+        setStatus(memoryStorageMessage(reason), true);
+      }
+
+      function openDatabase() {
+        return new Promise((resolve, reject) => {
+          const indexedDB = window.indexedDB;
+          if (!indexedDB || typeof indexedDB.open !== 'function') {
+            reject({ reason: 'unavailable' });
+            return;
+          }
+          let settled = false;
+          let request;
+          const fail = (reason, error) => {
+            if (settled) return;
+            settled = true;
+            reject({ reason, error });
+          };
+          try {
+            request = indexedDB.open(DB_NAME, DB_VERSION);
+            request.onupgradeneeded = () => {
+              const database = request.result;
+              if (!database.objectStoreNames.contains(STORE_NAME)) {
+                database.createObjectStore(STORE_NAME, { keyPath: ['workbookId', 'threadId'] });
+              }
+            };
+            request.onblocked = () => fail('blocked');
+            request.onerror = () => fail('unavailable', request.error);
+            request.onsuccess = () => {
+              if (settled) {
+                try { request.result.close(); } catch (error) { /* no-op */ }
+                return;
+              }
+              settled = true;
+              request.result.onversionchange = () => request.result.close();
+              resolve(request.result);
+            };
+          } catch (error) {
+            fail('unavailable', error);
+          }
+        });
+      }
+
+      function readAllRecords(database) {
+        return new Promise((resolve, reject) => {
+          let transaction;
+          try {
+            transaction = database.transaction(STORE_NAME, 'readonly');
+            const request = transaction.objectStore(STORE_NAME).getAll();
+            let records = [];
+            request.onsuccess = () => { records = Array.isArray(request.result) ? request.result : []; };
+            request.onerror = () => reject({ reason: 'abort', error: request.error });
+            transaction.oncomplete = () => resolve(records);
+            transaction.onabort = () => reject({ reason: 'abort', error: transaction.error });
+            transaction.onerror = () => {};
+          } catch (error) {
+            reject({ reason: 'abort', error });
+          }
+        });
+      }
+
+      function recordInfo(record) {
+        if (!record || typeof record !== 'object' || record.workbookId !== manifest.workbookId || !safeId(record.threadId)) return null;
+        const source = record.thread || record.comment || record;
+        const comment = normalizeComment(source);
+        if (!isAllowedComment(comment) || comment.id !== record.threadId) return null;
+        const revision = Number.isInteger(record.revision) && record.revision >= 1 ? record.revision : 0;
+        return { comment, revision };
+      }
+
+      function threadKey(threadId) {
+        return [manifest.workbookId, threadId];
+      }
+
+      function makeRecord(comment, revision) {
+        return {
+          workbookId: manifest.workbookId,
+          threadId: comment.id,
+          revision,
+          thread: serialiseComment(comment, true)
+        };
+      }
+
+      function sameThread(left, right) {
+        return JSON.stringify(serialiseComment(left, true)) === JSON.stringify(serialiseComment(right, true));
+      }
+
+      function reconcileRecords(database, actions) {
+        if (!actions.length) return Promise.resolve({ ok: true, writes: [], conflicts: [] });
+        return new Promise((resolve) => {
+          let transaction;
+          let settled = false;
+          const writes = [];
+          const conflicts = [];
+          const fail = (reason = 'abort', error) => {
+            if (settled) return;
+            settled = true;
+            resolve({ ok: false, reason, error, writes: [], conflicts: [] });
+          };
+          try {
+            transaction = database.transaction(STORE_NAME, 'readwrite');
+            const store = transaction.objectStore(STORE_NAME);
+            transaction.oncomplete = () => {
+              if (settled) return;
+              settled = true;
+              resolve({ ok: true, writes, conflicts });
+            };
+            transaction.onabort = () => fail('abort', transaction.error);
+            transaction.onerror = () => {};
+            actions.forEach((action) => {
+              let request;
+              try {
+                request = store.get(threadKey(action.comment.id));
+              } catch (error) {
+                fail('abort', error);
+                try { transaction.abort(); } catch (abortError) { /* no-op */ }
+                return;
+              }
+              request.onerror = () => {
+                try { transaction.abort(); } catch (error) { /* no-op */ }
+              };
+              request.onsuccess = () => {
+                if (settled) return;
+                const raw = request.result;
+                const missing = raw === undefined || raw === null;
+                const current = missing ? null : recordInfo(raw);
+                if (!missing && !current) {
+                  conflicts.push({ threadId: action.comment.id, currentRevision: null });
+                  return;
+                }
+                const actualRevision = current ? current.revision : null;
+                if (actualRevision !== action.expectedRevision) {
+                  if (current && sameThread(current.comment, action.comment)) return;
+                  conflicts.push({ threadId: action.comment.id, currentRevision: actualRevision });
+                  return;
+                }
+                const nextRevision = actualRevision === null ? 1 : actualRevision + 1;
+                let put;
+                try {
+                  put = store.put(makeRecord(action.comment, nextRevision));
+                } catch (error) {
+                  try { transaction.abort(); } catch (abortError) { /* no-op */ }
+                  return;
+                }
+                put.onerror = () => {
+                  try { transaction.abort(); } catch (error) { /* no-op */ }
+                };
+                writes.push({ threadId: action.comment.id, revision: nextRevision });
+              };
+            });
+          } catch (error) {
+            fail('abort', error);
+          }
+        });
+      }
+
+      function persistThreadNow(comment, expectedRevision) {
+        return reconcileRecords(database, [{ comment, expectedRevision }]).then((result) => {
+          if (!result.ok) return result;
+          if (result.conflicts.length) return { ok: false, reason: 'conflict', conflict: result.conflicts[0] };
+          return { ok: true, revision: result.writes[0] ? result.writes[0].revision : expectedRevision };
+        });
+      }
+
+      function canMutate() {
+        if (!initialized) {
+          setStatus(t('status.loading'), true);
+          return false;
+        }
+        return true;
+      }
+
+      function rememberUnsavedDraft(draft) {
+        if (!draft || !safeText(draft.text)) return;
+        restoredDrafts.push({ ...draft });
+      }
+
+      function persistThread(commentId, expectedRevision, successMessage, draft = null) {
+        const comment = findComment(commentId);
+        if (!comment) return Promise.resolve({ ok: false, reason: 'missing' });
+        const snapshot = serialiseComment(comment, true);
+        const hadPending = pendingWrites.has(commentId);
+        const previous = pendingWrites.get(commentId) || Promise.resolve();
+        const operation = previous.catch(() => {}).then(() => {
+          if (storageConflict) return { ok: false, reason: 'conflict' };
+          if (storageMode !== 'indexeddb' || !database) {
+            setStatus(memoryStorageMessage(), true);
+            return { ok: false, reason: 'memory' };
+          }
+          const revision = hadPending ? (threadRevisions.has(commentId) ? threadRevisions.get(commentId) : null) : expectedRevision;
+          return persistThreadNow(snapshot, revision);
+        }).then((result) => {
+          if (result.ok) {
+            threadRevisions.set(commentId, result.revision);
+            storageHealthy = true;
+            storageFailureReason = '';
+            setStatus(t(successMessage));
+          } else if (result.reason === 'conflict') {
+            rememberUnsavedDraft(draft);
+            markStorageConflict();
+          } else if (result.reason !== 'memory') {
+            rememberUnsavedDraft(draft);
+            markMemoryFallback(result.reason || 'abort');
+          }
+          return result;
+        });
+        pendingWrites.set(commentId, operation);
+        operation.then(() => {
+          if (pendingWrites.get(commentId) === operation) pendingWrites.delete(commentId);
+        }, () => {
+          if (pendingWrites.get(commentId) === operation) pendingWrites.delete(commentId);
+        });
+        return operation;
+      }
+
+      function initializeStorage() {
+        comments = seedComments.map(normalizeComment).filter(isAllowedComment);
+        const legacyComments = readLegacyComments();
+        const indexedDB = window.indexedDB;
+        if (!indexedDB || typeof indexedDB.open !== 'function') {
+          comments = mergeComments(seedComments, legacyComments);
+          markMemoryFallback('unavailable');
+          finishInitialization({ mode: storageMode });
+          return;
+        }
+        openDatabase().then(async (openedDatabase) => {
+          database = openedDatabase;
+          const records = await readAllRecords(database);
+          const stored = records.map(recordInfo).filter(Boolean);
+          const storedComments = stored.map(({ comment }) => comment);
+          comments = mergeComments(mergeComments(seedComments, legacyComments), storedComments);
+          threadRevisions = new Map(stored.map(({ comment, revision }) => [comment.id, revision]));
+          const existingById = new Map(stored.map(({ comment, revision }) => [comment.id, { comment, revision }]));
+          const actions = comments.filter((comment) => {
+            const existing = existingById.get(comment.id);
+            return !existing || !sameThread(existing.comment, comment);
+          }).map((comment) => ({ comment, expectedRevision: existingById.has(comment.id) ? existingById.get(comment.id).revision : null }));
+          const result = await reconcileRecords(database, actions);
+          if (!result.ok) throw result;
+          const fresh = (await readAllRecords(database)).map(recordInfo).filter(Boolean);
+          comments = fresh.length ? fresh.map(({ comment }) => comment) : comments;
+          threadRevisions = new Map(fresh.map(({ comment, revision }) => [comment.id, revision]));
+          storageMode = 'indexeddb';
+          storageHealthy = result.conflicts.length === 0;
+          if (result.conflicts.length) markStorageConflict();
+          else setStatus('');
+          finishInitialization({ mode: storageMode, conflicts: result.conflicts.length });
+        }).catch((error) => {
+          markMemoryFallback(error && error.reason ? error.reason : 'abort');
+          finishInitialization({ mode: storageMode, reason: storageFailureReason });
+        });
+      }
+
+      function itemElement(itemId) {
+        return document.querySelector('[data-item-id="' + CSS.escape(itemId) + '"]');
+      }
+
+      function itemTitle(itemId) {
+        const item = itemElement(itemId);
+        return item ? (item.dataset.itemTitle || item.dataset.commentTitle || itemId) : itemId;
+      }
+
+      function newComment(itemId, quote, context, question) {
+        const now = new Date().toISOString();
+        const itemPhase = manifest.phaseItems?.[itemId.split('.')[0]] ? itemId.split('.')[0] : manifest.phase;
+        const metadata = manifest.phaseMetadata?.[itemPhase] || { workbookVersion: manifest.workbookVersion, sourceVersion: manifest.sourceVersion };
+        commentSequence += 1;
+        return {
+          id: 'review-' + Date.now().toString(36) + '-' + commentSequence.toString(36),
+          itemId,
+          workbookId: manifest.workbookId,
+          phase: itemPhase,
+          workbookVersion: metadata.workbookVersion,
+          sourceVersion: metadata.sourceVersion,
+          quote: quote || '',
+          context: context || itemTitle(itemId),
+          question,
+          questionRevisions: [],
+          replies: [],
+          status: 'open',
+          createdAt: now,
+          updatedAt: now
+        };
+      }
+
+      function newUserReply(text) {
+        const now = new Date().toISOString();
+        replySequence += 1;
+        return {
+          id: 'reply-user-' + Date.now().toString(36) + '-' + replySequence.toString(36),
+          author: 'user',
+          text,
+          createdAt: now,
+          updatedAt: now
+        };
+      }
+
+      function inlineFollowUpInput(commentId) {
+        return document.querySelector('[data-inline-followup="' + CSS.escape(commentId) + '"] [data-inline-input]');
+      }
+
+      function focusFollowUpControl(commentId, selector = '[data-inline-input]') {
+        window.setTimeout(() => {
+          const control = document.querySelector('[data-inline-followup="' + CSS.escape(commentId) + '"] ' + selector) ||
+            document.querySelector('[data-comment-id="' + CSS.escape(commentId) + '"] [data-add-followup]');
+          if (control) control.focus();
+        }, 0);
+      }
+
+      function showInlineFollowUp(comment) {
+        if (!canMutate() || !comment || isDeleted(comment)) return;
+        rememberInlineDraft();
+        inlineFollowUp = { commentId: comment.id, text: '' };
+        renderThreads();
+        updateCount();
+        focusFollowUpControl(comment.id);
+      }
+
+      function cancelInlineFollowUp(commentId) {
+        if (!inlineFollowUp || inlineFollowUp.commentId !== commentId) return;
+        rememberInlineDraft();
+        inlineFollowUp = null;
+        renderThreads();
+        updateCount();
+        focusFollowUpControl(commentId, '[data-add-followup]');
+      }
+
+      function saveInlineFollowUp(commentId) {
+        if (!canMutate()) return;
+        const comment = findComment(commentId);
+        const input = inlineFollowUpInput(commentId);
+        const text = (input ? input.value : inlineFollowUp && inlineFollowUp.text || '').trim();
+        if (!comment || isDeleted(comment)) return;
+        if (!text) {
+          if (input) input.focus();
+          return;
+        }
+        const expectedRevision = threadRevisions.has(commentId) ? threadRevisions.get(commentId) : null;
+        const now = new Date().toISOString();
+        comment.replies = Array.isArray(comment.replies) ? comment.replies : [];
+        comment.replies.push(newUserReply(text));
+        comment.status = 'open';
+        comment.updatedAt = now;
+        inlineFollowUp = null;
+        renderThreads();
+        updateCount();
+        persistThread(commentId, expectedRevision, 'saved.followup', {
+          kind: 'follow-up', commentId, text
+        });
+        focusFollowUpControl(commentId, '[data-add-followup]');
+      }
+
+      function showInlineBlock(itemId) {
+        if (!canMutate()) return;
+        closeComposer(); inlineEdit = null; rememberInlineDraft(); inlineBlock = { itemId, text: '' }; renderThreads();
+        const input = document.querySelector('[data-inline-block="' + CSS.escape(itemId) + '"] [data-inline-input]'); if (input) input.focus();
+      }
+      function cancelInlineBlock(itemId) { if (inlineBlock && inlineBlock.itemId === itemId) { rememberInlineDraft(); inlineBlock = null; renderThreads(); } }
+      function saveInlineBlock(itemId) {
+        if (!canMutate() || pendingSaves.has(itemId)) return;
+        const input = document.querySelector('[data-inline-block="' + CSS.escape(itemId) + '"] [data-inline-input]'); const text = (input ? input.value : inlineBlock && inlineBlock.text || '').trim();
+        if (!text) { if (input) input.focus(); return; }
+        pendingSaves.add(itemId);
+        const comment = newComment(itemId, '', itemTitle(itemId), text); comments.push(comment); if (inlineBlock) inlineBlock.text = text;
+        renderThreads(); updateCount();
+        persistThread(comment.id, null, 'saved.comment', { kind: 'new', itemId, text }).then((result) => {
+          pendingSaves.delete(itemId);
+          if (result.ok) { inlineBlock = null; renderThreads(); updateCount(); document.querySelector('[data-inline-block="' + CSS.escape(itemId) + '"]')?.remove(); }
+        });
+      }
+      function renderInlineBlock(itemId) {
+        const form = document.createElement('div'); form.className = 'inline-block-composer'; form.dataset.inlineBlock = itemId;
+        const label = document.createElement('label'); label.textContent = t('composer.label'); const input = document.createElement('textarea'); input.dataset.inlineInput = itemId; input.value = inlineBlock && inlineBlock.itemId === itemId ? inlineBlock.text || '' : '';
+        input.setAttribute('aria-label', t('composer.inputAria')); input.placeholder = t('composer.newPlaceholder'); input.addEventListener('input', () => { if (inlineBlock && inlineBlock.itemId === itemId) inlineBlock.text = input.value; }); input.addEventListener('keydown', (event) => { if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') saveInlineBlock(itemId); if (event.key === 'Escape') cancelInlineBlock(itemId); });
+        const actions = document.createElement('div'); actions.className = 'inline-followup-actions'; const cancel = document.createElement('button'); cancel.type = 'button'; cancel.dataset.inlineCancel = itemId; cancel.textContent = t('inline.cancel'); cancel.addEventListener('click', () => cancelInlineBlock(itemId)); const save = document.createElement('button'); save.type = 'button'; save.className = 'button primary'; save.dataset.inlineSave = itemId; save.textContent = t('inline.save'); save.addEventListener('click', () => saveInlineBlock(itemId)); actions.append(cancel, save); form.append(label, input, actions); return form;
+      }
+
+      function beginNewComment() {
+        const question = composerInput.value.trim();
+        if (!pending || !question) {
+          composerInput.focus();
+          return null;
+        }
+        const comment = newComment(pending.itemId, pending.quote, pending.context, question);
+        comments.push(comment);
+        return comment;
+      }
+
+      function findComment(commentId) {
+        return comments.find((comment) => comment.id === commentId);
+      }
+
+      function findReply(comment, replyId) {
+        return comment && (comment.replies || []).find((reply) => reply.id === replyId);
+      }
+
+      function saveComposerEntry() {
+        if (!canMutate() || composerSavePending) return;
+        const text = composerInput.value.trim();
+        if (!pending || !text) {
+          composerInput.focus();
+          return;
+        }
+        const now = new Date().toISOString();
+        let action = 'new';
+        let commentId = '';
+        let expectedRevision = null;
+        if (pending.mode === 'edit-question') {
+          const comment = findComment(pending.commentId);
+          if (!comment) return closeComposer();
+          commentId = comment.id;
+          expectedRevision = threadRevisions.has(comment.id) ? threadRevisions.get(comment.id) : null;
+          if (comment.question !== text) {
+            comment.questionRevisions = Array.isArray(comment.questionRevisions) ? comment.questionRevisions : [];
+            comment.questionRevisions.push({ text: comment.question, savedAt: now });
+            comment.question = text;
+            comment.updatedAt = now;
+          }
+          action = 'edit';
+        } else if (pending.mode === 'edit-reply') {
+          const comment = findComment(pending.commentId);
+          const reply = findReply(comment, pending.replyId);
+          if (!reply || reply.author !== 'user') return closeComposer();
+          commentId = comment.id;
+          expectedRevision = threadRevisions.has(comment.id) ? threadRevisions.get(comment.id) : null;
+          if (reply.text !== text) {
+            reply.revisions = Array.isArray(reply.revisions) ? reply.revisions : [];
+            reply.revisions.push({ text: reply.text, savedAt: now });
+            reply.text = text;
+            reply.updatedAt = now;
+            comment.updatedAt = now;
+          }
+          action = 'edit';
+        } else if (pending.mode === 'follow-up') {
+          const comment = findComment(pending.commentId);
+          if (!comment) return closeComposer();
+          commentId = comment.id;
+          expectedRevision = threadRevisions.has(comment.id) ? threadRevisions.get(comment.id) : null;
+          comment.replies = Array.isArray(comment.replies) ? comment.replies : [];
+          comment.replies.push(newUserReply(text));
+          comment.status = 'open';
+          comment.updatedAt = now;
+          action = 'follow-up';
+        } else {
+          const comment = beginNewComment();
+          if (!comment) return;
+          commentId = comment.id;
+        }
+        composerSavePending = storageMode === 'indexeddb';
+        inlineEdit = null;
+        renderThreads();
+        updateCount();
+        const draft = {
+          kind: pending && pending.mode ? pending.mode : 'new',
+          commentId,
+          itemId: pending && pending.itemId ? pending.itemId : '',
+          text
+        };
+        persistThread(commentId, expectedRevision, action === 'follow-up'
+          ? 'saved.followup'
+          : 'saved.comment', draft).then((result) => {
+          composerSavePending = false;
+          if (result.ok) closeComposer();
+        });
+
+      }
+
+      function composerSize() {
+        const rect = composer.getBoundingClientRect();
+        return {
+          width: rect.width || Math.min(368, window.innerWidth - 24),
+          height: rect.height || Math.min(280, window.innerHeight - 24)
+        };
+      }
+
+      function clampComposerPosition(left, top) {
+        const size = composerSize();
+        return {
+          left: Math.max(8, Math.min(left, Math.max(8, window.innerWidth - size.width - 8))),
+          top: Math.max(8, Math.min(top, Math.max(8, window.innerHeight - size.height - 8)))
+        };
+      }
+
+      function setComposerPosition(left, top) {
+        const position = clampComposerPosition(left, top);
+        composer.style.left = position.left + 'px';
+        composer.style.top = position.top + 'px';
+      }
+
+      function resetComposerPosition() {
+        const size = composerSize();
+        setComposerPosition((window.innerWidth - size.width) / 2, (window.innerHeight - size.height) / 2);
+      }
+
+      function openComposer(entry, rect) {
+        pending = entry;
+        composerQuote.textContent = '「' + entry.quote + '」';
+        composerInput.value = entry.text || '';
+        composer.hidden = false;
+        updateComposerLanguage();
+        const size = composerSize();
+        const left = rect ? rect.left : (window.innerWidth - size.width) / 2;
+        let top = rect ? rect.bottom + 8 : (window.innerHeight - size.height) / 2;
+        if (top + size.height > window.innerHeight - 8) top = (rect ? rect.top : top) - size.height - 8;
+        setComposerPosition(left, top);
+        window.setTimeout(() => composerInput.focus(), 0);
+      }
+
+      function showComposer(itemId, quote, rect) {
+        if (!canMutate()) return;
+        openComposer({
+          mode: 'new',
+          itemId,
+          quote: quote || '',
+          context: itemTitle(itemId),
+          titleKey: 'composer.newTitle',
+          labelKey: 'composer.label',
+          placeholderKey: 'composer.newPlaceholder',
+          saveKey: 'composer.save'
+        }, rect);
+      }
+
+      function saveInlineEdit() {
+        if (!inlineEdit || !canMutate()) return;
+        const value = inlineEdit.input.value.trim();
+        if (!value) return inlineEdit.input.focus();
+        const comment = findComment(inlineEdit.commentId); if (!comment) return;
+        const now = new Date().toISOString();
+        const expected = threadRevisions.has(comment.id) ? threadRevisions.get(comment.id) : null;
+        if (inlineEdit.kind === 'question') {
+          if (comment.question !== value) { comment.questionRevisions.push({ text: comment.question, savedAt: now }); comment.question = value; }
+        } else {
+          const reply = findReply(comment, inlineEdit.replyId);
+          if (!reply || reply.author !== 'user') return;
+          if (reply.text !== value) { reply.revisions = Array.isArray(reply.revisions) ? reply.revisions : []; reply.revisions.push({ text: reply.text, savedAt: now }); reply.text = value; }
+        }
+        const draft = { kind: inlineEdit.kind === 'question' ? 'edit-question' : 'edit-reply', commentId: inlineEdit.commentId, replyId: inlineEdit.replyId || '', text: value };
+        comment.updatedAt = now; inlineEdit = null; renderThreads(); updateCount(); persistThread(comment.id, expected, 'saved.comment', draft);
+      }
+      function cancelInlineEdit() { inlineEdit = null; renderThreads(); }
+      function beginInlineEdit(kind, comment, reply = null) {
+        if (!canMutate()) return;
+        inlineEdit = { kind, commentId: comment.id, replyId: reply && reply.id, value: reply ? reply.text : comment.question };
+        renderThreads();
+        const selector = kind === 'question' ? '[data-inline-edit-question="' + CSS.escape(comment.id) + '"]' : '[data-inline-edit-reply="' + CSS.escape(reply.id) + '"]';
+        const input = document.querySelector(selector); if (input) { inlineEdit.input = input; input.focus(); }
+      }
+      function showQuestionEditor(comment) { beginInlineEdit('question', comment); pending = { mode: 'edit-question', commentId: comment.id }; composerInput.value = comment.question; }
+      function showReplyEditor(comment, reply) { beginInlineEdit('reply', comment, reply); pending = { mode: 'edit-reply', commentId: comment.id, replyId: reply.id }; composerInput.value = reply.text; }
+
+      function showFollowUpComposer(comment) {
+        const article = document.querySelector('[data-comment-id="' + CSS.escape(comment.id) + '"]');
+        openComposer({
+          mode: 'follow-up',
+          commentId: comment.id,
+          quote: comment.quote,
+          context: comment.context,
+          sourceVersion: comment.sourceVersion,
+          titleKey: 'composer.newTitle',
+          labelKey: 'composer.label',
+          placeholderKey: 'composer.newPlaceholder',
+          saveKey: 'composer.saveComment'
+        }, article ? article.getBoundingClientRect() : null);
+      }
+
+      function closeComposer() {
+        dragState = null;
+        inlineEdit = null;
+        composer.classList.remove('is-dragging');
+        composer.hidden = true;
+        pending = null;
+      }
+
+      function markDeleted(entry, now) {
+        entry.deleted = true;
+        entry.deletedAt = now;
+        entry.deletedBy = 'user';
+        entry.updatedAt = now;
+      }
+
+      function clearDeleted(entry) {
+        delete entry.deleted;
+        delete entry.deletedAt;
+        delete entry.deletedBy;
+      }
+
+      function finishMutation(commentId, successMessage, expectedRevision = threadRevisions.has(commentId) ? threadRevisions.get(commentId) : null, draft = null) {
+        renderThreads();
+        updateCount();
+        return persistThread(commentId, expectedRevision, successMessage, draft);
+      }
+
+      function deleteComment(commentId) {
+        if (!canMutate()) return false;
+        const comment = findComment(commentId);
+        if (!comment || isDeleted(comment)) return false;
+        const expectedRevision = threadRevisions.has(commentId) ? threadRevisions.get(commentId) : null;
+        markDeleted(comment, new Date().toISOString());
+        if (inlineFollowUp && inlineFollowUp.commentId === commentId) inlineFollowUp = null;
+        finishMutation(commentId, 'saved.deletedThread', expectedRevision);
+        return true;
+      }
+
+      function restoreComment(commentId) {
+        if (!canMutate()) return false;
+        const comment = findComment(commentId);
+        if (!comment || !isDeleted(comment)) return false;
+        const expectedRevision = threadRevisions.has(commentId) ? threadRevisions.get(commentId) : null;
+        clearDeleted(comment);
+        comment.status = 'open';
+        comment.updatedAt = new Date().toISOString();
+        finishMutation(commentId, 'saved.restoredThread', expectedRevision);
+        return true;
+      }
+
+      function deleteReply(commentId, replyId) {
+        if (!canMutate()) return false;
+        const comment = findComment(commentId);
+        const reply = findReply(comment, replyId);
+        if (!comment || !reply || reply.author !== 'user' || isDeleted(reply)) return false;
+        const expectedRevision = threadRevisions.has(commentId) ? threadRevisions.get(commentId) : null;
+        markDeleted(reply, new Date().toISOString());
+        comment.updatedAt = reply.updatedAt;
+        finishMutation(commentId, 'saved.deletedReply', expectedRevision);
+        return true;
+      }
+
+      function restoreReply(commentId, replyId) {
+        if (!canMutate()) return false;
+        const comment = findComment(commentId);
+        const reply = findReply(comment, replyId);
+        if (!comment || !reply || reply.author !== 'user' || !isDeleted(reply)) return false;
+        const expectedRevision = threadRevisions.has(commentId) ? threadRevisions.get(commentId) : null;
+        clearDeleted(reply);
+        const now = new Date().toISOString();
+        reply.updatedAt = now;
+        comment.status = 'open';
+        comment.updatedAt = now;
+        finishMutation(commentId, 'saved.restoredReply', expectedRevision);
+        return true;
+      }
+
+      function beginComposerDrag(event) {
+        if (event.button !== undefined && event.button !== 0) return;
+        const rect = composer.getBoundingClientRect();
+        dragState = {
+          pointerId: event.pointerId,
+          offsetX: event.clientX - rect.left,
+          offsetY: event.clientY - rect.top
+        };
+        composer.classList.add('is-dragging');
+        if (composerDragHandle.setPointerCapture && event.pointerId !== undefined) composerDragHandle.setPointerCapture(event.pointerId);
+        event.preventDefault();
+      }
+
+      function moveComposer(event) {
+        if (!dragState || (dragState.pointerId !== undefined && event.pointerId !== dragState.pointerId)) return;
+        setComposerPosition(event.clientX - dragState.offsetX, event.clientY - dragState.offsetY);
+      }
+
+      function endComposerDrag(event) {
+        if (!dragState || (dragState.pointerId !== undefined && event.pointerId !== dragState.pointerId)) return;
+        if (composerDragHandle.releasePointerCapture && event.pointerId !== undefined) composerDragHandle.releasePointerCapture(event.pointerId);
+        dragState = null;
+        composer.classList.remove('is-dragging');
+      }
+
+      function getSelectionDetails() {
+        const selection = window.getSelection();
+        if (!selection || selection.rangeCount === 0 || selection.isCollapsed) return null;
+        const range = selection.getRangeAt(0);
+        const start = range.startContainer.nodeType === Node.TEXT_NODE ? range.startContainer.parentElement : range.startContainer;
+        const end = range.endContainer.nodeType === Node.TEXT_NODE ? range.endContainer.parentElement : range.endContainer;
+        const startSelectable = start && start.closest ? start.closest('.selectable') : null;
+        if (start && start.closest && start.closest('.comment, #composer')) return null;
+        const endSelectable = end && end.closest ? end.closest('.selectable') : null;
+        const startItem = start && start.closest ? start.closest('[data-item-id]') : null;
+        const endItem = end && end.closest ? end.closest('[data-item-id]') : null;
+        if (!startSelectable || !endSelectable || !startItem || startItem !== endItem) return null;
+        const quote = selection.toString().trim().replace(/\s+/g, ' ').slice(0, 700);
+        if (!quote) return null;
+        return { itemId: startItem.dataset.itemId, quote, rect: range.getBoundingClientRect() };
+      }
+
+      function maybeShowSelectionComment() {
+        const details = getSelectionDetails();
+        if (details) showComposer(details.itemId, details.quote, details.rect);
+      }
+
+      function renderReply(comment, reply) {
+        const replyBox = document.createElement('div');
+        replyBox.className = (reply.author === 'user' ? 'reply user' : 'reply') + (isDeleted(reply) ? ' deleted' : '');
+        replyBox.dataset.replyId = reply.id;
+        const replyLabel = document.createElement('strong');
+        replyLabel.textContent = reply.author === 'user'
+          ? (isDeleted(reply) ? t('reply.userDeleted') : t('reply.user'))
+          : t('reply.agent');
+        replyBox.append(replyLabel);
+        if (isDeleted(reply)) {
+          const tombstone = document.createElement('span');
+          tombstone.className = 'tombstone';
+          tombstone.textContent = reply.author === 'user'
+            ? t('reply.deletedUser')
+            : t('reply.deletedAgent');
+          replyBox.append(tombstone);
+        } else {
+          const replyText = inlineEdit && inlineEdit.kind === 'reply' && inlineEdit.replyId === reply.id ? document.createElement('textarea') : document.createElement('span');
+          if (replyText.tagName === 'TEXTAREA') { replyText.dataset.inlineEditReply = reply.id; replyText.value = reply.text || ''; const save = document.createElement('button'); save.type = 'button'; save.textContent = t('composer.saveEdit'); save.addEventListener('click', saveInlineEdit); const cancel = document.createElement('button'); cancel.type = 'button'; cancel.textContent = t('composer.cancel'); cancel.addEventListener('click', cancelInlineEdit); replyBox.append(replyText, save, cancel); } else { replyText.textContent = reply.text || ''; replyBox.append(replyText); }
+        }
+        if (reply.author === 'user') {
+          const actions = document.createElement('span');
+          actions.className = 'reply-actions';
+          const action = document.createElement('button');
+          action.type = 'button';
+          if (isDeleted(reply)) {
+            action.dataset.restoreReply = reply.id;
+            action.textContent = t('reply.restore');
+            action.addEventListener('click', () => restoreReply(comment.id, reply.id));
+          } else {
+            action.dataset.editReply = reply.id;
+            action.textContent = t('reply.edit');
+            action.addEventListener('click', () => showReplyEditor(comment, reply));
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.dataset.deleteReply = reply.id;
+            remove.textContent = t('reply.delete');
+            remove.addEventListener('click', () => deleteReply(comment.id, reply.id));
+            actions.append(remove);
+          }
+          actions.append(action);
+          replyBox.append(actions);
+          if (!isDeleted(reply) && Array.isArray(reply.revisions) && reply.revisions.length) {
+            const revision = document.createElement('small');
+            revision.className = 'comment-revision';
+            revision.textContent = t('reply.revision');
+            replyBox.append(revision);
+          }
+        }
+        return replyBox;
+      }
+
+      function renderInlineFollowUp(comment) {
+        const form = document.createElement('div');
+        form.className = 'inline-followup';
+        form.dataset.inlineFollowup = comment.id;
+        const label = document.createElement('label');
+        label.textContent = t('inline.label');
+        const input = document.createElement('textarea');
+        input.dataset.inlineInput = comment.id;
+        input.setAttribute('aria-label', t('inline.aria'));
+        input.placeholder = t('inline.placeholder');
+        input.value = inlineFollowUp && inlineFollowUp.commentId === comment.id ? inlineFollowUp.text || '' : '';
+        input.addEventListener('input', () => {
+          if (inlineFollowUp && inlineFollowUp.commentId === comment.id) inlineFollowUp.text = input.value;
+        });
+        input.addEventListener('keydown', (event) => {
+          if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') saveInlineFollowUp(comment.id);
+          if (event.key === 'Escape') cancelInlineFollowUp(comment.id);
+        });
+        const actions = document.createElement('div');
+        actions.className = 'inline-followup-actions';
+        const cancel = document.createElement('button');
+        cancel.type = 'button';
+        cancel.dataset.inlineCancel = comment.id;
+        cancel.textContent = t('inline.cancel');
+        cancel.addEventListener('click', () => cancelInlineFollowUp(comment.id));
+        const save = document.createElement('button');
+        save.type = 'button';
+        save.dataset.inlineSave = comment.id;
+        save.textContent = t('inline.save');
+        save.addEventListener('click', () => saveInlineFollowUp(comment.id));
+        actions.append(cancel, save);
+        form.append(label, input, actions);
+        return form;
+      }
+
+      function renderCommentBody(comment) {
+        const body = document.createElement('div');
+        body.className = 'comment-body';
+        const quote = document.createElement('blockquote');
+        quote.className = 'comment-quote';
+        const quoteNote = document.createElement('span');
+        quoteNote.className = 'comment-quote-note';
+        quoteNote.textContent = comment.quote ? (comment.workbookVersion === manifest.workbookVersion ? t('quote.current') : t('quote.old')) : t('quote.block');
+        quote.append(quoteNote);
+        if (comment.quote) quote.append(document.createTextNode('「' + comment.quote + '」'));
+        const question = inlineEdit && inlineEdit.kind === 'question' && inlineEdit.commentId === comment.id ? document.createElement('textarea') : document.createElement('p');
+        question.className = 'comment-question';
+        if (question.tagName === 'TEXTAREA') { question.dataset.inlineEditQuestion = comment.id; question.value = comment.question; const save = document.createElement('button'); save.type = 'button'; save.textContent = t('composer.saveEdit'); save.addEventListener('click', saveInlineEdit); const cancel = document.createElement('button'); cancel.type = 'button'; cancel.textContent = t('composer.cancel'); cancel.addEventListener('click', cancelInlineEdit); const actions = document.createElement('div'); actions.className = 'inline-followup-actions'; actions.append(save, cancel); body.append(quote, question, actions); } else { question.textContent = comment.question; body.append(quote, question); }
+        if (comment.questionRevisions.length) {
+          const hasAgentReply = (comment.replies || []).some((reply) => reply.author !== 'user');
+          if (hasAgentReply) {
+            const warning = document.createElement('p');
+            warning.className = 'comment-warning';
+            warning.textContent = t('question.warning');
+            body.append(warning);
+          }
+          const revision = document.createElement('p');
+          revision.className = 'comment-revision';
+          revision.textContent = t('question.revision', { count: comment.questionRevisions.length });
+          body.append(revision);
+        }
+        const meta = document.createElement('div');
+        meta.className = 'comment-meta';
+        const statusText = document.createElement('span');
+        statusText.className = 'comment-status';
+        statusText.dataset.status = comment.status;
+        statusText.textContent = t('status.' + (statusAliases[comment.status] || 'open'));
+        const version = document.createElement('span');
+        version.textContent = (comment.workbookVersion === manifest.workbookVersion ? t('meta.current') : t('meta.old')) + '：' + comment.workbookVersion + ' · ' + comment.sourceVersion;
+        meta.append(statusText, version);
+        if (comment.legacyStatus) {
+          const legacy = document.createElement('span');
+          legacy.textContent = t('meta.legacy', { status: comment.legacyStatus });
+          meta.append(legacy);
+        }
+        body.append(meta);
+
+        const actions = document.createElement('div');
+        actions.className = 'comment-actions';
+        const edit = document.createElement('button');
+        edit.type = 'button';
+        edit.dataset.editQuestion = comment.id;
+        edit.textContent = t('action.edit');
+        edit.addEventListener('click', () => showQuestionEditor(comment));
+        const followUp = document.createElement('button');
+        followUp.type = 'button';
+        followUp.dataset.addFollowup = comment.id;
+        followUp.textContent = t('action.add');
+        followUp.addEventListener('click', () => showInlineFollowUp(comment));
+        const deleteThread = document.createElement('button');
+        deleteThread.type = 'button';
+        deleteThread.dataset.deleteThread = comment.id;
+        deleteThread.textContent = t('action.deleteThread');
+        deleteThread.addEventListener('click', () => deleteComment(comment.id));
+        actions.append(edit, followUp, deleteThread);
+        if (comment.status === 'resolved') {
+          const reopen = document.createElement('button');
+          reopen.type = 'button';
+          reopen.dataset.commentStatus = 'open';
+          reopen.textContent = t('action.reopen');
+          reopen.addEventListener('click', () => updateCommentStatus(comment.id, 'open'));
+          actions.append(reopen);
+        } else {
+          const resolve = document.createElement('button');
+          resolve.type = 'button';
+          resolve.dataset.commentStatus = 'resolved';
+          resolve.textContent = t('action.resolve');
+          resolve.addEventListener('click', () => updateCommentStatus(comment.id, 'resolved'));
+          actions.append(resolve);
+          if (comment.status === 'later') {
+            const reopen = document.createElement('button');
+            reopen.type = 'button';
+            reopen.dataset.commentStatus = 'open';
+            reopen.textContent = t('action.reopen');
+            reopen.addEventListener('click', () => updateCommentStatus(comment.id, 'open'));
+            actions.append(reopen);
+          }
+        }
+        body.append(actions);
+        (comment.replies || []).forEach((reply) => body.append(renderReply(comment, reply)));
+        if (inlineFollowUp && inlineFollowUp.commentId === comment.id) body.append(renderInlineFollowUp(comment));
+        return body;
+      }
+
+      function renderThreads() {
+        rememberInlineDraft();
+        document.querySelectorAll('[data-inline-block]').forEach((form) => form.remove());
+        const expanded = new Set([...document.querySelectorAll('.comment-details[open]')].map((details) => details.closest('[data-comment-id]')?.dataset.commentId));
+        document.querySelectorAll('[data-thread-for]').forEach((thread) => {
+          const itemComments = comments.filter((comment) => comment.itemId === thread.dataset.threadFor);
+          thread.replaceChildren();
+          itemComments.forEach((comment) => {
+            const article = document.createElement('article');
+            article.className = comment.status === 'resolved' ? 'comment resolved' : 'comment';
+            article.dataset.commentId = comment.id;
+            const head = document.createElement('div');
+            head.className = 'comment-head';
+            const title = document.createElement('strong');
+            title.textContent = t('thread.title');
+            const id = document.createElement('span');
+            id.className = 'comment-id';
+            id.textContent = comment.id;
+            head.append(title, id);
+            article.append(head);
+            if (isDeleted(comment)) {
+              article.className = 'comment deleted';
+              const tombstone = document.createElement('p');
+              tombstone.className = 'tombstone';
+              tombstone.textContent = t('thread.deleted');
+              const restore = document.createElement('button');
+              restore.type = 'button';
+              restore.dataset.restoreThread = comment.id;
+              restore.textContent = t('thread.restore');
+              restore.addEventListener('click', () => restoreComment(comment.id));
+              article.append(tombstone, restore);
+            } else {
+              const body = renderCommentBody(comment);
+              if (comment.status === 'resolved') {
+                const details = document.createElement('details');
+                details.className = 'comment-details';
+                const summary = document.createElement('summary');
+                summary.textContent = t('thread.resolvedSummary');
+                details.append(summary, body);
+                if ((inlineFollowUp && inlineFollowUp.commentId === comment.id) || expanded.has(comment.id)) details.open = true;
+                article.append(details);
+              } else {
+                article.append(body);
+              }
+            }
+            thread.append(article);
+          });
+          const item = itemElement(thread.dataset.threadFor);
+          if (inlineBlock && inlineBlock.itemId === thread.dataset.threadFor && item) item.append(renderInlineBlock(thread.dataset.threadFor));
+        });
+      }
+
+      function updateCommentStatus(commentId, nextStatus) {
+        if (!canMutate()) return false;
+        const comment = findComment(commentId);
+        if (!comment || isDeleted(comment) || !statusAliases[nextStatus]) return false;
+        const expectedRevision = threadRevisions.has(commentId) ? threadRevisions.get(commentId) : null;
+        comment.status = statusAliases[nextStatus];
+        comment.updatedAt = new Date().toISOString();
+        finishMutation(commentId, comment.status === 'resolved' ? 'saved.resolved' : 'saved.reopened', expectedRevision);
+        return true;
+      }
+
+      function updateCount() {
+        const visible = comments.filter((comment) => comment.phase === activePhase);
+        document.getElementById('review-count').textContent = String(visible.length);
+        document.getElementById('open-count').textContent = String(visible.filter((comment) => comment.status === 'open' && !isDeleted(comment)).length);
+      }
+
+      function availablePhases() {
+        return PHASE_ORDER.filter((phase) => {
+          const items = manifest.phaseItems?.[phase];
+          return Array.isArray(items) ? items.length > 0 : phase === manifest.phase && Array.isArray(manifest.items) && manifest.items.length > 0;
+        });
+      }
+
+      function phaseTarget(phase) {
+        return manifest.phaseAnchors?.[phase] || manifest.phaseItems?.[phase]?.[0] || (phase === manifest.phase ? manifest.items?.[0] : '');
+      }
+
+      function updateFooterNavigation() {
+        const footer = document.getElementById('phase-footer-nav');
+        if (!footer) return;
+        const available = availablePhases();
+        const index = available.indexOf(activePhase);
+        const neighbours = [
+          index > 0 ? ['previous', available[index - 1]] : null,
+          index >= 0 && index < available.length - 1 ? ['next', available[index + 1]] : null
+        ].filter(Boolean);
+        footer.replaceChildren(...neighbours.map(([direction, phase]) => {
+          const link = document.createElement('a');
+          link.className = 'button small';
+          link.dataset.phaseLink = phase;
+          link.href = '#' + phaseTarget(phase);
+          link.textContent = t('footer.' + direction, { phase: PHASE_LABELS[phase] || phase });
+          link.setAttribute('aria-label', t('footer.' + direction + 'Aria', { phase: PHASE_LABELS[phase] || phase }));
+          return link;
+        }));
+        footer.hidden = neighbours.length === 0;
+        footer.setAttribute('aria-label', t('footer.phaseNavigation'));
+      }
+
+      function focusPhaseTarget(phase) {
+        const target = document.getElementById(phaseTarget(phase));
+        if (!target) return;
+        if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+        if (typeof target.focus === 'function') {
+          try { target.focus({ preventScroll: true }); } catch (error) { target.focus(); }
+        }
+        target.scrollIntoView?.({ block: 'start' });
+      }
+
+      function applyPhase(phase, updateHash = false, focusTarget = false) {
+        if (!manifest.phaseItems?.[phase]) phase = manifest.phase;
+        activePhase = phase;
+        document.querySelectorAll('[data-phase]').forEach((section) => { section.hidden = section.dataset.phase !== activePhase; });
+        document.querySelectorAll('[data-phase-link]').forEach((link) => {
+          const current = link.dataset.phaseLink === activePhase;
+          link.classList.toggle('current', current);
+          if (current) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
+        });
+        const metadata = phaseMetadata(activePhase);
+        document.querySelectorAll('[data-phase-label]').forEach((node) => { node.textContent = PHASE_LABELS[activePhase] || activePhase; });
+        document.querySelectorAll('[data-phase-version]').forEach((node) => { node.textContent = metadata.workbookVersion; });
+        updateFooterNavigation();
+        updateCount();
+        if (updateHash) {
+          const links = [...document.querySelectorAll('[data-phase-link="' + CSS.escape(activePhase) + '"]')];
+          window.history.replaceState(null, '', links[0]?.getAttribute('href') || '#' + phaseTarget(activePhase));
+          if (focusTarget) focusPhaseTarget(activePhase);
+        }
+      }
+
+      function phaseFromHash() {
+        const hash = String(window.location?.hash || '');
+        const link = [...document.querySelectorAll('[data-phase-link]')].find((link) => link.getAttribute('href') === hash);
+        const sectionPhase = document.getElementById(hash.slice(1))?.closest('[data-phase]')?.dataset.phase;
+        return link?.dataset.phaseLink || sectionPhase || Object.entries(manifest.phaseItems || {}).find(([, items]) => items.includes(hash.slice(1)))?.[0] || manifest.phase;
+      }
+
+      function serialiseReply(reply, includeDeleted) {
+        if (!includeDeleted && isDeleted(reply)) return null;
+        const result = { id: reply.id, author: reply.author, text: reply.text };
+        if (typeof reply.createdAt === 'string') result.createdAt = reply.createdAt;
+        if (typeof reply.updatedAt === 'string') result.updatedAt = reply.updatedAt;
+        if (Array.isArray(reply.revisions) && reply.revisions.length) result.revisions = reply.revisions.map((revision) => ({ text: revision.text, savedAt: revision.savedAt }));
+        if (includeDeleted && isDeleted(reply)) {
+          result.deleted = true;
+          result.deletedAt = reply.deletedAt;
+          if (reply.deletedBy) result.deletedBy = reply.deletedBy;
+        }
+        return result;
+      }
+
+      function serialiseComment(comment, includeDeleted = false) {
+        const result = {
+          id: comment.id,
+          itemId: comment.itemId,
+          workbookId: comment.workbookId,
+          phase: comment.phase,
+          workbookVersion: comment.workbookVersion,
+          sourceVersion: comment.sourceVersion,
+          quote: comment.quote,
+          context: comment.context,
+          question: comment.question,
+          replies: (comment.replies || []).map((reply) => serialiseReply(reply, includeDeleted)).filter(Boolean),
+          status: comment.status,
+          createdAt: comment.createdAt,
+          updatedAt: comment.updatedAt
+        };
+        if (Array.isArray(comment.questionRevisions) && comment.questionRevisions.length) result.questionRevisions = comment.questionRevisions;
+        if (comment.legacyStatus) result.legacyStatus = comment.legacyStatus;
+        if (includeDeleted && isDeleted(comment)) {
+          result.deleted = true;
+          result.deletedAt = comment.deletedAt;
+          if (comment.deletedBy) result.deletedBy = comment.deletedBy;
+        }
+        return result;
+      }
+
+      function buildExportPayload() {
+        return {
+          schemaVersion: 1,
+          workbookId: manifest.workbookId,
+          phase: activePhase,
+          workbookVersion: phaseMetadata(activePhase).workbookVersion,
+          sourceVersion: phaseMetadata(activePhase).sourceVersion,
+          exportedAt: new Date().toISOString(),
+          transport: 'manual-file-or-copy; no-agent-connection; open-only-review',
+          comments: comments.filter((comment) => comment.phase === activePhase && comment.status === 'open' && !isDeleted(comment)).map((comment) => serialiseComment(comment))
+        };
+      }
+
+      function buildBackupPayload() {
+        return {
+          schemaVersion: 1,
+          workbookId: manifest.workbookId,
+          phase: manifest.phase,
+          workbookVersion: manifest.workbookVersion,
+          sourceVersion: manifest.sourceVersion,
+          exportedAt: new Date().toISOString(),
+          transport: 'manual-file-or-copy; local-backup-includes-resolved-and-soft-deleted',
+          retentionNote: 'Deleted entries are soft-delete tombstones kept in this local backup; this is not permanent erasure.',
+          drafts: getDrafts(),
+          comments: comments.map((comment) => serialiseComment(comment, true))
+        };
+      }
+
+      function importFailure(reason, message) {
+        const result = { ok: false, reason, message };
+        const output = document.getElementById('import-result');
+        if (output) output.textContent = t('import.failure', { message });
+        setStatus(t('import.failure', { message }), true);
+        return result;
+      }
+
+      function utf8Size(text) {
+        try {
+          return encodeURIComponent(text).replace(/%[0-9A-F]{2}|./g, 'x').length;
+        } catch (error) {
+          return Number.POSITIVE_INFINITY;
+        }
+      }
+
+      function hasOwn(object, key) {
+        return Object.prototype.hasOwnProperty.call(object, key);
+      }
+
+      function validRevisionList(value) {
+        return Array.isArray(value) && value.every((revision) => revision && typeof revision === 'object' && safeText(revision.text) && (revision.savedAt === undefined || safeText(revision.savedAt, 120)));
+      }
+
+      function validImportedReply(value) {
+        return Boolean(value && typeof value === 'object' && safeId(value.id) && safeText(value.author, 80) && safeText(value.text) &&
+          (value.createdAt === undefined || safeText(value.createdAt, 120)) &&
+          (value.updatedAt === undefined || safeText(value.updatedAt, 120)) &&
+          (value.revisions === undefined || validRevisionList(value.revisions)) &&
+          (value.deletedAt === undefined || safeText(value.deletedAt, 120)) &&
+          (value.deletedBy === undefined || safeText(value.deletedBy, 80)));
+      }
+
+      function validateImportedComment(value) {
+        if (!value || typeof value !== 'object' ||
+          !hasOwn(value, 'id') || !hasOwn(value, 'itemId') || !hasOwn(value, 'workbookId') ||
+          !hasOwn(value, 'workbookVersion') || !hasOwn(value, 'sourceVersion') || !hasOwn(value, 'quote') ||
+          !hasOwn(value, 'context') || !hasOwn(value, 'question') || !hasOwn(value, 'status') ||
+          !hasOwn(value, 'replies') || !hasOwn(value, 'createdAt') || !hasOwn(value, 'updatedAt')) return null;
+        if (value.workbookId !== manifest.workbookId || !manifest.items.includes(value.itemId) ||
+          !safeNonEmptyText(value.workbookVersion, 120) || !safeNonEmptyText(value.sourceVersion, 120) ||
+          !safeId(value.id) || !safeId(value.itemId) || !safeText(value.quote) || !safeText(value.context) ||
+          !safeText(value.question) || !safeText(value.createdAt, 120) || !safeText(value.updatedAt, 120) ||
+          !Array.isArray(value.replies) || !value.replies.every(validImportedReply) ||
+          (value.questionRevisions !== undefined && !validRevisionList(value.questionRevisions)) ||
+          (value.deleted === true && value.deletedAt !== undefined && !safeText(value.deletedAt, 120)) ||
+          (value.deletedBy !== undefined && !safeText(value.deletedBy, 80))) return null;
+        const replyIds = new Set(value.replies.map((reply) => reply.id));
+        if (replyIds.size !== value.replies.length) return null;
+        const comment = normalizeComment(value);
+        return isAllowedComment(comment) ? comment : null;
+      }
+
+      function validateImportedDraft(value) {
+        return Boolean(value && typeof value === 'object' && safeText(value.kind, 80) &&
+          (value.commentId === undefined || value.commentId === '' || safeId(value.commentId)) &&
+          (value.itemId === undefined || value.itemId === '' || manifest.items.includes(value.itemId)) &&
+          safeText(value.text));
+      }
+
+      function parseBackup(input) {
+        let text;
+        if (typeof input === 'string') text = input;
+        else {
+          try { text = JSON.stringify(input); } catch (error) { return importFailure('invalid-backup', '備份不是有效 JSON。'); }
+        }
+        if (!safeText(text, MAX_BACKUP_BYTES * 4) || utf8Size(text) > MAX_BACKUP_BYTES) return importFailure('too-large', '備份檔超過 2 MB 上限。');
+        let payload;
+        try { payload = JSON.parse(text); } catch (error) { return importFailure('invalid-json', '備份不是有效 JSON。'); }
+        if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return importFailure('invalid-schema', '備份格式不正確。');
+        if (payload.schemaVersion !== 1) return importFailure('invalid-schema', '不支援的備份 schema。');
+        if (payload.workbookId !== manifest.workbookId) return importFailure('wrong-workbook', '備份屬於不同工作冊，未匯入。');
+        if (payload.phase !== manifest.phase) return importFailure('invalid-provenance', '備份階段與目前工作冊不一致。');
+        if (!safeNonEmptyText(payload.workbookVersion, 120) || !safeNonEmptyText(payload.sourceVersion, 120) || !Array.isArray(payload.comments)) return importFailure('invalid-provenance', '備份缺少有效版本或討論串資料。');
+        const imported = [];
+        const ids = new Set();
+        for (const value of payload.comments) {
+          const comment = validateImportedComment(value);
+          if (!comment) return importFailure('invalid-comment', '備份含有無效的 item、provenance 或討論內容。');
+          if (ids.has(comment.id)) return importFailure('invalid-comment', '備份含有重複的討論串 ID。');
+          ids.add(comment.id);
+          imported.push(comment);
+        }
+        const drafts = payload.drafts === undefined ? [] : payload.drafts;
+        if (!Array.isArray(drafts) || !drafts.every(validateImportedDraft)) return importFailure('invalid-draft', '備份含有無效草稿。');
+        return { ok: true, comments: imported, drafts: drafts.map((draft) => ({ ...draft })) };
+      }
+
+      function importSummary(added, conflicts, persisted) {
+        const summary = t('import.done', { added, conflicts });
+        const output = document.getElementById('import-result');
+        if (output) output.textContent = summary;
+        setStatus(persisted ? summary : summary + t('import.memorySuffix'), conflicts > 0 || !persisted);
+        return summary;
+      }
+
+      function importInMemory(imported, drafts) {
+        const existing = new Map(comments.map((comment) => [comment.id, comment]));
+        const additions = imported.filter((comment) => !existing.has(comment.id));
+        const conflicts = imported.filter((comment) => existing.has(comment.id) && !sameThread(existing.get(comment.id), comment)).length;
+        comments.push(...additions);
+        restoredDrafts = [...restoredDrafts, ...drafts];
+        renderThreads();
+        updateCount();
+        importSummary(additions.length, conflicts, false);
+        return { ok: true, added: additions.length, conflicts, persisted: false };
+      }
+
+      async function importBackup(input) {
+        if (input && typeof input.text === 'function') return importBackupFile(input);
+        if (!canMutate()) return { ok: false, reason: 'initializing' };
+        const parsed = parseBackup(input);
+        if (!parsed.ok) return parsed;
+        const existing = new Map(comments.map((comment) => [comment.id, comment]));
+        const additions = parsed.comments.filter((comment) => !existing.has(comment.id));
+        const conflicts = parsed.comments.filter((comment) => existing.has(comment.id) && !sameThread(existing.get(comment.id), comment)).length;
+        if (storageMode !== 'indexeddb' || !database) return importInMemory(parsed.comments, parsed.drafts);
+        const result = await reconcileRecords(database, additions.map((comment) => ({ comment: serialiseComment(comment, true), expectedRevision: null })));
+        if (!result.ok) {
+          markMemoryFallback(result.reason || 'abort');
+          return { ok: false, reason: result.reason || 'abort', added: 0, conflicts: 0 };
+        }
+        const written = new Set(result.writes.map(({ threadId }) => threadId));
+        const importedComments = additions.filter((comment) => written.has(comment.id));
+        importedComments.forEach((comment) => comments.push(comment));
+        result.writes.forEach(({ threadId, revision }) => threadRevisions.set(threadId, revision));
+        result.conflicts.forEach(({ threadId }) => { if (!existing.has(threadId)) conflicts += 1; });
+        restoredDrafts = [...restoredDrafts, ...parsed.drafts];
+        renderThreads();
+        updateCount();
+        importSummary(importedComments.length, conflicts, true);
+        showBackupTools();
+        return { ok: true, added: importedComments.length, conflicts, persisted: true };
+      }
+
+      async function importBackupFile(file) {
+        if (!file || typeof file !== 'object') return importFailure('invalid-file', '請選擇 JSON 備份檔。');
+        if (typeof file.size === 'number' && file.size > MAX_BACKUP_BYTES) return importFailure('too-large', '備份檔超過 2 MB 上限。');
+        let text;
+        try {
+          if (typeof file.text !== 'function') return importFailure('invalid-file', '此瀏覽器無法讀取備份檔。');
+          text = await file.text();
+        } catch (error) {
+          return importFailure('read-failed', '備份檔讀取失敗，未改變本地資料。');
+        }
+        return importBackup(text);
+      }
+
+
+      function jsonText(payload) {
+        return JSON.stringify(payload, null, 2);
+      }
+
+      function showExportPreview(json) {
+        exportPreview.value = json;
+        exportPanel.hidden = false;
+        exportPanel.scrollIntoView({ block: 'nearest' });
+      }
+
+      function showBackupPreview(json = jsonText(buildBackupPayload())) {
+        const backupPreview = document.getElementById('backup-preview');
+        backupPreview.value = json;
+        showBackupTools();
+        document.getElementById('backup-panel').scrollIntoView({ block: 'nearest' });
+      }
+
+      function downloadJson(json, filename, successMessage) {
+        try {
+          const blob = new Blob([json], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = filename;
+          link.click();
+          window.setTimeout(() => URL.revokeObjectURL(url), 0);
+          setStatus(successMessage);
+          return true;
+        } catch (error) {
+          setStatus('下載不可用；下方預覽仍可選取並複製。', true);
+          return false;
+        }
+      }
+
+      function getReviewText() {
+        return window.__toon.encode(buildExportPayload());
+      }
+
+      function previewReview() {
+        const toon = getReviewText();
+        showExportPreview(toon);
+        setStatus('已更新 TOON 預覽；它只包含 open 討論。');
+        return toon;
+      }
+
+      async function copyReview() {
+        const toon = previewReview();
+        try {
+          if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('clipboard unavailable');
+          await navigator.clipboard.writeText(toon);
+          setStatus('open review TOON 已複製；請貼回聊天交給 Agent。');
+        } catch (error) {
+          exportPreview.focus();
+          exportPreview.select();
+          setStatus('剪貼簿不可用；TOON 已選取，請使用系統複製。', true);
+        }
+        return toon;
+      }
+
+      function previewBackup() {
+        const json = jsonText(buildBackupPayload());
+        showBackupPreview(json);
+        setStatus('已更新完整本機討論備份預覽；它包含 resolved。');
+        return json;
+      }
+
+      function downloadBackup() {
+        const json = previewBackup();
+        downloadJson(json, FILE_STEM + '-local-backup.json', '完整本機討論備份已準備下載。');
+        return json;
+      }
+
+      function updateToy() {
+        const selected = document.querySelector('input[name="toy-kind"]:checked');
+        const kind = selected ? selected.value : 'understand';
+        const data = [t('toy.' + kind + '.title'), t('toy.' + kind + '.action'), t('toy.' + kind + '.scope')];
+        ['toy-title', 'toy-action', 'toy-scope'].forEach((id, index) => { const element = document.getElementById(id); if (element) element.textContent = data[index]; });
+      }
+
+      function updateImpactToy() {
+        const toy = document.querySelector('[data-impact-toy]');
+        if (!toy) return null;
+        const inputs = [...toy.querySelectorAll('input[name="impact-kind"]')];
+        const selected = inputs.find((input) => input.checked) || inputs[0];
+        if (!selected) return null;
+        let activePanel = null;
+        toy.querySelectorAll('[data-impact-panel]').forEach((panel) => {
+          const active = panel.dataset.impactPanel === selected.value;
+          panel.hidden = !active;
+          panel.setAttribute('aria-hidden', String(!active));
+          if (active) activePanel = panel;
+        });
+        toy.dataset.activeImpact = selected.value;
+        return activePanel;
+      }
+
+      function getVisibleImpactToy() {
+        const toy = document.querySelector('[data-impact-toy]');
+        const inputs = toy ? [...toy.querySelectorAll('input[name="impact-kind"]')] : [];
+        const selected = inputs.find((input) => input.checked) || inputs[0];
+        const panel = selected && toy.querySelector('[data-impact-panel="' + CSS.escape(selected.value) + '"]');
+        if (!toy || !selected || !panel) return null;
+        const nodes = [...panel.querySelectorAll('[data-impact-node]')];
+        return {
+          kind: selected.value,
+          changedIds: nodes.filter((node) => node.dataset.impactStatus === 'changed').map((node) => node.dataset.impactId),
+          retainedIds: nodes.filter((node) => node.dataset.impactStatus === 'retained').map((node) => node.dataset.impactId),
+          reasons: Object.fromEntries(nodes.map((node) => [node.dataset.impactId, node.querySelector('[data-impact-reason]')?.textContent || '']))
+        };
+      }
+
+      loadLanguagePreference();
+      document.addEventListener('click', (event) => {
+        const link = event.target?.closest?.('[data-phase-link]');
+        if (!link) return;
+        event.preventDefault();
+        applyPhase(link.dataset.phaseLink, true, true);
+      });
+      window.addEventListener('hashchange', () => applyPhase(phaseFromHash()));
+      const languageSelector = document.getElementById('language-selector');
+      try { languageSelector.value = language; } catch (error) { /* lightweight DOM harness */ }
+      languageSelector.addEventListener('change', (event) => setLanguage(event.target.value));
+      document.addEventListener('mouseup', maybeShowSelectionComment);
+      document.addEventListener('keyup', (event) => {
+        if (event.key.startsWith('Arrow') || event.key === 'Shift' || event.key === 'Control' || event.key === 'Meta') maybeShowSelectionComment();
+      });
+      document.addEventListener('mousedown', (event) => {
+        if (event.target?.closest?.('[data-phase-link]')) return;
+        if (!composer.hidden && !composer.contains(event.target) && !event.target.closest('[data-comment-item]')) closeComposer();
+      });
+      document.getElementById('save-comment').addEventListener('click', saveComposerEntry);
+      document.getElementById('cancel-comment').addEventListener('click', closeComposer);
+      document.getElementById('reset-composer-position').addEventListener('click', resetComposerPosition);
+      composerDragHandle.addEventListener('pointerdown', beginComposerDrag);
+      window.addEventListener('pointermove', moveComposer);
+      window.addEventListener('pointerup', endComposerDrag);
+      window.addEventListener('pointercancel', endComposerDrag);
+      window.addEventListener('resize', () => {
+        if (!composer.hidden) setComposerPosition(Number.parseFloat(composer.style.left) || 8, Number.parseFloat(composer.style.top) || 8);
+      });
+      composerInput.addEventListener('keydown', (event) => {
+        if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') saveComposerEntry();
+        if (event.key === 'Escape') closeComposer();
+      });
+      document.querySelectorAll('[data-comment-item]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const item = itemElement(button.dataset.commentItem);
+          showInlineBlock(button.dataset.commentItem);
+        });
+      });
+      document.getElementById('copy-review').addEventListener('click', copyReview);
+      document.getElementById('footer-copy-review').addEventListener('click', copyReview);
+      document.getElementById('preview-review').addEventListener('click', previewReview);
+      document.getElementById('select-export').addEventListener('click', () => {
+        exportPreview.focus();
+        exportPreview.select();
+        setStatus('TOON 已選取，請使用系統複製。');
+      });
+      document.getElementById('backup-preview-button').addEventListener('click', previewBackup);
+      document.getElementById('download-backup').addEventListener('click', downloadBackup);
+      document.getElementById('select-backup').addEventListener('click', () => {
+        const backupPreview = document.getElementById('backup-preview');
+        if (!backupPreview.value) previewBackup();
+        backupPreview.focus();
+        backupPreview.select();
+        setStatus('完整本機備份 JSON 已選取，請使用系統複製。');
+      });
+      document.getElementById('import-backup-file').addEventListener('change', (event) => {
+        const file = event.target.files && event.target.files[0];
+        if (file) importBackupFile(file);
+        event.target.value = '';
+      });
+      document.querySelectorAll('input[name="toy-kind"]').forEach((input) => input.addEventListener('change', updateToy));
+      document.querySelectorAll('[data-impact-toy] input[name="impact-kind"]').forEach((input) => input.addEventListener('change', updateImpactToy));
+
+      activePhase = phaseFromHash();
+      applyPhase(activePhase);
+      comments = seedComments.map(normalizeComment).filter(isAllowedComment);
+      renderThreads();
+      updateCount();
+      applyLanguage();
+      updateImpactToy();
+      initializeStorage();
+
+      // A tiny test seam keeps browser acceptance checks dependency-free; it is not a product API.
+      window.__ideaWorkbook = {
+        manifest,
+        getComments: () => comments.map((comment) => ({ ...comment, questionRevisions: [...comment.questionRevisions], replies: (comment.replies || []).map((reply) => ({ ...reply, revisions: [...(reply.revisions || [])] })) })),
+        getExportPayload: buildExportPayload,
+         getReviewText,
+        getBackupPayload: buildBackupPayload,
+        updateCommentStatus,
+        deleteComment,
+        restoreComment,
+        deleteReply,
+        restoreReply,
+        ready,
+        copyReview,
+        previewReview,
+        importBackup,
+        importBackupFile,
+        addComment: (itemId, quote, question) => {
+          if (!canMutate() || !manifest.items.includes(itemId) || !safeText(question)) return null;
+          const comment = newComment(itemId, quote, itemTitle(itemId), question);
+          comments.push(comment);
+          finishMutation(comment.id, 'saved.comment', null, {
+            kind: 'new', itemId, text: question
+          });
+          return comment.id;
+        },
+        getStorageState: () => ({ healthy: storageHealthy, conflict: storageConflict, mode: storageMode, initialized, lastStorageRaw }),
+        setStorageFailure: (enabled) => {
+          storageOverride = enabled ? { getItem() { throw new Error('forced legacy storage failure'); } } : null;
+          if (enabled) markMemoryFallback('unavailable');
+        },
+        getVisibleToy: () => Object.fromEntries([['title', 'toy-title'], ['action', 'toy-action'], ['scope', 'toy-scope']].map(([key, id]) => [key, document.getElementById(id)?.textContent || null])),
+        getVisibleImpactToy,
+        getLanguage: () => language,
+        setLanguage,
+        showBlockComposer: (itemId) => showInlineBlock(itemId)
+      };
+    })();
+  </script>
+</body>
+</html>

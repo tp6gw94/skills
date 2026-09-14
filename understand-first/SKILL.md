@@ -13,6 +13,18 @@ For initialization or generation commands, use [the package guide](README.md). R
 2. One match is **RESUME**: read that target's `agent-context.json`, then its current phase sources and review JSON. Multiple matches are ambiguous: ask which target. No match is **NEW**: use a user-specified destination or choose `workbooks/<task-slug>/` in the caller project and state that location. Pass it explicitly to the initializer; never use this package's sample or old workbook context.
 3. On **NEW**, accept the requested starting phase (`idea`, `spec`, `plan`, `build`, or `ship`). The initializer creates only that phase, marks it awaiting chat approval, and starts with empty review data. Do not invent approvals or history for earlier phases. On **RESUME**, do not initialize or replace local context/data.
 
+## Phase references
+
+Read only the reference for the current phase:
+
+- [Idea](references/idea.md) — frame the problem, user, value, scope, and testable assumptions.
+- [Spec](references/spec.md) — state observable behavior, scenarios, edge cases, non-goals, and acceptance.
+- [Plan](references/plan.md) — order traceable thin slices with dependencies, outputs, and verification.
+- [Build](references/build.md) — record implementation evidence, tests, and deviations within scope.
+- [Ship](references/ship.md) — make a scoped, evidence-backed GO/NO-GO assessment.
+
+Read another phase reference only when an explicit change affects that phase's decisions or evidence. Missing earlier phases are acceptable: use supplied requirements, code, and evidence; label assumptions and ask only blockers. Do not load all phase references.
+
 ## Working contract
 
 - Deliver one offline `idea.html` with same-page phases. The reader uses HTML; the Agent edits the target's source files.

@@ -490,6 +490,15 @@
       "skillFolderHash": "8a1ccc6061706a5017593fb1cf3736eb615b124a",
       "installedAt": "2026-09-13T03:44:44.128Z",
       "updatedAt": "2026-09-14T00:54:10.540Z"
+    },
+    "lieflat-less-ai-tone": {
+      "source": "larashero3-dotcom/lieflat-less-ai-tone",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone.git",
+      "skillPath": "SKILL.md",
+      "skillFolderHash": "27d29232f10124db904ca9c0536d0b67cb3b2833",
+      "installedAt": "2026-09-17T03:14:01.460Z",
+      "updatedAt": "2026-09-17T03:14:01.460Z"
     }
   },
   "lastSelectedAgents": [

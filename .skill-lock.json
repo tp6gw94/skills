@@ -396,9 +396,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/tp6gw94/skills.git",
       "skillPath": "explain-diff/SKILL.md",
-      "skillFolderHash": "53a7f4466ee686b29e49f685de198fc121a87822",
+      "skillFolderHash": "02120a133a78ed948accbf24b05cfe865f22e5e5",
       "installedAt": "2026-08-17T01:38:27.735Z",
-      "updatedAt": "2026-09-22T00:56:44.280Z"
+      "updatedAt": "2026-09-22T01:34:52.299Z"
     },
     "writing-for-agents": {
       "source": "mattpocock/skills",
@@ -424,9 +424,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/tp6gw94/skills.git",
       "skillPath": "visiual-eli5/SKILL.md",
-      "skillFolderHash": "29325425e1b1819243abd04b00dfe8eb90cf1657",
+      "skillFolderHash": "4abfd9e039a305bedf4c226af3c75ec80be5b8d7",
       "installedAt": "2026-08-22T02:39:49.544Z",
-      "updatedAt": "2026-09-22T00:56:44.282Z"
+      "updatedAt": "2026-09-22T01:34:54.455Z"
     },
     "write-testing": {
       "source": "tp6gw94/skills",

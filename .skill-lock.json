@@ -111,15 +111,6 @@
       "installedAt": "2026-07-07T07:31:22.661Z",
       "updatedAt": "2026-09-22T00:57:00.128Z"
     },
-    "do-i-understand": {
-      "source": "AnthonyPAlicea/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/AnthonyPAlicea/skills.git",
-      "skillPath": "skills/do-i-understand/SKILL.md",
-      "skillFolderHash": "d14b4424f85b8a1a7ef5761452eff670ca3d425c",
-      "installedAt": "2026-07-08T01:13:23.153Z",
-      "updatedAt": "2026-09-22T00:57:02.224Z"
-    },
     "debug-hypothesis": {
       "source": "LichAmnesia/lich-skills",
       "sourceType": "github",
@@ -301,15 +292,6 @@
       "installedAt": "2026-08-11T02:25:04.586Z",
       "updatedAt": "2026-09-22T00:57:19.506Z"
     },
-    "interview-me": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/interview-me/SKILL.md",
-      "skillFolderHash": "2a391376521dee060881b7edc676e58a564616f2",
-      "installedAt": "2026-08-11T02:25:04.587Z",
-      "updatedAt": "2026-09-22T00:57:19.506Z"
-    },
     "observability-and-instrumentation": {
       "source": "addyosmani/agent-skills",
       "sourceType": "github",
@@ -379,15 +361,6 @@
       "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
       "skillPath": "skills/test-driven-development/SKILL.md",
       "skillFolderHash": "b812b07dc0c5084dbffe58a1cc856de2fdd99116",
-      "installedAt": "2026-08-11T02:25:04.591Z",
-      "updatedAt": "2026-09-22T00:57:19.510Z"
-    },
-    "using-agent-skills": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/using-agent-skills/SKILL.md",
-      "skillFolderHash": "81e8196f4dd4bf9fc5f0a1b827f4148af52a4391",
       "installedAt": "2026-08-11T02:25:04.591Z",
       "updatedAt": "2026-09-22T00:57:19.510Z"
     },

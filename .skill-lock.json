@@ -8,7 +8,7 @@
       "skillPath": "align/SKILL.md",
       "skillFolderHash": "fd0fa3c50e13c09964756b2eb4655a3885e5bc3e",
       "installedAt": "2026-07-06T09:15:29.155Z",
-      "updatedAt": "2026-09-22T00:56:44.279Z"
+      "updatedAt": "2026-09-22T07:00:49.736Z"
     },
     "caveman": {
       "source": "JuliusBrussee/caveman",
@@ -17,7 +17,7 @@
       "skillPath": "skills/caveman/SKILL.md",
       "skillFolderHash": "2d9a159619205a175577d6540b1ed64fd73d83b1",
       "installedAt": "2026-07-08T01:29:11.697Z",
-      "updatedAt": "2026-09-22T00:56:49.741Z"
+      "updatedAt": "2026-09-22T07:00:54.477Z"
     },
     "caveman-commit": {
       "source": "JuliusBrussee/caveman",
@@ -26,7 +26,7 @@
       "skillPath": "skills/caveman-commit/SKILL.md",
       "skillFolderHash": "7b600195c1d3cdd277dc608c56384c86afb7ec11",
       "installedAt": "2026-07-08T01:29:11.699Z",
-      "updatedAt": "2026-09-22T00:56:49.743Z"
+      "updatedAt": "2026-09-22T07:00:54.479Z"
     },
     "caveman-compress": {
       "source": "JuliusBrussee/caveman",
@@ -35,7 +35,7 @@
       "skillPath": "skills/caveman-compress/SKILL.md",
       "skillFolderHash": "21aa5ecc4fdf9667604102c6ec723030ec4f4b9c",
       "installedAt": "2026-07-08T01:29:11.700Z",
-      "updatedAt": "2026-09-22T00:56:49.743Z"
+      "updatedAt": "2026-09-22T07:00:54.480Z"
     },
     "caveman-help": {
       "source": "JuliusBrussee/caveman",
@@ -44,7 +44,7 @@
       "skillPath": "skills/caveman-help/SKILL.md",
       "skillFolderHash": "7f39fe20663ec4d859cfed3883927a79a4ed2eff",
       "installedAt": "2026-07-08T01:29:11.700Z",
-      "updatedAt": "2026-09-22T00:56:49.744Z"
+      "updatedAt": "2026-09-22T07:00:54.480Z"
     },
     "caveman-review": {
       "source": "JuliusBrussee/caveman",
@@ -53,16 +53,7 @@
       "skillPath": "skills/caveman-review/SKILL.md",
       "skillFolderHash": "515d07fbd383fb9a15ad94647d133f681dc56197",
       "installedAt": "2026-07-08T01:29:11.701Z",
-      "updatedAt": "2026-09-22T00:56:49.744Z"
-    },
-    "find-skills": {
-      "source": "vercel-labs/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/vercel-labs/skills.git",
-      "skillPath": "skills/find-skills/SKILL.md",
-      "skillFolderHash": "76a98a285cb0434f3d39e1a873823556330e398b",
-      "installedAt": "2026-07-08T01:30:34.832Z",
-      "updatedAt": "2026-09-22T00:56:51.146Z"
+      "updatedAt": "2026-09-22T07:00:54.480Z"
     },
     "playwright-cli": {
       "source": "microsoft/playwright-cli",
@@ -71,7 +62,7 @@
       "skillPath": "skills/playwright-cli/SKILL.md",
       "skillFolderHash": "4b040465accc10048d4b16479bb54d6d1d3bdeb6",
       "installedAt": "2026-07-08T01:30:39.034Z",
-      "updatedAt": "2026-09-22T00:56:53.444Z"
+      "updatedAt": "2026-09-22T07:00:58.672Z"
     },
     "vercel-composition-patterns": {
       "source": "vercel-labs/agent-skills",
@@ -80,7 +71,7 @@
       "skillPath": "skills/composition-patterns/SKILL.md",
       "skillFolderHash": "bf90d0a4b83ea054653350f9c67f6de235d3a368",
       "installedAt": "2026-07-08T01:30:42.712Z",
-      "updatedAt": "2026-09-22T00:56:57.443Z"
+      "updatedAt": "2026-09-22T07:01:02.402Z"
     },
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",
@@ -89,7 +80,7 @@
       "skillPath": "skills/react-best-practices/SKILL.md",
       "skillFolderHash": "343db72180d05814949fef7d46be96b5c6ee86b3",
       "installedAt": "2026-07-08T01:30:42.712Z",
-      "updatedAt": "2026-09-22T00:56:57.444Z"
+      "updatedAt": "2026-09-22T07:01:02.404Z"
     },
     "writing-great-skills": {
       "source": "mattpocock/skills",
@@ -109,7 +100,7 @@
       "skillFolderHash": "2242e8f05424b8c2ae94194a90d97b88d16108ec",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-07T07:31:22.661Z",
-      "updatedAt": "2026-09-22T00:57:00.128Z"
+      "updatedAt": "2026-09-22T07:01:05.551Z"
     },
     "debug-hypothesis": {
       "source": "LichAmnesia/lich-skills",
@@ -118,7 +109,7 @@
       "skillPath": "skills/debug-hypothesis/SKILL.md",
       "skillFolderHash": "92f25dedb5fa45e4fa00be966d994d932be8ebf4",
       "installedAt": "2026-07-21T07:27:02.049Z",
-      "updatedAt": "2026-09-22T00:57:04.618Z"
+      "updatedAt": "2026-09-22T07:01:07.896Z"
     },
     "open-code-review": {
       "source": "alibaba/open-code-review",
@@ -127,7 +118,7 @@
       "skillPath": "skills/open-code-review/SKILL.md",
       "skillFolderHash": "6ca3160dcfcf7ff4d3ccfd0c999f59d06e6ad603",
       "installedAt": "2026-07-31T01:48:13.092Z",
-      "updatedAt": "2026-09-22T00:57:09.674Z"
+      "updatedAt": "2026-09-22T07:01:12.141Z"
     },
     "hunk-review": {
       "source": "tp6gw94/skills",
@@ -136,7 +127,7 @@
       "skillPath": "hunk-review/SKILL.md",
       "skillFolderHash": "51152b0bfc487d9af59cb9078428c8a97e1f8db5",
       "installedAt": "2026-07-31T01:50:43.290Z",
-      "updatedAt": "2026-09-22T00:56:44.281Z"
+      "updatedAt": "2026-09-22T07:00:49.738Z"
     },
     "capture-skill": {
       "source": "tp6gw94/skills",
@@ -145,7 +136,7 @@
       "skillPath": "capture-skill/SKILL.md",
       "skillFolderHash": "872113bb091840942af537ff7d6a1cfcb2eeb5e3",
       "installedAt": "2026-08-06T07:12:14.126Z",
-      "updatedAt": "2026-09-22T00:56:44.279Z"
+      "updatedAt": "2026-09-22T07:00:49.737Z"
     },
     "ego-browser": {
       "source": "citrolabs/ego-lite",
@@ -155,7 +146,7 @@
       "skillFolderHash": "de51555db49c45d5491939b0e7485b832a03c902",
       "pluginName": "browser-skills",
       "installedAt": "2026-08-06T07:53:35.300Z",
-      "updatedAt": "2026-09-22T00:57:12.914Z"
+      "updatedAt": "2026-09-22T07:01:16.017Z"
     },
     "exa-agent": {
       "source": "exa-labs/exa-mcp-server",
@@ -164,7 +155,7 @@
       "skillPath": "skills/exa-agent/SKILL.md",
       "skillFolderHash": "0c9af13b40ce4bd0a48f1c1441048add4c6c17fc",
       "installedAt": "2026-08-10T08:52:43.887Z",
-      "updatedAt": "2026-09-22T00:57:15.522Z"
+      "updatedAt": "2026-09-22T07:01:18.632Z"
     },
     "search": {
       "source": "exa-labs/exa-mcp-server",
@@ -173,196 +164,7 @@
       "skillPath": "skills/search/SKILL.md",
       "skillFolderHash": "f9d9e2231ea77efc1a008ca28c77cf0ec82cf430",
       "installedAt": "2026-08-10T08:52:43.888Z",
-      "updatedAt": "2026-09-22T00:57:15.524Z"
-    },
-    "api-and-interface-design": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/api-and-interface-design/SKILL.md",
-      "skillFolderHash": "f7eefe1133c8540d00f279a171053cc9551ec5c4",
-      "installedAt": "2026-08-11T02:25:04.577Z",
-      "updatedAt": "2026-09-22T00:57:19.497Z"
-    },
-    "ci-cd-and-automation": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/ci-cd-and-automation/SKILL.md",
-      "skillFolderHash": "34db321777a17e268ac425f0f7f2501dda55c955",
-      "installedAt": "2026-08-11T02:25:04.580Z",
-      "updatedAt": "2026-09-22T00:57:19.500Z"
-    },
-    "code-review-and-quality": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/code-review-and-quality/SKILL.md",
-      "skillFolderHash": "8c26aef07c0ac94770d48ed68e72c0fd585420a6",
-      "installedAt": "2026-08-11T02:25:04.581Z",
-      "updatedAt": "2026-09-22T00:57:19.501Z"
-    },
-    "code-simplification": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/code-simplification/SKILL.md",
-      "skillFolderHash": "15b6e21924188ee46402a8c91963162fd9056c7d",
-      "installedAt": "2026-08-11T02:25:04.581Z",
-      "updatedAt": "2026-09-22T00:57:19.501Z"
-    },
-    "context-engineering": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/context-engineering/SKILL.md",
-      "skillFolderHash": "5da63415256218e76f85e7e371bb21ceef4293e1",
-      "installedAt": "2026-08-11T02:25:04.582Z",
-      "updatedAt": "2026-09-22T00:57:19.502Z"
-    },
-    "debugging-and-error-recovery": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/debugging-and-error-recovery/SKILL.md",
-      "skillFolderHash": "c3b5c340bae3ac952733213b40035820acfb48a3",
-      "installedAt": "2026-08-11T02:25:04.582Z",
-      "updatedAt": "2026-09-22T00:57:19.502Z"
-    },
-    "deprecation-and-migration": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/deprecation-and-migration/SKILL.md",
-      "skillFolderHash": "452a130309afc52a26beceb21f1467936e53a37c",
-      "installedAt": "2026-08-11T02:25:04.583Z",
-      "updatedAt": "2026-09-22T00:57:19.503Z"
-    },
-    "documentation-and-adrs": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/documentation-and-adrs/SKILL.md",
-      "skillFolderHash": "eeff83d93dd39454d0b9d193ba3ea5c85f681530",
-      "installedAt": "2026-08-11T02:25:04.583Z",
-      "updatedAt": "2026-09-22T00:57:19.503Z"
-    },
-    "doubt-driven-development": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/doubt-driven-development/SKILL.md",
-      "skillFolderHash": "2a25398c4f73f715c1fe5110ca789fdb7de30983",
-      "installedAt": "2026-08-11T02:25:04.584Z",
-      "updatedAt": "2026-09-22T00:57:19.504Z"
-    },
-    "frontend-ui-engineering": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/frontend-ui-engineering/SKILL.md",
-      "skillFolderHash": "8fdd24f2b93c198e4973f4008d694929a6082406",
-      "installedAt": "2026-08-11T02:25:04.584Z",
-      "updatedAt": "2026-09-22T00:57:19.505Z"
-    },
-    "git-workflow-and-versioning": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/git-workflow-and-versioning/SKILL.md",
-      "skillFolderHash": "92d87ae1fe98e6b67403bace2ef01264f9664468",
-      "installedAt": "2026-08-11T02:25:04.585Z",
-      "updatedAt": "2026-09-22T00:57:19.505Z"
-    },
-    "idea-refine": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/idea-refine/SKILL.md",
-      "skillFolderHash": "14f474d8f51370ddd9127ff3d171810a1acf891a",
-      "installedAt": "2026-08-11T02:25:04.585Z",
-      "updatedAt": "2026-09-22T00:57:19.506Z"
-    },
-    "incremental-implementation": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/incremental-implementation/SKILL.md",
-      "skillFolderHash": "a3e2fab3e3b97e078e2404a505c4b2fa5e123c9b",
-      "installedAt": "2026-08-11T02:25:04.586Z",
-      "updatedAt": "2026-09-22T00:57:19.506Z"
-    },
-    "observability-and-instrumentation": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/observability-and-instrumentation/SKILL.md",
-      "skillFolderHash": "1e8f1c0144e2b8f7859f5870329a31f8abc58193",
-      "installedAt": "2026-08-11T02:25:04.587Z",
-      "updatedAt": "2026-09-22T00:57:19.507Z"
-    },
-    "performance-optimization": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/performance-optimization/SKILL.md",
-      "skillFolderHash": "d7cc0bec423819ebe153ec70177caaec4bad3fea",
-      "installedAt": "2026-08-11T02:25:04.587Z",
-      "updatedAt": "2026-09-22T00:57:19.507Z"
-    },
-    "planning-and-task-breakdown": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/planning-and-task-breakdown/SKILL.md",
-      "skillFolderHash": "3045f95a156dc71d7b5ac1e29ce795bb5cac2b71",
-      "installedAt": "2026-08-11T02:25:04.588Z",
-      "updatedAt": "2026-09-22T00:57:19.508Z"
-    },
-    "security-and-hardening": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/security-and-hardening/SKILL.md",
-      "skillFolderHash": "d2712580a27691880fd4ea5fae6c30f3e0674f2b",
-      "installedAt": "2026-08-11T02:25:04.588Z",
-      "updatedAt": "2026-09-22T00:57:19.508Z"
-    },
-    "shipping-and-launch": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/shipping-and-launch/SKILL.md",
-      "skillFolderHash": "48677fb7727e6cdb9be1713ace4837aaaa37aed9",
-      "installedAt": "2026-08-11T02:25:04.589Z",
-      "updatedAt": "2026-09-22T00:57:19.508Z"
-    },
-    "source-driven-development": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/source-driven-development/SKILL.md",
-      "skillFolderHash": "29e1dcc180d54898aa7c5f4c466864c59ac2ee41",
-      "installedAt": "2026-08-11T02:25:04.590Z",
-      "updatedAt": "2026-09-22T00:57:19.509Z"
-    },
-    "spec-driven-development": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/spec-driven-development/SKILL.md",
-      "skillFolderHash": "3c412780068d7faf9f504a9fac10b8137fcd5faa",
-      "installedAt": "2026-08-11T02:25:04.590Z",
-      "updatedAt": "2026-09-22T00:57:19.509Z"
-    },
-    "test-driven-development": {
-      "source": "addyosmani/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/addyosmani/agent-skills.git",
-      "skillPath": "skills/test-driven-development/SKILL.md",
-      "skillFolderHash": "b812b07dc0c5084dbffe58a1cc856de2fdd99116",
-      "installedAt": "2026-08-11T02:25:04.591Z",
-      "updatedAt": "2026-09-22T00:57:19.510Z"
+      "updatedAt": "2026-09-22T07:01:18.634Z"
     },
     "explain-diff-html": {
       "source": "tp6gw94/skills",
@@ -371,7 +173,7 @@
       "skillPath": "explain-diff/SKILL.md",
       "skillFolderHash": "02120a133a78ed948accbf24b05cfe865f22e5e5",
       "installedAt": "2026-08-17T01:38:27.735Z",
-      "updatedAt": "2026-09-22T01:34:52.299Z"
+      "updatedAt": "2026-09-22T07:00:49.737Z"
     },
     "writing-for-agents": {
       "source": "mattpocock/skills",
@@ -381,7 +183,7 @@
       "skillFolderHash": "ad2925850efb8973a72d2e666f7a975f9a2d4a9b",
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-08-18T06:54:48.647Z",
-      "updatedAt": "2026-09-22T00:57:00.128Z"
+      "updatedAt": "2026-09-22T07:01:05.553Z"
     },
     "use-ego-browser": {
       "source": "tp6gw94/skills",
@@ -390,7 +192,7 @@
       "skillPath": "use-ego-browser/SKILL.md",
       "skillFolderHash": "8aef5ab07260f814d07176271ad77e5af8459dde",
       "installedAt": "2026-08-18T07:03:14.826Z",
-      "updatedAt": "2026-09-22T00:56:44.281Z"
+      "updatedAt": "2026-09-22T07:00:49.739Z"
     },
     "visual-eli5": {
       "source": "tp6gw94/skills",
@@ -399,7 +201,7 @@
       "skillPath": "visiual-eli5/SKILL.md",
       "skillFolderHash": "4abfd9e039a305bedf4c226af3c75ec80be5b8d7",
       "installedAt": "2026-08-22T02:39:49.544Z",
-      "updatedAt": "2026-09-22T01:34:54.455Z"
+      "updatedAt": "2026-09-22T07:00:49.740Z"
     },
     "write-testing": {
       "source": "tp6gw94/skills",
@@ -408,7 +210,7 @@
       "skillPath": "write-testing/SKILL.md",
       "skillFolderHash": "e7acceff5169bfb3a3c5cdd20cd99eddfc62fb2a",
       "installedAt": "2026-08-27T01:03:26.389Z",
-      "updatedAt": "2026-09-22T00:56:44.283Z"
+      "updatedAt": "2026-09-22T07:00:49.741Z"
     },
     "sigma": {
       "source": "sanyuan0704/sanyuan-skills",
@@ -417,7 +219,7 @@
       "skillPath": "skills/sigma/SKILL.md",
       "skillFolderHash": "f66fcdefe6801e8c70f8e172d52faa6445e37ab5",
       "installedAt": "2026-08-29T08:37:52.304Z",
-      "updatedAt": "2026-09-22T00:57:21.529Z"
+      "updatedAt": "2026-09-22T07:01:24.611Z"
     },
     "show-me": {
       "source": "humanlayer/skills",
@@ -426,7 +228,7 @@
       "skillPath": "plugins/show-me/skills/show-me/SKILL.md",
       "skillFolderHash": "362200ac2fb3c17b765049444e88de73767e6d08",
       "installedAt": "2026-09-05T01:38:17.041Z",
-      "updatedAt": "2026-09-22T00:57:23.552Z"
+      "updatedAt": "2026-09-22T07:01:26.972Z"
     },
     "agent-instruction-audit": {
       "source": "tp6gw94/skills",
@@ -435,7 +237,7 @@
       "skillPath": "agent-instruction-audit/SKILL.md",
       "skillFolderHash": "64103de3320ff2b81cf74283dcacf0a902aa4d82",
       "installedAt": "2026-09-09T07:48:45.454Z",
-      "updatedAt": "2026-09-22T00:56:44.277Z"
+      "updatedAt": "2026-09-22T07:00:49.732Z"
     },
     "design-taste-frontend": {
       "source": "Leonxlnx/taste-skill",
@@ -444,25 +246,7 @@
       "skillPath": "skills/taste-skill/SKILL.md",
       "skillFolderHash": "a6d128e53b4ec0238baee751dde33bf707adb5ec",
       "installedAt": "2026-09-09T14:20:52.740Z",
-      "updatedAt": "2026-09-22T00:57:26.362Z"
-    },
-    "visiual-agent-docs": {
-      "source": "tp6gw94/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/tp6gw94/skills.git",
-      "skillPath": "visiual-agent-docs/SKILL.md",
-      "skillFolderHash": "9205c98e3c5b9a8f1b34302a706bdacadb24e0ed",
-      "installedAt": "2026-09-10T14:28:41.761Z",
-      "updatedAt": "2026-09-22T00:56:44.282Z"
-    },
-    "understanding-first-workbook": {
-      "source": "tp6gw94/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/tp6gw94/skills.git",
-      "skillPath": "understand-first/SKILL.md",
-      "skillFolderHash": "8a1ccc6061706a5017593fb1cf3736eb615b124a",
-      "installedAt": "2026-09-13T03:44:44.128Z",
-      "updatedAt": "2026-09-22T00:56:44.281Z"
+      "updatedAt": "2026-09-22T07:01:29.996Z"
     },
     "lieflat-less-ai-tone": {
       "source": "larashero3-dotcom/lieflat-less-ai-tone",
@@ -471,7 +255,7 @@
       "skillPath": "SKILL.md",
       "skillFolderHash": "27d29232f10124db904ca9c0536d0b67cb3b2833",
       "installedAt": "2026-09-17T03:14:01.460Z",
-      "updatedAt": "2026-09-22T00:57:28.437Z"
+      "updatedAt": "2026-09-22T07:01:32.285Z"
     },
     "humanreadable-doc": {
       "source": "tp6gw94/skills",
@@ -480,7 +264,7 @@
       "skillPath": "humanreadable-doc/SKILL.md",
       "skillFolderHash": "127eacb72e649ccbc55152f8b92fbbd3053e096a",
       "installedAt": "2026-09-22T00:56:29.721Z",
-      "updatedAt": "2026-09-22T00:56:44.280Z"
+      "updatedAt": "2026-09-22T07:00:49.738Z"
     }
   },
   "lastSelectedAgents": [

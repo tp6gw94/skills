@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
+import { homedir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -36,22 +37,36 @@ for (const [name, entry] of Object.entries(skills)) {
   groups.get(installSource).push(name);
 }
 
+const isInstalled = (name) => existsSync(join(homedir(), '.agents', 'skills', name, 'SKILL.md'));
+
+const run = (args, errLabel) => {
+  console.log(`\n$ npx ${args.map((a) => (a.includes(' ') ? `"${a}"` : a)).join(' ')}`);
+  const result = spawnSync('npx', args, { stdio: 'inherit' });
+  if (result.status !== 0) {
+    console.error(`\n${errLabel}`);
+    failed++;
+  }
+};
+
 let failed = 0;
+const toUpdate = [];
 for (const [installSource, skillNames] of groups) {
+  const missing = skillNames.filter((n) => !isInstalled(n));
+  toUpdate.push(...skillNames.filter((n) => !missing.includes(n)));
+  if (missing.length === 0) continue;
+
   // Install only to the universal .agents/skills directory.
   // This avoids the "does not support global skill installation" errors from
   // agents that do not have a global skills dir.
   const args = ['skills', 'add', installSource, '-g', '-y', '-a', 'universal'];
-  for (const name of skillNames) {
+  for (const name of missing) {
     args.push('-s', name);
   }
+  run(args, `Failed to install from ${installSource}`);
+}
 
-  console.log(`\n$ npx ${args.map((a) => (a.includes(' ') ? `"${a}"` : a)).join(' ')}`);
-  const result = spawnSync('npx', args, { stdio: 'inherit' });
-  if (result.status !== 0) {
-    console.error(`\nFailed to install from ${installSource}`);
-    failed++;
-  }
+if (toUpdate.length > 0) {
+  run(['skills', 'update', ...toUpdate, '-g', '-y'], 'Failed to update skills');
 }
 
 if (failed > 0) {

@@ -28,4 +28,4 @@ Format:
     `white-space: pre` or `pre-wrap`.
 - Use callouts for key concepts or definitions, important edge cases, etc.
 
-使用繁體中文
+Write the output in Traditional Chinese.

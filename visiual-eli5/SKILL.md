@@ -17,4 +17,4 @@ Create a self-contained, responsive HTML page using:
 
 Prioritize intuitive understanding over completeness. Avoid jargon and a patronizing tone.
 
-使用繁體中文
+Write the output in Traditional Chinese.

@@ -5,66 +5,87 @@ description: Load when writing documents for humans — READMEs, tutorials, repo
 
 # humanreadable-doc
 
-Write documents a 5-year-old can follow and an ADHD reader can stay with. Core principles: **conclusion before detail; one idea per screen; a diagram or list beats a prose paragraph.**
+Every document has one reader. Name that reader first, then write so they get the point without re-reading.
+
+Three rules carry most of it: **conclusion before detail; one idea per block; a visual beats a prose paragraph.**
 
 ## Steps
 
-1. **Write the TL;DR first.** Put a 3–5 line summary at the top: what question the document answers, what the reader gets, what the conclusion is. Done when reading only this block gives 80% of the answer.
-2. **Cut into short blocks.** Each H2/H3 section covers one thing; body text runs 1–3 sentences or 3–5 bullets. Done when any block reads in 30 seconds.
-3. **Explain in plain words.** Define each term the first time it appears with one everyday analogy or plain sentence, then use the term. Done when a person unfamiliar with the field can follow every sentence.
-4. **Show it visually.** When content involves flows, steps, architecture, relationships, timelines, or state changes with more than 2 elements, add a visual plus one sentence saying what it shows. Pick the smallest view that makes the key point clear (table below). Done when every section has a diagram, sketch, or list, with no wall-of-prose paragraphs.
-5. **Run the AI-tone check.** Go through the whitelist below item by item, rewrite only the hits, leave unmatched text verbatim. Done when every item was checked and every change maps to a numbered rule.
-6. **Final check.** Done when: TL;DR is on top, every block reads in 30 seconds, every term is plainly defined at first use, every flow has a diagram, and the AI-tone whitelist fully passes.
+1. **Name the reader.** Write one line — who reads this, and what they already know. Pick the closest row:
+
+   | Reader | Lead with | Vocabulary | Length |
+   |---|---|---|---|
+   | Newcomer to the topic | an everyday analogy, then the term | one plain sentence per term, at first use | shortest |
+   | Expert in the field | the interesting part: trade-offs, edge cases | the real terms, no analogies | dense, no recap |
+   | Decision maker | impact, cost, risk, the choice in front of them | plain language, skip implementation | one page |
+
+   Unsure? Assume they know nothing about this topic. Done when the reader is written down and every later choice follows from it.
+
+2. **Write the TL;DR first.** 3–5 lines at the top: the question this answers, what the reader gets, the conclusion. Done when those lines alone give 80% of the answer.
+
+1. **Cut into short blocks.** One H2/H3 covers one thing. Body runs 1–3 sentences or 3–5 bullets. Order inside a section: conclusion → detail → background, so background can be skipped for free. Done when any block reads in 30 seconds, and the first line of each section still tells the story on its own.
+
+1. **Say it in plain words.** First use of a term gets one everyday analogy or one plain sentence, then the term itself. Done when someone outside the field can follow every sentence.
+
+1. **Show it visually.** A flow, relationship, comparison, or timeline with more than two parts becomes a visual plus one sentence saying what it shows. Pick the smallest view that makes the point (table below). Done when no section leaves a flow, relationship, or comparison as a paragraph of prose — and a section with nothing to show gets no visual.
+
+1. **Final check.** Done when: reader named, TL;DR on top, every block reads in 30 seconds, every term defined at first use, every flow has a visual, and the AI-tone pass below is clean.
 
 ## Pick the smallest view
 
-| Situation | View |
-|-----------|------|
-| Flow, decision, steps | mermaid `flowchart TD` |
-| Multiple parties, API calls, conversations | mermaid `sequenceDiagram` |
-| Brainstorming, categorization | mermaid `mindmap` |
-| State transitions (lifecycle, scheduling) | mermaid `stateDiagram-v2` |
-| System modules, service relationships | mermaid `flowchart LR` |
-| Timeline, milestones | mermaid `timeline` |
+The view follows the shape of the content — a process goes down, a structure goes across.
+
+| Shape of the content | View |
+|---|---|
+| Process, decision, steps (time order) | mermaid `flowchart TD` |
+| Structure: modules, services, files (no time order) | mermaid `flowchart LR` |
+| Two or more parties calling each other over time | mermaid `sequenceDiagram` |
+| Lifecycle, retries, scheduling | mermaid `stateDiagram-v2` |
+| Grouping and brainstorm | mermaid `mindmap` |
+| Dates and milestones | mermaid `timeline` |
 | Logic or algorithm | pseudocode block |
-| Runtime control flow / nesting | call tree (indented text) |
-| UI structure with state/module boundaries | component tree (`tsx` block, note owning file per line) |
-| File responsibilities, directory layout | shallow file tree with one comment per entry |
-| What changed, where surrounding shape is known | `diff` block — component, file-tree, call-tree, or control-flow shape matching the topic |
-| Whole block is new, or reader needs a copyable target | full code block |
-| UI, layout, state comparison, or concept too dense for the above | one focused HTML file (diagram/infographic/short deck), match product colors and components, real labels, desktop + mobile, then `open` it |
+| Nesting at runtime | call tree (indented text) |
+| Nesting in the UI or code tree | component tree (`tsx` block, note owning file per line) |
+| Jobs of each directory | shallow file tree, one comment per entry |
+| What changed, when the surrounding shape is already known | `diff` block — file tree, call tree, or control-flow shape matching the topic |
+| New code the reader will copy | full code block |
+| Too dense for any of the above | one HTML file, built with the `explain-diff-html` skill (code change) or `visual-eli5` skill (beginner topic) |
 
-One visual carries one point; labels are short plain phrases; one lead-in sentence before, one conclusion after. Use one or several visuals — rarely all; never overwhelm.
+One visual carries one point. Labels are short plain phrases, one lead-in sentence before, one conclusion after. Use one or several — never all of them.
 
-## ADHD-friendly rules
+## Keeping attention
 
-- Mark key points with **bold**, at most 2 per paragraph — all-bold means no-bold.
-- Bullets are action + result, one idea per bullet, no nested clauses.
-- Every long paragraph gets a visual anchor (heading, diagram, or list) for the eye to land on.
-- Section order is always: conclusion → detail → background. Background goes last so readers can skip it without losing anything.
-- Place each visual next to the short text it supports, keeping only the calls, files, props, states, and boundaries needed for the current point.
+- **Bold** key points, at most 2 per paragraph — all-bold means no-bold.
+- Bullets are action + result, one idea each, no nested clauses.
+- Every long paragraph gets an anchor for the eye: a heading, a diagram, or a list.
+- Put each visual next to the text it supports, carrying only the calls, files, props, states, and boundaries that point needs.
 
-## AI-tone whitelist
+## Before and after
 
-Whitelist style: rewrite only the hits listed below; all other text stays verbatim. Keep changes to the minimum needed to fix the hit; no incidental polishing, no adding or removing information (numbers, dates, hedges like "may/usually" all stay). Triggers cover both English and Chinese source text; where an example is language-specific it is labeled.
+Before — detail first, prose only, term undefined, reader unnamed:
 
-| # | Trigger | Fix |
-|---|---------|-----|
-| 1 | Refutation setup: inventing a misconception the reader never had, then debunking it ("not X, but Y", "rather than… it's…", "the real answer is the opposite") | State the judgment directly, positive first, then evidence |
-| 2 | Two or more commas/stop-lists chaining 3+ items in one sentence | Summarize when possible; otherwise break the parallel structure of one item (inside Markdown lists: leave as-is) |
-| 3 | Adjacent sentences sharing the same syntactic skeleton (same comma spots, same component order, similar length); three peer examples padded in one paragraph | Re-shuffle one sentence's structure; merge peer examples and reorder emphasis, deleting nothing |
-| 4 | Reveal-style dash ("the answer is simple — focus") | Write a full sentence, or use a comma/period |
-| 5 | Colon overuse: "in short:" / "the key is:" prompt phrases introducing content; empty sentence ending in a colon merely announcing a list | Delete uninformative prompts; if the phrase carries the link, swap the colon for a comma/period; rewrite the empty sentence with content or delete it |
-| 6 | Numbered headings running through all headings ("一、二、三", "First,… Second,…", "I. II. III.") | Drop the numbering, keep the heading text (Markdown ordered lists stay) |
-| 7 | Personified ideal: "like a wise mentor", "a tireless reviewer" plus praise modifiers | Say what it actually does; metaphors themselves stay |
-| 8 | Concrete numbers/times already in the source covered by vague words ("significantly improved", "greatly increased"); nominalized structures ("completed the… of…", "achieved an improvement in…") | Lift the concrete value into the vague word's slot; restore the verb; if the source has no data, only restore the verb — never invent numbers |
-| 9 | Openers "simply put", "bottom line", "to cut to the chase" | Delete, give the judgment directly |
-| 10 | Translationese: pre-noun modifiers so long the reader must re-read (Chinese: two consecutive "的" or a modifier over 15 chars; English: a stacked clause before the noun); sentence-initial "When…, …"; topic shells ("for…, regarding…, in terms of…" / 「對於…來說」「關於…」); sentence-initial connectives ("However, Therefore, Furthermore, In summary" / 「然而」「因此」「此外」「總而言之」); "This means…" restating the previous sentence | Split the sentence, drop the shell, move the connective after the subject, merge the restatement into the previous sentence |
-| 11 | Non-first paragraph opening with a comment ("sounds like", "notably", "the key is") with no back-reference | Add "this/that" or name what is being commented on |
-| 12 | Hollow openers ("In today's fast-paced world…"), hollow closers ("let's embrace…") | First sentence states the matter; closing becomes a concrete next step: who, what, when |
+> The `TtlCache` wrapper stores entries in an `OrderedDict` and evicts the least recently used entry once the capacity of 512 is exceeded, while also expiring entries whose age exceeds the TTL of 60 seconds, which reduces upstream `fetch_config` calls during the config reload path.
 
-**Not AI tone — do not change:** passive voice, nominalization, long sentences as such; same-sentence parallelism ("boost efficiency, cut costs"); standalone metaphor paragraphs; questions and "first… then…" in body text; uniform sentence/paragraph length; adding filler particles or swapping pronouns.
+After — reader named (a new teammate), conclusion first, one term defined, the flow drawn:
+
+> **Config reads are cached for a minute.** This page explains the cache in front of `fetch_config`; you need it when you change config reading or debug a stale value.
+>
+> The cache keeps the 512 most recently used config values for 60 seconds. Reads that hit it never reach `fetch_config`.
+>
+> ```mermaid
+> flowchart TD
+>   A[read config] --> B{cached and under 60s?}
+>   B -- yes --> C[return cached value]
+>   B -- no --> D[call fetch_config]
+>   D --> E[store with a timestamp]
+> ```
+>
+> The 512-entry limit matters: eviction drops the *least recently used* entry, not the oldest. A hot key can stay forever, a cold one leaves as soon as the cache is full.
+
+## Removing AI tone
+
+Before publishing, run the whitelist in the `lieflat-less-ai-tone` skill over the draft: it owns the rule list, the triggers, and the do-not-change list. Apply the hits only — text that trips no rule stays verbatim. Closing AI tells include hollow openers ("in today's fast-paced world"), reveal dashes, and empty "in short:" prompts.
 
 ## Boundaries
 
-Never simplify away correctness, trade-offs, or limits for the sake of simplicity: simplify the wording, not the facts. Depth follows the document type — a tutorial may cover the common 80% of cases; a reference must be complete.
+Simplify the wording, never the facts. Trade-offs, numbers, limits, and caveats stay — a tutorial may cover the common 80%, a reference must be complete. Write in the reader's language: no invented persona, no forced short sentences that lose meaning.

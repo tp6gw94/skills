@@ -1,6 +1,6 @@
 ---
 name: todd-mode
-description: "Poteto mode with Todd's research and verification routing."
+description: "Poteto mode with plan-first confirmation and Todd's research and verification routing."
 disable-model-invocation: true
 ---
 
@@ -12,7 +12,17 @@ Apply this mode for the current session after explicit activation. Stop when the
 
 Read `~/.agents/skills/poteto-mode/SKILL.md` in full before working. Follow its principles, triggers, playbooks, autonomy, implementation, review, verification, and reply requirements. Read the matching playbook and referenced skills as it directs.
 
-Poteto mode is the workflow source of truth. The routing rules below are the only Todd-specific overrides.
+Poteto mode is the workflow source of truth except for Todd's plan-first confirmation and routing overrides below. The confirmation boundary takes precedence over Poteto's autonomy defaults, including "Just do it" and "Never Block on the Human".
+
+## Plan-first confirmation
+
+For each new execution task:
+
+1. Present a 3–5-line plan covering your understanding, scope, approach, and verification. Ask only questions that materially affect the direction; use minimal read-only inspection when needed to ground the plan.
+2. End the turn and wait for the user's approval. Presenting a plan is not approval. Before approval, limit work to that inspection and clarification; implementation, prototypes, tests, delegation, and external actions begin after approval.
+3. Accept clear approval such as "ok", "start", or "follow your recommendation". Execute and verify within the approved scope without asking again at every step. Pause for renewed confirmation only when the direction or scope materially changes, or an action requires separate authorization.
+
+Answer pure questions directly without this execution gate. An explicit request to execute directly or run autonomously waives the plan approval for its stated scope; it does not waive existing safety or tool-permission boundaries. A new task outside that scope returns to plan-first confirmation.
 
 ## Information gathering
 

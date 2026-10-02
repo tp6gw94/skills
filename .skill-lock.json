@@ -372,7 +372,7 @@
       "skillPath": "skills/poteto-mode/SKILL.md",
       "skillFolderHash": "e79d3262a566b6c84caf8c74b72407a63e307aff",
       "installedAt": "2026-09-29T12:32:52.196Z",
-      "updatedAt": "2026-09-30T00:23:44.190Z"
+      "updatedAt": "2026-10-01T13:38:33.333Z"
     },
     "principle-attack-the-premise": {
       "source": "backnotprop/pstack",
@@ -687,7 +687,7 @@
       "skillPath": "execute-plan/SKILL.md",
       "skillFolderHash": "92839470b64a5b670e7e4554b0bcaa9d060f2970",
       "installedAt": "2026-09-30T13:25:12.155Z",
-      "updatedAt": "2026-09-30T13:25:12.155Z"
+      "updatedAt": "2026-10-01T13:38:27.063Z"
     },
     "focus": {
       "source": "tp6gw94/skills",
@@ -696,16 +696,16 @@
       "skillPath": "focus/SKILL.md",
       "skillFolderHash": "bde88d823a35abff42a4d89604078b77026f80c5",
       "installedAt": "2026-09-30T13:25:12.155Z",
-      "updatedAt": "2026-09-30T13:25:12.155Z"
+      "updatedAt": "2026-10-01T13:38:27.066Z"
     },
     "todd-mode": {
       "source": "tp6gw94/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/tp6gw94/skills.git",
       "skillPath": "todd-mode/SKILL.md",
-      "skillFolderHash": "f5fc0b8f31e1d960fe241bd61e43a2cd63c0e6fe",
+      "skillFolderHash": "5ce07be50b81c3f7526d978a516330cbe32a7d00",
       "installedAt": "2026-09-30T13:25:12.157Z",
-      "updatedAt": "2026-10-01T08:39:41.912Z"
+      "updatedAt": "2026-10-02T07:28:03.445Z"
     },
     "understanding-first-workbook": {
       "source": "tp6gw94/skills",
@@ -714,7 +714,7 @@
       "skillPath": "understand-first/SKILL.md",
       "skillFolderHash": "8a1ccc6061706a5017593fb1cf3736eb615b124a",
       "installedAt": "2026-09-30T13:25:12.157Z",
-      "updatedAt": "2026-09-30T13:25:12.157Z"
+      "updatedAt": "2026-10-01T13:38:27.068Z"
     },
     "visiual-agent-docs": {
       "source": "tp6gw94/skills",
@@ -723,7 +723,7 @@
       "skillPath": "visiual-agent-docs/SKILL.md",
       "skillFolderHash": "9205c98e3c5b9a8f1b34302a706bdacadb24e0ed",
       "installedAt": "2026-09-30T13:25:12.158Z",
-      "updatedAt": "2026-09-30T13:25:12.158Z"
+      "updatedAt": "2026-10-01T13:38:27.069Z"
     }
   },
   "lastSelectedAgents": [

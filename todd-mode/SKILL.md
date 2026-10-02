@@ -36,9 +36,11 @@ Use the `pi-subagents` skill for Pi execution controls. Keep synthesis and accep
 
 These helpers supplement Poteto's required workflow roles rather than replace them.
 
-## User-requested verification
+## Runtime operations and verification
 
-When the user requests verification or actual testing through Ego Lite, delegate the requested operations to `worker` with `model: "opencode-go/deepseek-v4.1-flash"`, `context: "fork"`, and `async: true`. Keep the worker's configured thinking level. Fork the current session so the worker receives its conversation history; if forking fails, report the blocker rather than silently launching without that history.
+During approved tasks, delegate direct interaction with the target application or service to `worker`, including API calls, browser operations, bug reproduction, runtime debugging, and end-to-end or smoke checks. This applies whenever Poteto's workflow requires those operations, not only when the user explicitly requests testing. Set `model: "opencode-go/deepseek-v4.1-flash"`, `thinking: "xhigh"`, `context: "fork"`, and `async: true`. OpenCode Go maps this model's Pi `xhigh` level to upstream `max`. These launch overrides take precedence over Poteto's defaults, `~/.agents/pstack-models.md`, and configured worker model and thinking levels for these operations. If the requested model or reasoning level is unavailable, report the blocker rather than silently falling back to another model or lower effort. Fork the current session so the worker receives its conversation history; if forking fails, report the blocker rather than silently launching without that history.
+
+Code and diff review, design critique, static checks, test authoring, and acceptance judgment retain their existing Poteto and pstack routing. The parent reviews runtime evidence and owns the final acceptance decision.
 
 Include an explicit handoff with the latest user request, decisions and constraints, cwd, target URL or artifact, relevant changed files, operations to perform, and observable acceptance criteria. Include existing browser TaskSpace IDs and Page labels when continuing a browser task.
 

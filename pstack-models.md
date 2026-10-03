@@ -1,22 +1,27 @@
 # pstack model configuration. One line per role. Delete a line to fall back to the skill default.
 # `inherit-parent` or `auto` runs on the parent chat model (omit the subagent `model`). Alias entries in a panel list still count toward its fan-out.
-# budget: unlimited (max)
+# budget: unlimited (max); explicit per-role efforts below take precedence.
 # Pi model values use provider/id:effort; the effort suffix is a subagent reasoning override, not part of the registry model ID.
-# OpenCode Go maps DeepSeek :xhigh to upstream max; MiMo remains at high under the current provider mapping.
-feature, refactoring: openai-codex/gpt-6.1-sol:max
-bug-fix: openai-codex/gpt-6.1-sol:max
-perf-issue: openai-codex/gpt-6.1-sol:max
-hillclimb: openai-codex/gpt-6.1-sol:max
-judgment and prose: openai-codex/gpt-6.1-sol:max
-hardest tasks: openai-codex/gpt-6.1-sol:max
-how explorer: opencode-go/mimo-v2.6-flash:high
-how explainer: openai-codex/gpt-6-luna:max
-why investigators: opencode-go/deepseek-v4.1-flash:xhigh
-why synthesizer: openai-codex/gpt-6.1-sol:max
-reflect tooling: openai-codex/gpt-6.1-sol:max
-reflect judgment, divergent, synthesizer: openai-codex/gpt-6.1-sol:max
-arena runners: openai-codex/gpt-6.1-sol:max, openai-codex/gpt-6-luna:max, opencode-go/mimo-v2.6-pro:high, opencode-go/deepseek-v4.1-flash:xhigh
-arena cross-judge pool: openai-codex/gpt-6.1-sol:max, opencode-go/mimo-v2.6-pro:high, opencode-go/deepseek-v4.1-flash:xhigh, vercel-ai-gateway/zai/glm-5.3:high
-swarm workers: openai-codex/gpt-6-luna:max
-architect runners: openai-codex/gpt-6.1-sol:max, openai-codex/gpt-6-luna:max, opencode-go/mimo-v2.6-pro:high, opencode-go/deepseek-v4.1-flash:xhigh
-interrogate reviewers: openai-codex/gpt-6.1-sol:max, openai-codex/gpt-6-luna:max, opencode-go/deepseek-v4.1-flash:xhigh, vercel-ai-gateway/zai/glm-5.3:high
+# DeepSeek uses :max with the current registered thinkingLevelMap.
+# Gateway Muse and GLM use Pi's generic Anthropic thinking budget for :high.
+# Fallback policy: if a primary model is unavailable because of authentication, quota, rate limits, provider outage, or model resolution failure, retry the affected role with its fallback below and report the switch. Do not switch for task/tool failures or silently lower reasoning.
+# Apply fallbacks to every occurrence, including panel entries. Preserve the panel count. These are agent instructions, not provider-side automatic failover.
+# fallback: opencode-go/deepseek-v4.1-flash:max -> openai-codex/gpt-6-luna:max
+# fallback: opencode-go/glm-5.3-flash:high -> vercel-ai-gateway/zai/glm-5.3-flash:high
+feature, refactoring: opencode-go/deepseek-v4.1-flash:max
+bug-fix: opencode-go/deepseek-v4.1-flash:max
+perf-issue: opencode-go/deepseek-v4.1-flash:max
+hillclimb: opencode-go/deepseek-v4.1-flash:max
+judgment and prose: openai-codex/gpt-6-astra:low
+hardest tasks: openai-codex/gpt-6-astra:low
+how explorer: opencode-go/deepseek-v4.1-flash:max
+how explainer: openai-codex/gpt-6.1-sol:high
+why investigators: opencode-go/deepseek-v4.1-flash:max
+why synthesizer: openai-codex/gpt-6.1-sol:high
+reflect tooling: openai-codex/gpt-6.1-sol:high
+reflect judgment, divergent, synthesizer: openai-codex/gpt-6.1-sol:high
+arena runners: openai-codex/gpt-6.1-sol:high, opencode-go/deepseek-v4.1-flash:max, xai/grok-4.6:high, opencode-go/glm-5.3-flash:high
+arena cross-judge pool: openai-codex/gpt-6-astra:low
+swarm workers: opencode-go/deepseek-v4.1-flash:max
+architect runners: openai-codex/gpt-6-astra:low, openai-codex/gpt-6.1-sol:high, xai/grok-4.6:high
+interrogate reviewers: openai-codex/gpt-6.1-sol:high, xai/grok-4.6:high, vercel-ai-gateway/meta/muse-spark-1.3-contributor:high

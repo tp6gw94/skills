@@ -1,23 +1,14 @@
 {
   "version": 3,
   "skills": {
-    "align": {
-      "source": "tp6gw94/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/tp6gw94/skills.git",
-      "skillPath": "align/SKILL.md",
-      "skillFolderHash": "fd0fa3c50e13c09964756b2eb4655a3885e5bc3e",
-      "installedAt": "2026-07-06T09:15:29.155Z",
-      "updatedAt": "2026-09-30T13:25:12.153Z"
-    },
     "caveman": {
       "source": "JuliusBrussee/caveman",
       "sourceType": "github",
       "sourceUrl": "https://github.com/JuliusBrussee/caveman.git",
       "skillPath": "skills/caveman/SKILL.md",
-      "skillFolderHash": "2d9a159619205a175577d6540b1ed64fd73d83b1",
+      "skillFolderHash": "ce6b7ff0b692d2cd445989bf7e6ce74698aa9a57",
       "installedAt": "2026-07-08T01:29:11.697Z",
-      "updatedAt": "2026-09-29T12:31:42.323Z"
+      "updatedAt": "2026-10-03T08:36:01.977Z"
     },
     "caveman-commit": {
       "source": "JuliusBrussee/caveman",
@@ -33,18 +24,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/JuliusBrussee/caveman.git",
       "skillPath": "skills/caveman-compress/SKILL.md",
-      "skillFolderHash": "21aa5ecc4fdf9667604102c6ec723030ec4f4b9c",
+      "skillFolderHash": "cdae212426a08bfaffc06c4bda9854e4db20ca21",
       "installedAt": "2026-07-08T01:29:11.700Z",
-      "updatedAt": "2026-09-29T12:31:42.326Z"
+      "updatedAt": "2026-10-03T08:36:05.806Z"
     },
     "caveman-help": {
       "source": "JuliusBrussee/caveman",
       "sourceType": "github",
       "sourceUrl": "https://github.com/JuliusBrussee/caveman.git",
       "skillPath": "skills/caveman-help/SKILL.md",
-      "skillFolderHash": "7f39fe20663ec4d859cfed3883927a79a4ed2eff",
+      "skillFolderHash": "a22142e951a3101d5061705858a71146d0569831",
       "installedAt": "2026-07-08T01:29:11.700Z",
-      "updatedAt": "2026-09-29T12:31:42.327Z"
+      "updatedAt": "2026-10-03T08:36:08.927Z"
     },
     "caveman-review": {
       "source": "JuliusBrussee/caveman",
@@ -81,16 +72,6 @@
       "skillFolderHash": "343db72180d05814949fef7d46be96b5c6ee86b3",
       "installedAt": "2026-07-08T01:30:42.712Z",
       "updatedAt": "2026-09-29T12:31:49.144Z"
-    },
-    "writing-great-skills": {
-      "source": "mattpocock/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/mattpocock/skills.git",
-      "skillPath": "skills/productivity/writing-great-skills/SKILL.md",
-      "skillFolderHash": "81d36946d48842f90358d8af54e3cdcc141f8e01",
-      "pluginName": "mattpocock-skills",
-      "installedAt": "2026-07-08T01:30:37.318Z",
-      "updatedAt": "2026-07-21T14:46:03.657Z"
     },
     "handoff": {
       "source": "mattpocock/skills",
@@ -170,11 +151,11 @@
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "ref": "main",
       "skillPath": "skills/productivity/writing-for-agents/SKILL.md",
       "skillFolderHash": "ad2925850efb8973a72d2e666f7a975f9a2d4a9b",
-      "pluginName": "mattpocock-skills",
       "installedAt": "2026-08-18T06:54:48.647Z",
-      "updatedAt": "2026-09-29T12:31:51.557Z"
+      "updatedAt": "2026-10-03T08:37:38.666Z"
     },
     "use-ego-browser": {
       "source": "tp6gw94/skills",
@@ -238,15 +219,6 @@
       "skillFolderHash": "27d29232f10124db904ca9c0536d0b67cb3b2833",
       "installedAt": "2026-09-17T03:14:01.460Z",
       "updatedAt": "2026-09-29T12:32:16.261Z"
-    },
-    "humanreadable-doc": {
-      "source": "tp6gw94/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/tp6gw94/skills.git",
-      "skillPath": "humanreadable-doc/SKILL.md",
-      "skillFolderHash": "70fdad4e2768751e3862bc3858c9a15ac0133cd6",
-      "installedAt": "2026-09-22T00:56:29.721Z",
-      "updatedAt": "2026-09-30T13:25:12.156Z"
     },
     "architect": {
       "source": "backnotprop/pstack",
@@ -662,50 +634,14 @@
       "installedAt": "2026-09-29T12:32:52.208Z",
       "updatedAt": "2026-09-30T00:23:44.209Z"
     },
-    "execute-plan": {
-      "source": "tp6gw94/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/tp6gw94/skills.git",
-      "skillPath": "execute-plan/SKILL.md",
-      "skillFolderHash": "92839470b64a5b670e7e4554b0bcaa9d060f2970",
-      "installedAt": "2026-09-30T13:25:12.155Z",
-      "updatedAt": "2026-10-01T13:38:27.063Z"
-    },
-    "focus": {
-      "source": "tp6gw94/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/tp6gw94/skills.git",
-      "skillPath": "focus/SKILL.md",
-      "skillFolderHash": "bde88d823a35abff42a4d89604078b77026f80c5",
-      "installedAt": "2026-09-30T13:25:12.155Z",
-      "updatedAt": "2026-10-01T13:38:27.066Z"
-    },
     "todd-mode": {
       "source": "tp6gw94/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/tp6gw94/skills.git",
       "skillPath": "todd-mode/SKILL.md",
-      "skillFolderHash": "5ce07be50b81c3f7526d978a516330cbe32a7d00",
+      "skillFolderHash": "427e6ff9e7d6ac9145f3dfabd821fe9c781b3394",
       "installedAt": "2026-09-30T13:25:12.157Z",
-      "updatedAt": "2026-10-02T07:28:03.445Z"
-    },
-    "understanding-first-workbook": {
-      "source": "tp6gw94/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/tp6gw94/skills.git",
-      "skillPath": "understand-first/SKILL.md",
-      "skillFolderHash": "8a1ccc6061706a5017593fb1cf3736eb615b124a",
-      "installedAt": "2026-09-30T13:25:12.157Z",
-      "updatedAt": "2026-10-01T13:38:27.068Z"
-    },
-    "visiual-agent-docs": {
-      "source": "tp6gw94/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/tp6gw94/skills.git",
-      "skillPath": "visiual-agent-docs/SKILL.md",
-      "skillFolderHash": "9205c98e3c5b9a8f1b34302a706bdacadb24e0ed",
-      "installedAt": "2026-09-30T13:25:12.158Z",
-      "updatedAt": "2026-10-01T13:38:27.069Z"
+      "updatedAt": "2026-10-03T05:23:40.417Z"
     },
     "gsap-explainer": {
       "source": "tp6gw94/skills",
@@ -715,6 +651,15 @@
       "skillFolderHash": "753ce70739a8b1c4ccc05c9b765d68675776c03b",
       "installedAt": "2026-10-02T14:21:23.260Z",
       "updatedAt": "2026-10-02T14:21:23.260Z"
+    },
+    "what-dose-this-mean": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "skillPath": "what-dose-this-mean/SKILL.md",
+      "skillFolderHash": "dc7e9b4d3fa346c972cd904538b41e6bc026b679",
+      "installedAt": "2026-10-03T05:24:00.111Z",
+      "updatedAt": "2026-10-03T08:35:35.598Z"
     }
   },
   "lastSelectedAgents": [

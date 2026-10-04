@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quickdraw 圖解</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/quickdrawjs/quickdraw@dd653639aec1212c9ec5704e2eafd2a75560a0af/packages/core/src/quickdraw.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; height: 100vh; display: grid; grid-template-rows: auto 1fr; font-family: system-ui, sans-serif; background: #fbf9f4; color: #25231e; }
+    header { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px solid #d7d2c8; }
+    h1 { margin: 0 12px 0 0; font-size: 18px; }
+    button, select, .file-button { font: inherit; padding: 8px 12px; border: 1px solid #c9c3b8; border-radius: 8px; background: white; color: inherit; cursor: pointer; }
+    button:disabled, select:disabled { opacity: 0.5; cursor: default; }
+    button:focus-visible, select:focus-visible, .file-button:focus-within { outline: 2px solid #4263eb; outline-offset: 2px; }
+    .file-button { position: relative; }
+    .file-button input { position: absolute; inset: 0; opacity: 0; width: 100%; cursor: pointer; }
+    #status { flex-basis: 100%; margin: 0; font-size: 13px; color: #5c574c; }
+    #board { min-height: 0; position: relative; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Quickdraw 圖解</h1>
+    <select id="boards" aria-label="選擇圖解" disabled></select>
+    <label class="file-button">讀取 JSON／PNG<input id="file" type="file" accept=".json,.png,application/json,image/png" disabled></label>
+    <button id="fit" type="button" disabled>縮放至全圖</button>
+    <button id="save" type="button" disabled>下載目前 JSON</button>
+    <button id="export-png" type="button" disabled>匯出可編輯 PNG</button>
+    <p id="status" role="status">載入固定版本的 Quickdraw SDK；需要網路連線或已快取的依賴。修改不會自動儲存。</p>
+  </header>
+  <main id="board" aria-label="可編輯的圖解白板"></main>
+  <script id="board-data" type="application/json">[]</script>
+  <script type="module">
+    import { embedSnapshot, extractSnapshot } from "./png.mjs";
+
+    const status = document.querySelector("#status");
+    const selector = document.querySelector("#boards");
+    const input = document.querySelector("#file");
+    const fit = document.querySelector("#fit");
+    const save = document.querySelector("#save");
+    const png = document.querySelector("#export-png");
+    const canvasHost = document.querySelector("#board");
+    const entries = JSON.parse(document.querySelector("#board-data").textContent);
+    const unsaved = new Set();
+    let board;
+    let currentIndex = null;
+    let currentName = "diagram";
+    let busy = false;
+
+    function object(value) {
+      return value !== null && typeof value === "object" && !Array.isArray(value);
+    }
+
+    function checkSnapshot(snapshot) {
+      const records = snapshot?.document?.store;
+      if (!object(records)) throw new Error("檔案缺少 document.store。");
+      for (const [id, record] of Object.entries(records)) {
+        if (!object(record) || record.id !== id) throw new Error("記錄 ID 不符。");
+        if (record.typeName === "asset") {
+          if (typeof record.src !== "string" || !record.src.startsWith("data:image/") || ![record.w, record.h].every(value => Number.isFinite(value) && value > 0)) throw new Error("圖片資產必須包含有效尺寸與內嵌圖片資料。");
+          continue;
+        }
+        if (record.typeName !== "shape" || !["geo", "text", "arrow", "line", "draw", "highlight", "note", "image"].includes(record.type)) throw new Error("不支援的 Quickdraw 記錄類型。");
+        if (![record.x, record.y, record.rot, record.z].every(Number.isFinite) || !object(record.props)) throw new Error("記錄缺少有效座標或 props。");
+        if (record.type === "image" && records[record.props.assetId]?.typeName !== "asset") throw new Error("圖片缺少對應資產。");
+      }
+      return records;
+    }
+
+    function addOption(name, index) {
+      const option = document.createElement("option");
+      option.value = String(index);
+      option.textContent = name;
+      selector.appendChild(option);
+    }
+
+    function setBusy(value) {
+      busy = value;
+      for (const element of [input, fit, save, png]) element.disabled = value;
+      selector.disabled = value || entries.length === 0;
+      canvasHost.inert = value;
+    }
+
+    function focusDiagram() {
+      board.editor.fitContent({ margin: 0.08, maxZoom: 1 });
+    }
+
+    function load(snapshot, name, index) {
+      const records = checkSnapshot(snapshot);
+      if (currentIndex !== null) entries[currentIndex].snapshot = board.editor.store.getSnapshot();
+      board.editor.store.loadSnapshot(snapshot, "remote");
+      focusDiagram();
+      board.editor.setTool("select");
+      if (index === undefined) {
+        index = entries.length;
+        entries.push({ name, snapshot });
+        addOption(name, index);
+      }
+      currentIndex = index;
+      currentName = name;
+      selector.value = String(index);
+      status.textContent = "已載入 " + Object.keys(records).length + " 個記錄。可編輯並匯出可編輯 PNG；未做視覺驗證。" + (unsaved.has(index) ? "此圖有尚未下載的修改。" : "");
+    }
+
+    function download(blob, extension) {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = currentName + extension;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+    }
+
+    function explain(error) {
+      const messages = {
+        INVALID_PNG: "PNG 簽名無效。",
+        INVALID_CHUNK: "PNG 結構損壞。",
+        INVALID_CRC: "PNG 檢查碼不符。",
+        INVALID_METADATA: "可編輯 PNG 的資料格式無效。",
+        DUPLICATE_METADATA: "PNG 含有重複的 Quickdraw 資料。",
+        UNSUPPORTED_VERSION: "不支援此 PNG 的 Quickdraw 資料版本。",
+        CHUNK_TOO_LARGE: "PNG 資料超出格式允許的大小。",
+        ENCODE_FAILED: "無法編碼 Quickdraw 資料。"
+      };
+      return messages[error.code] || error.message;
+    }
+
+    async function exportPng() {
+      if (busy) return;
+      document.activeElement?.blur();
+      board.editor.setTool("select");
+      setBusy(true);
+      status.textContent = "正在匯出全圖與可編輯資料……";
+      try {
+        await document.fonts?.ready;
+        const snapshot = JSON.parse(JSON.stringify(board.editor.store.getSnapshot()));
+        const image = await board.editor.exportImage({ background: true, ids: null });
+        if (!image) throw new Error("白板沒有可匯出的圖形；可改為下載 JSON。");
+        const bytes = embedSnapshot(new Uint8Array(await image.arrayBuffer()), snapshot);
+        if (JSON.stringify(board.editor.store.getSnapshot()) !== JSON.stringify(snapshot)) throw new Error("匯出期間資料發生變更，請重新匯出。");
+        download(new Blob([bytes], { type: "image/png" }), ".png");
+        unsaved.delete(currentIndex);
+        status.textContent = "已建立可編輯 PNG 下載。下次用「讀取 JSON／PNG」開啟；請保留原始檔，避免轉檔移除編輯資料。";
+      } catch (error) {
+        status.textContent = "匯出失敗：" + explain(error);
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    try {
+      const { createQuickdraw } = await import("https://cdn.jsdelivr.net/gh/quickdrawjs/quickdraw@dd653639aec1212c9ec5704e2eafd2a75560a0af/packages/core/src/index.js");
+      board = createQuickdraw({ container: canvasHost, theme: "light", grid: "none", watermark: false });
+      entries.forEach((entry, index) => addOption(entry.name, index));
+      if (entries.length) load(entries[0].snapshot, entries[0].name, 0);
+      else status.textContent = "請讀取 Quickdraw JSON 或可編輯 PNG；修改不會自動儲存。";
+      setBusy(false);
+      board.editor.store.listen(() => {
+        unsaved.add(currentIndex);
+        status.textContent = "有尚未下載的修改。請下載 JSON 或匯出可編輯 PNG 後再關閉頁面。";
+      }, { source: "user" });
+      window.addEventListener("beforeunload", event => {
+        if (unsaved.size) {
+          event.preventDefault();
+          event.returnValue = "";
+        }
+      });
+      selector.addEventListener("change", () => {
+        try {
+          const index = Number(selector.value);
+          const entry = entries[index];
+          load(entry.snapshot, entry.name, index);
+        } catch (error) {
+          selector.value = currentIndex === null ? "" : String(currentIndex);
+          status.textContent = "載入失敗：" + explain(error);
+        }
+      });
+      input.addEventListener("change", async () => {
+        if (busy) return;
+        const file = input.files[0];
+        if (!file) return;
+        document.activeElement?.blur();
+        board.editor.setTool("select");
+        setBusy(true);
+        try {
+          const isPng = /\.png$/i.test(file.name) || file.type === "image/png";
+          const snapshot = isPng ? extractSnapshot(new Uint8Array(await file.arrayBuffer())) : JSON.parse(await file.text());
+          if (snapshot === null) throw new Error("這是一般 PNG，沒有 Quickdraw 編輯資料；無法還原圖形。請選擇可編輯 PNG 或 JSON。");
+          load(snapshot, file.name.replace(/\.(json|png)$/i, ""));
+        } catch (error) {
+          status.textContent = "載入失敗：" + explain(error);
+        } finally {
+          input.value = "";
+          setBusy(false);
+        }
+      });
+      fit.addEventListener("click", focusDiagram);
+      save.addEventListener("click", () => {
+        try {
+          document.activeElement?.blur();
+          board.editor.setTool("select");
+          download(new Blob([JSON.stringify(board.editor.store.getSnapshot(), null, 2)], { type: "application/json" }), ".json");
+          unsaved.delete(currentIndex);
+          status.textContent = "已建立目前 JSON 下載；可再次載入並編輯。";
+        } catch (error) {
+          status.textContent = "下載失敗：" + explain(error);
+        }
+      });
+      png.addEventListener("click", exportPng);
+    } catch (error) {
+      for (const element of [selector, input, fit, save, png]) element.disabled = true;
+      status.textContent = "載入失敗：" + error.message + "。請確認可連線至 cdn.jsdelivr.net；原始 JSON 仍可獨立使用。";
+    }
+  </script>
+</body>
+</html>

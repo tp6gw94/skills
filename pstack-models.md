@@ -9,8 +9,8 @@
 # fallback: opencode-go/deepseek-v4.1-flash:max -> openai-codex/gpt-6-luna:max
 # fallback: opencode-go/glm-5.3-flash:high -> vercel-ai-gateway/zai/glm-5.3-flash:high
 feature, refactoring: opencode-go/deepseek-v4.1-flash:max
-bug-fix: opencode-go/deepseek-v4.1-flash:max
-perf-issue: opencode-go/deepseek-v4.1-flash:max
+bug-fix: xai/grok-4.6:xhigh
+perf-issue: xai/grok-4.6:xhigh
 hillclimb: opencode-go/deepseek-v4.1-flash:max
 judgment and prose: openai-codex/gpt-6-astra:low
 hardest tasks: openai-codex/gpt-6-astra:low
@@ -20,8 +20,8 @@ why investigators: opencode-go/deepseek-v4.1-flash:max
 why synthesizer: openai-codex/gpt-6.1-sol:high
 reflect tooling: openai-codex/gpt-6.1-sol:high
 reflect judgment, divergent, synthesizer: openai-codex/gpt-6.1-sol:high
-arena runners: openai-codex/gpt-6.1-sol:high, opencode-go/deepseek-v4.1-flash:max, xai/grok-4.6:high, opencode-go/glm-5.3-flash:high
+arena runners: openai-codex/gpt-6.1-sol:high, opencode-go/deepseek-v4.1-flash:max, xai/grok-4.6:xhigh, opencode-go/glm-5.3-flash:high
 arena cross-judge pool: openai-codex/gpt-6-astra:low
 swarm workers: opencode-go/deepseek-v4.1-flash:max
-architect runners: openai-codex/gpt-6-astra:low, openai-codex/gpt-6.1-sol:high, xai/grok-4.6:high
+architect runners: openai-codex/gpt-6-astra:low, openai-codex/gpt-6.1-sol:high, xai/grok-4.6:xhigh
 interrogate reviewers: openai-codex/gpt-6.1-sol:high, xai/grok-4.6:high, vercel-ai-gateway/meta/muse-spark-1.3-contributor:high

@@ -55,19 +55,19 @@ Use [assets/viewer-template.html](assets/viewer-template.html) through the packa
 node <skill-dir>/scripts/package.mjs <output/diagram.json> [<output/another.json>] --out <delivery-directory>
 ```
 
-The packager validates each snapshot, copies native JSON, embeds the same data into `index.html`, and writes a data-validation report. The output HTML supports switching boards, loading JSON or editable PNG, fitting content, editing, downloading JSON, and exporting a PNG containing the current snapshot. Its controls are a shell, not a prescribed diagram layout.
+The packager validates each snapshot, copies native JSON, embeds the same data into `index.html`, and writes a data-validation report. The output HTML uses the native Quickdraw dock and menu for board switching, JSON/editable-PNG loading, fitting, editing, JSON download, editable PNG export, and canvas-only fullscreen. Its controls are a shell, not a prescribed diagram layout.
 
 Embedding avoids `file://` JSON-fetch restrictions and stale separate sample files. Refresh the package after JSON changes. If a board has been edited in the viewer, preserve the downloaded JSON or editable PNG as the new source of truth; rerunning an old generation script would overwrite those edits.
 
 The template uses a pinned remote Quickdraw SDK and stylesheet. State the network requirement. For offline delivery, use locally available SDK modules and CSS with matching provenance and a supported serving setup. Keep the exported JSON usable independently of the viewer.
 
-Use the header's editable PNG export, not the SDK's ordinary image export. Reopen that PNG through the viewer's file input to restore native records. The metadata contract and interoperability limits are in [references/contract.md](references/contract.md#editable-png). All PNG processing happens locally in the browser; no save backend is required. Downloads create files rather than silently overwriting the original. Edits are not automatically saved. Switching boards retains them only in the current page's memory; download edited boards before closing the page. Keep original exports because image optimizers and messaging platforms can strip metadata.
+Use the native `⋮` menu's editable PNG export. Its transparent/selection exports and clipboard copying remain ordinary raster images without editable metadata. Reopen that PNG through the viewer's file input to restore native records. The metadata contract and interoperability limits are in [references/contract.md](references/contract.md#editable-png). All PNG processing happens locally in the browser; no save backend is required. Downloads create files rather than silently overwriting the original. Edits are not automatically saved. Switching boards retains them only in the current page's memory; download edited boards before closing the page. Keep original exports because image optimizers and messaging platforms can strip metadata.
 
 Only assume SDK snapshot loading, not a JSON-import button in the hosted Quickdraw app. Deliver the explicit file-loading viewer or the SDK integration described in the contract reference.
 
 ## 5. Deliver accurately
 
-Provide JSON paths, the viewer path when packaged, a brief explanation of each diagram, and the validation scope. Explain the editable PNG export/reopen controls. Report PNG files only when actually exported; packaging JSON does not render PNG images. State: data and basic geometry validated; visual rendering not verified, unless separate visual QA was actually performed. Arbitrary files opened in a viewer are not automatically certified by a prior package report.
+Provide JSON paths, the viewer path when packaged, a brief explanation of each diagram, and the validation scope. Explain the `⋮` menu's editable PNG export/reopen controls and the board selector immediately left of that menu. Fullscreen hides chrome; Esc or double-click exits. Browser denial falls back to viewport-only canvas mode. Report PNG files only when actually exported; packaging JSON does not render PNG images. State: data and basic geometry validated; visual rendering not verified, unless separate visual QA was actually performed. Arbitrary files opened in a viewer are not automatically certified by a prior package report.
 
 Report measured generation or validation timings only when captured. Keep topic-generation time separate from first-time utility setup, packaging, and total wall time; parallel task durations are not added together.
 

@@ -4,7 +4,10 @@ import { pathToFileURL } from "node:url";
 import { validateSnapshot } from "./validate.mjs";
 
 const marker = '<script id="board-data" type="application/json">[]</script>';
-const codecImport = 'import { embedSnapshot, extractSnapshot } from "./png.mjs";';
+const localModules = [
+  { filename: "png.mjs", names: "embedSnapshot, extractSnapshot" },
+  { filename: "toolbar.mjs", names: "mountViewerChrome" }
+];
 
 export function packageBoards(inputs, outputDirectory) {
   if (!Array.isArray(inputs) || inputs.length === 0) throw new Error("Provide at least one native Quickdraw JSON file.");
@@ -24,12 +27,17 @@ export function packageBoards(inputs, outputDirectory) {
   }
   const template = readFileSync(new URL("../assets/viewer-template.html", import.meta.url), "utf8");
   if (template.split(marker).length !== 2) throw new Error("Viewer template must contain exactly one empty board-data marker.");
-  if (template.split(codecImport).length !== 2) throw new Error("Viewer template must contain exactly one PNG codec import.");
-  const codec = readFileSync(new URL("../assets/png.mjs", import.meta.url), "utf8");
-  if (/<\/script/i.test(codec)) throw new Error("PNG codec cannot contain an HTML script closing tag.");
-  const embeddedCodec = "const { embedSnapshot, extractSnapshot } = (() => {\n" + codec.replace(/^export /gm, "") + "\nreturn { embedSnapshot, extractSnapshot };\n})();";
+  let html = template;
+  for (const { filename, names } of localModules) {
+    const localImport = 'import { ' + names + ' } from "./' + filename + '";';
+    if (html.split(localImport).length !== 2) throw new Error("Viewer template must contain exactly one import for " + filename);
+    const source = readFileSync(new URL("../assets/" + filename, import.meta.url), "utf8");
+    if (/<\/script/i.test(source)) throw new Error(filename + " cannot contain an HTML script closing tag.");
+    const embedded = "const { " + names + " } = (() => {\n" + source.replace(/^export /gm, "") + "\nreturn { " + names + " };\n})();";
+    html = html.replace(localImport, () => embedded);
+  }
   const encoded = JSON.stringify(entries).replaceAll("<", "\\u003c");
-  const html = template.replace(codecImport, () => embeddedCodec).replace(marker, () => '<script id="board-data" type="application/json">' + encoded + "</script>");
+  html = html.replace(marker, () => '<script id="board-data" type="application/json">' + encoded + "</script>");
   const destination = resolve(outputDirectory);
   const targets = [resolve(destination, "index.html"), resolve(destination, "validation-report.json")];
   if (inputs.some(input => targets.includes(resolve(input)))) throw new Error("Delivery would overwrite an input file.");

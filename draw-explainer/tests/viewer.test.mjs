@@ -6,6 +6,7 @@ import { tmpdir } from "node:os";
 import { createBoard } from "../scripts/board.mjs";
 import { packageBoards } from "../scripts/package.mjs";
 import { embedSnapshot, extractSnapshot } from "../assets/png.mjs";
+import { Element } from "./helpers/dom.mjs";
 
 const directories = [];
 const plainPng = new Uint8Array(Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8AAAAASUVORK5CYII=", "base64"));
@@ -17,24 +18,7 @@ function snapshot(name = "First") {
   return board.snapshot();
 }
 
-class Element {
-  constructor() {
-    this.disabled = true;
-    this.value = "";
-    this.files = [];
-    this.children = [];
-    this.events = new Map();
-    this.textContent = "";
-    this.inert = false;
-  }
-  appendChild(element) { this.children.push(element); }
-  addEventListener(name, handler) { this.events.set(name, handler); }
-  async emit(name, event = {}) { return this.events.get(name)?.(event); }
-  blur() {}
-  remove() {}
-}
-
-async function viewer({ exportImage, fonts, bounds = { x: 100, y: 200, w: 1600, h: 1200 }, viewport = { w: 1000, h: 800 } } = {}) {
+async function viewer({ exportImage, fonts, fullscreenMode = "supported", bounds = { x: 100, y: 200, w: 1600, h: 1200 }, viewport = { w: 1000, h: 800 } } = {}) {
   const directory = mkdtempSync(join(tmpdir(), "quickdraw-viewer-"));
   directories.push(directory);
   const paths = ["First", "Second"].map(name => {
@@ -47,11 +31,31 @@ async function viewer({ exportImage, fonts, bounds = { x: 100, y: 200, w: 1600, 
   const result = packageBoards(paths, join(directory, "out"));
   const html = readFileSync(result.viewer, "utf8");
   const data = /<script id="board-data" type="application\/json">([\s\S]*?)<\/script>/.exec(html)[1];
-  const elements = Object.fromEntries(["status", "boards", "file", "fit", "save", "export-png", "board", "board-data"].map(id => [id, new Element()]));
+  const document = new Element("document");
+  document.ownerDocument = document;
+  document.body = new Element("body", document);
+  document.appendChild(document.body);
+  document.fullscreenElement = null;
+  document.fonts = { ready: fonts || Promise.resolve() };
+  const elements = Object.fromEntries(["status", "boards", "file", "read", "fit", "save", "export-png", "fullscreen", "board", "board-data"].map(id => {
+    const tag = id === "boards" ? "select" : id === "file" ? "input" : id === "board" ? "main" : "button";
+    const element = new Element(tag, document);
+    element.id = id;
+    element.disabled = true;
+    const text = new RegExp('<button id="' + id + '"[^>]*>([^<]*)<').exec(html)?.[1];
+    if (text) element.textContent = text;
+    document.body.appendChild(element);
+    return [id, element];
+  }));
   elements["board-data"].textContent = data;
+  document.activeElement = elements.board;
   const downloads = [];
   const urls = new Map();
-  const window = new Element();
+  const frames = [];
+  const flushFrames = () => { for (const callback of frames.splice(0)) callback(); };
+  const window = new Element("window", document);
+  let filePickerRequests = 0;
+  elements.file.click = () => { filePickerRequests++; };
   let current;
   let userListener;
   const store = {
@@ -63,45 +67,95 @@ async function viewer({ exportImage, fonts, bounds = { x: 100, y: 200, w: 1600, 
   let camera;
   const editor = {
     store,
+    container: elements.board,
+    tool: "select",
+    selection: new Set(),
+    get camera() { return camera; },
+    setCamera(value) { camera = structuredClone(value); },
+    setSelection(ids) { this.selection = new Set(ids); },
     fitContent({ margin = 0.08, maxZoom = 1 } = {}) {
       const inset = Math.min(viewport.w, viewport.h) * margin;
       const z = Math.max(0.05, Math.min(8, maxZoom, (viewport.w - 2 * inset) / bounds.w, (viewport.h - 2 * inset) / bounds.h));
       camera = { z, x: viewport.w / 2 / z - (bounds.x + bounds.w / 2), y: viewport.h / 2 / z - (bounds.y + bounds.h / 2) };
     },
-    setTool() {},
+    setTool(tool) { this.tool = tool; if (tool !== "select") this.selection.clear(); },
     exportImage: async options => {
       imageOptions.push(options);
       return exportImage ? exportImage(store) : new Blob([plainPng], { type: "image/png" });
     }
   };
-  const document = {
-    querySelector: selector => elements[selector.slice(1)],
-    body: new Element(),
-    activeElement: new Element(),
-    fonts: { ready: fonts || Promise.resolve() },
-    createElement: tag => {
-      const element = new Element();
-      if (tag === "a") element.click = () => downloads.push({ filename: element.download, blob: urls.get(element.href) });
-      return element;
-    }
+  document.createElement = tag => {
+    const element = new Element(tag, document);
+    if (tag === "a") element.click = () => downloads.push({ filename: element.download, blob: urls.get(element.href) });
+    return element;
   };
+  document.createElementNS = (_, tag) => document.createElement(tag);
+  if (fullscreenMode !== "unsupported") elements.board.requestFullscreen = async () => {
+    if (fullscreenMode === "denied") throw new Error("Fullscreen denied");
+    document.fullscreenElement = elements.board;
+    await document.emit("fullscreenchange");
+  };
+  document.exitFullscreen = async () => {
+    document.fullscreenElement = null;
+    await document.emit("fullscreenchange");
+  };
+  const uiRoot = document.createElement("div");
+  uiRoot.className = "qd-ui";
+  elements.board.appendChild(uiRoot);
+  const dock = document.createElement("div");
+  dock.className = "qd-dock";
+  uiRoot.appendChild(dock);
+  let menuButton;
+  for (const name of ["select", "draw", "styles", "more", "menu"]) {
+    const button = document.createElement("button");
+    button.dataset.name = name;
+    button.className = "qd-tool";
+    dock.appendChild(button);
+    if (name === "menu") menuButton = button;
+  }
+  menuButton.addEventListener("click", () => {
+    const existing = uiRoot.querySelector(".qd-menu-pop");
+    if (existing) { existing.remove(); return; }
+    const menu = document.createElement("div");
+    menu.className = "qd-menu-pop";
+    for (const text of ["Export as PNG", "Export — transparent", "Copy as image", "Zoom to fit", "Clear board", "Grid", "Theme"]) {
+      const row = document.createElement("button");
+      row.className = "qd-menu-item";
+      const label = document.createElement("span");
+      label.className = "qd-mi-label";
+      label.textContent = text;
+      row.appendChild(label);
+      menu.appendChild(row);
+    }
+    uiRoot.appendChild(menu);
+  });
   const URL = {
     createObjectURL: blob => { const key = "blob:" + urls.size; urls.set(key, blob); return key; },
     revokeObjectURL: key => urls.delete(key)
   };
-  const sdk = { createQuickdraw: () => ({ editor }) };
+  const sdk = { createQuickdraw: options => {
+    editor.styles = { font: "draw", size: "m", ...options.styles };
+    return { editor, ui: { setHidden: value => uiRoot.classList.toggle("qd-hidden", value) } };
+  } };
   const moduleSource = /<script type="module">([\s\S]*?)<\/script>/.exec(html)[1];
-  assert.doesNotMatch(moduleSource, /from "\.\/png\.mjs"/);
+  assert.doesNotMatch(moduleSource, /from "\.\/(png|toolbar)\.mjs"/);
+  assert.doesNotMatch(html, /<header\b|<h1\b/);
   const source = moduleSource.replace(/await import\("https:\/\/cdn\.jsdelivr\.net\/gh\/quickdrawjs\/quickdraw@[a-f0-9]{40}\/packages\/core\/src\/index\.js"\)/, "sdk");
   const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
-  await new AsyncFunction("document", "window", "URL", "sdk", "setTimeout", source)(document, window, URL, sdk, () => {});
+  await new AsyncFunction("document", "window", "URL", "sdk", "setTimeout", "clearTimeout", "requestAnimationFrame", source)(document, window, URL, sdk, () => {}, () => {}, callback => frames.push(callback));
   assert.equal(elements["export-png"].disabled, false, elements.status.textContent);
   return {
-    elements, downloads, imageOptions, window,
+    elements, downloads, imageOptions, window, document, editor, uiRoot, dock, menuButton, flushFrames,
+    filePickerRequests: () => filePickerRequests,
     current: () => structuredClone(current),
     camera: () => structuredClone(camera),
     edit: value => { current = structuredClone(value); userListener(); },
-    click: id => elements[id].emit("click"),
+    openMenu: () => menuButton.click(),
+    click: async id => {
+      if (!uiRoot.querySelector(".qd-menu-pop")) await menuButton.click();
+      await elements[id].click();
+      flushFrames();
+    },
     select: async index => { elements.boards.value = String(index); await elements.boards.emit("change"); },
     upload: async (name, bytes, type = "image/png") => {
       elements.file.files = [{ name, type, arrayBuffer: async () => bytes.slice().buffer, text: async () => new TextDecoder().decode(bytes) }];
@@ -114,6 +168,204 @@ async function decodedDownload(app) {
   const download = app.downloads.at(-1);
   return { filename: download.filename, snapshot: extractSnapshot(new Uint8Array(await download.blob.arrayBuffer())) };
 }
+
+test("default text font matches generated records without changing font sizes or imported text", async () => {
+  const app = await viewer();
+  const generated = Object.values(app.current().document.store).find(record => record.type === "text");
+  assert.equal(app.editor.styles.font, generated.props.font);
+  assert.equal(app.editor.styles.font, "sans");
+  assert.equal(app.editor.styles.size, "m");
+  assert.equal(generated.props.size, "s");
+  await app.select(1);
+  assert.equal(app.editor.styles.font, "sans");
+  const authored = snapshot("Handwritten text");
+  for (const record of Object.values(authored.document.store)) record.props.font = "draw";
+  await app.upload("existing.png", embedSnapshot(plainPng, authored));
+  assert.deepEqual(app.current(), authored);
+  assert.equal(app.editor.styles.font, "sans");
+});
+
+test("native menu owns the viewer actions and the selector sits immediately left of its button", async () => {
+  const app = await viewer();
+  assert.equal(app.elements.boards.parentNode, app.dock);
+  assert.equal(app.elements.boards.nextElementSibling, app.menuButton);
+  await app.openMenu();
+  const menu = app.uiRoot.querySelector(".qd-menu-pop");
+  for (const id of ["read", "fit", "save", "export-png", "fullscreen"]) assert.equal(app.elements[id].parentNode, menu);
+  assert.equal(menu.querySelectorAll(".qd-mi-label").filter(element => element.textContent === "匯出可編輯 PNG").length, 1);
+  await app.click("read");
+  assert.equal(app.filePickerRequests(), 1);
+  assert.equal(app.uiRoot.querySelector(".qd-menu-pop"), null);
+  await app.openMenu();
+  assert.equal(app.elements.read.parentNode, app.uiRoot.querySelector(".qd-menu-pop"));
+});
+
+test("native fullscreen hides all chrome and browser exit restores the previous camera, tool and selection", async () => {
+  const app = await viewer();
+  const previous = { x: 70, y: 80, z: 0.7 };
+  app.editor.setCamera(previous);
+  app.editor.setSelection(["shape:selected"]);
+  const before = app.current();
+  await app.click("fullscreen");
+  assert.equal(app.document.fullscreenElement, app.elements.board);
+  assert.equal(app.document.body.classList.contains("canvas-only"), true);
+  assert.equal(app.uiRoot.classList.contains("qd-hidden"), true);
+  assert.equal(app.uiRoot.querySelector(".qd-menu-pop"), null);
+  assert.equal(app.elements.fullscreen.getAttribute("aria-pressed"), "true");
+  assert.equal(app.editor.tool, "hand");
+  assert.equal(app.editor.selection.size, 0);
+  assert.deepEqual(app.current(), before);
+  app.document.fullscreenElement = null;
+  await app.document.emit("fullscreenchange");
+  app.flushFrames();
+  assert.equal(app.document.body.classList.contains("canvas-only"), false);
+  assert.equal(app.uiRoot.classList.contains("qd-hidden"), false);
+  assert.equal(app.elements.fullscreen.getAttribute("aria-pressed"), "false");
+  assert.deepEqual(app.camera(), previous);
+  assert.equal(app.editor.tool, "select");
+  assert.deepEqual([...app.editor.selection], ["shape:selected"]);
+  assert.equal(app.document.activeElement, app.menuButton);
+  assert.deepEqual(app.current(), before);
+});
+
+test("missing or denied Fullscreen API still gives canvas-only mode with Escape exit", async () => {
+  for (const fullscreenMode of ["unsupported", "denied"]) {
+    const app = await viewer({ fullscreenMode });
+    await app.click("fullscreen");
+    assert.equal(app.document.fullscreenElement, null);
+    assert.equal(app.document.body.classList.contains("canvas-only"), true);
+    assert.equal(app.uiRoot.classList.contains("qd-hidden"), true);
+    const event = { key: "Escape" };
+    await app.window.emit("keydown", event);
+    app.flushFrames();
+    assert.equal(event.defaultPrevented, true);
+    assert.equal(event.immediatePropagationStopped, true);
+    assert.equal(app.document.body.classList.contains("canvas-only"), false);
+    assert.equal(app.uiRoot.classList.contains("qd-hidden"), false);
+  }
+});
+
+test("double-click exits canvas-only mode without reaching the SDK text-editing handler", async () => {
+  const app = await viewer({ fullscreenMode: "unsupported" });
+  let edits = 0;
+  app.elements.board.addEventListener("dblclick", () => { edits++; });
+  await app.click("fullscreen");
+  const event = {};
+  await app.elements.board.emit("dblclick", event);
+  app.flushFrames();
+  assert.equal(edits, 0);
+  assert.equal(event.defaultPrevented, true);
+  assert.equal(app.document.body.classList.contains("canvas-only"), false);
+  await app.elements.board.emit("dblclick");
+  assert.equal(edits, 1);
+});
+
+test("Escape keeps the browser's native exit behavior and leaves full screen cleanly", async () => {
+  const app = await viewer();
+  await app.click("fullscreen");
+  const event = { key: "Escape" };
+  await app.window.emit("keydown", event);
+  app.flushFrames();
+  assert.notEqual(event.defaultPrevented, true);
+  assert.equal(app.document.fullscreenElement, null);
+  assert.equal(app.uiRoot.classList.contains("qd-hidden"), false);
+});
+
+test("a delayed fullscreen request cannot reopen canvas-only mode after Escape", async () => {
+  const app = await viewer();
+  let release;
+  const pending = new Promise(resolve => { release = resolve; });
+  app.elements.board.requestFullscreen = async () => {
+    await pending;
+    app.document.fullscreenElement = app.elements.board;
+    await app.document.emit("fullscreenchange");
+  };
+  await app.openMenu();
+  const operation = app.elements.fullscreen.click();
+  assert.equal(app.document.body.classList.contains("canvas-only"), true);
+  await app.window.emit("keydown", { key: "Escape" });
+  release();
+  await operation;
+  app.flushFrames();
+  assert.equal(app.document.fullscreenElement, null);
+  assert.equal(app.document.body.classList.contains("canvas-only"), false);
+  assert.equal(app.uiRoot.classList.contains("qd-hidden"), false);
+  assert.equal(app.elements.fullscreen.disabled, false);
+});
+
+test("canvas-only mode blocks editing shortcuts while retaining zoom and browser shortcut defaults", async () => {
+  const app = await viewer();
+  const before = app.current();
+  app.window.addEventListener("keydown", event => {
+    if (event.key === "t") app.editor.setTool("text");
+    if (event.ctrlKey && event.key === "a") app.editor.setSelection(Object.keys(before.document.store));
+    if (event.ctrlKey && event.key === "+") app.editor.setCamera({ ...app.camera(), z: app.camera().z * 1.25 });
+  });
+  await app.click("fullscreen");
+  for (const options of [{ key: "t" }, { key: "a", ctrlKey: true }, { key: "v", ctrlKey: true }, { key: "Delete" }]) {
+    const event = { ...options, target: app.elements.board };
+    await app.window.emit("keydown", event);
+    assert.equal(event.defaultPrevented, true);
+    assert.equal(event.immediatePropagationStopped, true);
+  }
+  assert.equal(app.editor.tool, "hand");
+  assert.equal(app.editor.selection.size, 0);
+  assert.deepEqual(app.current(), before);
+  const zoom = app.camera().z;
+  await app.window.emit("keydown", { key: "+", ctrlKey: true, target: app.elements.board });
+  assert.equal(app.camera().z, zoom * 1.25);
+  const reload = { key: "r", ctrlKey: true, target: app.elements.board };
+  await app.window.emit("keydown", reload);
+  assert.notEqual(reload.defaultPrevented, true);
+});
+
+test("canvas-only fit shortcuts keep the hand tool even when Shift+1 produces a literal digit", async () => {
+  const app = await viewer();
+  app.window.addEventListener("keydown", event => {
+    if (event.key === "1") app.editor.setTool("select");
+  });
+  await app.click("fullscreen");
+  for (const key of ["1", "!"]) {
+    app.editor.setCamera({ x: 100, y: 100, z: 2 });
+    const event = { key, shiftKey: true, target: app.elements.board };
+    await app.window.emit("keydown", event);
+    assert.equal(event.defaultPrevented, true);
+    assert.equal(event.immediatePropagationStopped, true);
+    assert.equal(app.editor.tool, "hand");
+    assert.equal(app.editor.selection.size, 0);
+    assert.equal(app.camera().z, 0.545);
+  }
+});
+
+test("canvas-only mode prevents paste and file-drop editing without blocking them after exit", async () => {
+  const app = await viewer();
+  let edits = 0;
+  for (const type of ["paste", "drop"]) app.elements.board.addEventListener(type, () => { edits++; });
+  await app.click("fullscreen");
+  for (const type of ["paste", "drop"]) {
+    const event = {};
+    await app.elements.board.emit(type, event);
+    assert.equal(event.defaultPrevented, true);
+    assert.equal(event.immediatePropagationStopped, true);
+  }
+  assert.equal(edits, 0);
+  await app.window.emit("keydown", { key: "Escape" });
+  app.flushFrames();
+  for (const type of ["paste", "drop"]) await app.elements.board.emit(type);
+  assert.equal(edits, 2);
+});
+
+test("the canvas save shortcut exports editable PNG and leaves selector shortcuts alone", async () => {
+  const app = await viewer();
+  app.edit(snapshot("Shortcut edit"));
+  await app.window.emit("keydown", { key: "s", ctrlKey: true, target: app.elements.boards });
+  assert.equal(app.downloads.length, 0);
+  const event = { key: "s", ctrlKey: true, target: app.elements.board };
+  await app.window.emit("keydown", event);
+  assert.equal(event.defaultPrevented, true);
+  assert.equal(event.immediatePropagationStopped, true);
+  assert.deepEqual((await decodedDownload(app)).snapshot, snapshot("Shortcut edit"));
+});
 
 test("initial load, board switching, file opening and refocus frame the diagram instead of extreme zoom-out", async () => {
   const bounds = { x: 100, y: 200, w: 1600, h: 1200 };
@@ -216,9 +468,10 @@ test("export waits for fonts, blocks input and unlocks controls after completion
   let release;
   const fonts = new Promise(resolve => { release = resolve; });
   const app = await viewer({ fonts });
-  const operation = app.click("export-png");
+  await app.openMenu();
+  const operation = app.elements["export-png"].click();
   assert.equal(app.elements.board.inert, true);
-  for (const id of ["boards", "file", "fit", "save", "export-png"]) assert.equal(app.elements[id].disabled, true);
+  for (const id of ["boards", "file", "read", "fit", "save", "export-png", "fullscreen"]) assert.equal(app.elements[id].disabled, true);
   assert.equal(app.downloads.length, 0);
   release();
   await operation;

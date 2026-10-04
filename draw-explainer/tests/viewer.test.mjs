@@ -169,6 +169,30 @@ async function decodedDownload(app) {
   return { filename: download.filename, snapshot: extractSnapshot(new Uint8Array(await download.blob.arrayBuffer())) };
 }
 
+test("successful loads and board switches are silent while errors and download feedback remain visible", async () => {
+  const app = await viewer();
+  const silent = () => {
+    assert.equal(app.elements.status.hidden, true);
+    assert.equal(app.elements.status.textContent, "");
+  };
+  silent();
+  await app.click("save");
+  assert.equal(app.elements.status.hidden, false);
+  assert.match(app.elements.status.textContent, /JSON 下載/);
+  await app.select(1);
+  silent();
+  await app.upload("broken.png", new Uint8Array([1, 2, 3]));
+  assert.equal(app.elements.status.hidden, false);
+  assert.match(app.elements.status.textContent, /載入失敗/);
+  await app.select(0);
+  silent();
+  await app.upload("restored.png", embedSnapshot(plainPng, snapshot("Restored")));
+  silent();
+  await app.click("export-png");
+  assert.equal(app.elements.status.hidden, false);
+  assert.match(app.elements.status.textContent, /可編輯 PNG 下載/);
+});
+
 test("default text font matches generated records without changing font sizes or imported text", async () => {
   const app = await viewer();
   const generated = Object.values(app.current().document.store).find(record => record.type === "text");

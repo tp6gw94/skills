@@ -13,9 +13,10 @@
     #board::backdrop { background: #fbf9f4; }
     #board .qd-dock { max-width: calc(100% - 16px); overflow-x: auto; scrollbar-width: none; }
     #board .qd-dock::-webkit-scrollbar { display: none; }
-    #boards { position: sticky; right: 34px; z-index: 2; width: 140px; max-width: 40vw; flex: none; height: 32px; margin: 0 2px; padding: 0 8px; border: 1px solid #77756d; border-radius: 8px; background: #34332e; color: white; font: inherit; font-size: 12px; cursor: pointer; }
+    #boards { position: sticky; right: 34px; z-index: 2; width: 140px; max-width: 40vw; flex: none; height: 32px; margin: 0 2px; padding: 0 8px; border: 1px solid var(--qd-border); border-radius: 8px; background: var(--qd-pop-bg); color: var(--qd-ink); color-scheme: light; font: inherit; font-size: 12px; cursor: pointer; }
+    #board[data-qd-theme="dark"] #boards { color-scheme: dark; }
     #board .qd-dock > button[data-name="menu"] { position: sticky; right: 0; z-index: 2; }
-    #board .qd-dock > button[data-name="menu"]:not(.on) { background: #34332e; }
+    #board .qd-dock > button[data-name="menu"]:not(.on) { background: var(--qd-pop-bg); color: var(--qd-ink); }
     #board .qd-menu-pop { max-height: calc(100vh - 96px); max-height: calc(100dvh - 96px); overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; }
     #board .qd-menu-pop > * { flex-shrink: 0; }
     #board .qd-menu-pop .qd-has-sub { flex-wrap: wrap; }
@@ -178,7 +179,7 @@
     }
 
     function load(snapshot, name, index) {
-      const records = checkSnapshot(snapshot);
+      checkSnapshot(snapshot);
       chrome.closeMenu();
       if (currentIndex !== null) entries[currentIndex].snapshot = board.editor.store.getSnapshot();
       board.editor.store.loadSnapshot(snapshot, "remote");
@@ -193,7 +194,9 @@
       currentName = name;
       selector.value = String(index);
       selector.title = "切換圖解：" + name;
-      notify("已載入 " + Object.keys(records).length + " 個記錄。可編輯並匯出可編輯 PNG；未做視覺驗證。" + (unsaved.has(index) ? "此圖有尚未下載的修改。" : ""));
+      clearTimeout(statusTimer);
+      status.hidden = true;
+      status.textContent = "";
     }
 
     function download(blob, extension) {

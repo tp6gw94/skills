@@ -643,15 +643,6 @@
       "installedAt": "2026-09-30T13:25:12.157Z",
       "updatedAt": "2026-10-03T05:23:40.417Z"
     },
-    "gsap-explainer": {
-      "source": "tp6gw94/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/tp6gw94/skills.git",
-      "skillPath": "gsap-explainer/SKILL.md",
-      "skillFolderHash": "753ce70739a8b1c4ccc05c9b765d68675776c03b",
-      "installedAt": "2026-10-02T14:21:23.260Z",
-      "updatedAt": "2026-10-02T14:21:23.260Z"
-    },
     "what-dose-this-mean": {
       "source": "tp6gw94/skills",
       "sourceType": "github",
@@ -660,6 +651,15 @@
       "skillFolderHash": "dc7e9b4d3fa346c972cd904538b41e6bc026b679",
       "installedAt": "2026-10-03T05:24:00.111Z",
       "updatedAt": "2026-10-03T08:35:35.598Z"
+    },
+    "draw-explainer": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "skillPath": "draw-explainer/SKILL.md",
+      "skillFolderHash": "dd07b913c7b20c4bd8f13a8b8cd44163743ac079",
+      "installedAt": "2026-10-04T12:47:37.194Z",
+      "updatedAt": "2026-10-04T14:35:38.781Z"
     }
   },
   "lastSelectedAgents": [

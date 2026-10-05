@@ -24,4 +24,4 @@ arena runners: openai-codex/gpt-6.1-sol:high, opencode-go/deepseek-v4.1-flash:ma
 arena cross-judge pool: openai-codex/gpt-6-astra:low
 swarm workers: opencode-go/deepseek-v4.1-flash:max
 architect runners: openai-codex/gpt-6-astra:low, openai-codex/gpt-6.1-sol:high, xai/grok-4.6:xhigh
-interrogate reviewers: openai-codex/gpt-6.1-sol:high, xai/grok-4.6:high, vercel-ai-gateway/meta/muse-spark-1.3-contributor:high
+interrogate reviewers: openai-codex/gpt-6.1-sol:high, xai/grok-4.7:high, opencode-go/glm-5.3-flash:high

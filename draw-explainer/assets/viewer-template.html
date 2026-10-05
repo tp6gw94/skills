@@ -180,11 +180,13 @@
 
     function load(snapshot, name, index) {
       checkSnapshot(snapshot);
+      const tool = board.editor.tool;
       chrome.closeMenu();
       if (currentIndex !== null) entries[currentIndex].snapshot = board.editor.store.getSnapshot();
       board.editor.store.loadSnapshot(snapshot, "remote");
+      board.editor.setTool(tool);
+      board.editor.setSelection([]);
       focusDiagram();
-      board.editor.setTool("select");
       if (index === undefined) {
         index = entries.length;
         entries.push({ name, snapshot });
@@ -251,6 +253,7 @@
     try {
       const { createQuickdraw } = await import("https://cdn.jsdelivr.net/gh/quickdrawjs/quickdraw@dd653639aec1212c9ec5704e2eafd2a75560a0af/packages/core/src/index.js");
       board = createQuickdraw({ container: canvasHost, theme: "light", grid: "none", watermark: false, styles: { font: "sans" } });
+      board.editor.setTool("select");
       chrome = mountViewerChrome(board, { selector, input, read, fit, save, png, fullscreen });
       entries.forEach((entry, index) => addOption(entry.name, index));
       if (entries.length) load(entries[0].snapshot, entries[0].name, 0);
@@ -338,7 +341,6 @@
         const file = input.files[0];
         if (!file) return;
         document.activeElement?.blur();
-        board.editor.setTool("select");
         setBusy(true);
         try {
           const isPng = /\.png$/i.test(file.name) || file.type === "image/png";

@@ -18,10 +18,10 @@ function snapshot(name = "First") {
   return board.snapshot();
 }
 
-async function viewer({ exportImage, fonts, fullscreenMode = "supported", bounds = { x: 100, y: 200, w: 1600, h: 1200 }, viewport = { w: 1000, h: 800 } } = {}) {
+async function viewer({ boardNames = ["First", "Second"], exportImage, fonts, fullscreenMode = "supported", bounds = { x: 100, y: 200, w: 1600, h: 1200 }, viewport = { w: 1000, h: 800 } } = {}) {
   const directory = mkdtempSync(join(tmpdir(), "quickdraw-viewer-"));
   directories.push(directory);
-  const paths = ["First", "Second"].map(name => {
+  const paths = (boardNames.length ? boardNames : ["First"]).map(name => {
     const board = createBoard(name);
     board.text("label", 0, 0, 600, name);
     const path = join(directory, name + ".json");
@@ -30,7 +30,7 @@ async function viewer({ exportImage, fonts, fullscreenMode = "supported", bounds
   });
   const result = packageBoards(paths, join(directory, "out"));
   const html = readFileSync(result.viewer, "utf8");
-  const data = /<script id="board-data" type="application\/json">([\s\S]*?)<\/script>/.exec(html)[1];
+  const data = boardNames.length ? /<script id="board-data" type="application\/json">([\s\S]*?)<\/script>/.exec(html)[1] : "[]";
   const document = new Element("document");
   document.ownerDocument = document;
   document.body = new Element("body", document);
@@ -68,7 +68,7 @@ async function viewer({ exportImage, fonts, fullscreenMode = "supported", bounds
   const editor = {
     store,
     container: elements.board,
-    tool: "select",
+    tool: "draw",
     selection: new Set(),
     get camera() { return camera; },
     setCamera(value) { camera = structuredClone(value); },
@@ -168,6 +168,51 @@ async function decodedDownload(app) {
   const download = app.downloads.at(-1);
   return { filename: download.filename, snapshot: extractSnapshot(new Uint8Array(await download.blob.arrayBuffer())) };
 }
+
+test("initial tool is select with or without embedded boards", async () => {
+  for (const boardNames of [["First", "Second"], []]) {
+    const app = await viewer({ boardNames });
+    assert.equal(app.editor.tool, "select");
+  }
+});
+
+test("switching boards in both directions preserves the active non-select tool and clears selection", async () => {
+  const app = await viewer();
+  const changed = snapshot("Changed first board");
+  app.edit(changed);
+  app.editor.setTool("draw");
+  app.editor.setSelection(Object.keys(changed.document.store));
+  await app.select(1);
+  assert.equal(app.editor.tool, "draw");
+  assert.deepEqual(app.current(), snapshot("Second"));
+  assert.equal(app.editor.selection.size, 0);
+  assert.equal(app.elements.boards.value, "1");
+  app.editor.setTool("arrow");
+  app.editor.setSelection(Object.keys(app.current().document.store));
+  await app.select(0);
+  assert.equal(app.editor.tool, "arrow");
+  assert.deepEqual(app.current(), changed);
+  assert.equal(app.editor.selection.size, 0);
+  assert.equal(app.elements.boards.value, "0");
+});
+
+test("opening JSON preserves the tool while clearing selection even for reused record IDs", async () => {
+  for (const tool of ["text", "select"]) {
+    const app = await viewer();
+    const reopened = app.current();
+    Object.values(reopened.document.store)[0].props.text = "Reopened JSON";
+    app.editor.setTool(tool);
+    app.editor.setSelection(Object.keys(reopened.document.store));
+    await app.upload("reopened.json", new TextEncoder().encode(JSON.stringify(reopened)), "application/json");
+    assert.equal(app.editor.tool, tool);
+    assert.deepEqual(app.current(), reopened);
+    assert.equal(app.editor.selection.size, 0);
+    assert.equal(app.elements.boards.value, "2");
+    assert.equal(app.elements.status.hidden, true);
+    assert.equal(app.elements.status.textContent, "");
+    assert.equal(app.camera().z, 0.545);
+  }
+});
 
 test("successful loads and board switches are silent while errors and download feedback remain visible", async () => {
   const app = await viewer();
@@ -434,7 +479,9 @@ test("packaged controls export the latest whole board as editable PNG and reopen
   assert.deepEqual(app.imageOptions, [{ background: true, ids: null }]);
   await app.select(1);
   const bytes = new Uint8Array(await app.downloads[0].blob.arrayBuffer());
+  app.editor.setTool("arrow");
   await app.upload("RESTORED.PNG", bytes);
+  assert.equal(app.editor.tool, "arrow");
   assert.deepEqual(app.current(), edited);
   app.edit(snapshot("Second edit"));
   await app.click("export-png");
@@ -444,15 +491,33 @@ test("packaged controls export the latest whole board as editable PNG and reopen
 test("ordinary PNG, corrupt bytes and invalid snapshots leave the current board intact", async () => {
   const app = await viewer();
   const before = app.current();
+  app.editor.setTool("line");
+  app.editor.setSelection(Object.keys(before.document.store));
+  const selection = [...app.editor.selection];
+  const camera = app.camera();
+  const unchanged = () => {
+    assert.deepEqual(app.current(), before);
+    assert.equal(app.editor.tool, "line");
+    assert.deepEqual([...app.editor.selection], selection);
+    assert.deepEqual(app.camera(), camera);
+    assert.equal(app.elements.boards.value, "0");
+    assert.equal(app.elements.boards.children.length, 2);
+  };
   await app.upload("ordinary.png", plainPng);
   assert.match(app.elements.status.textContent, /沒有 Quickdraw 編輯資料/);
-  assert.deepEqual(app.current(), before);
+  unchanged();
   await app.upload("broken.png", new Uint8Array([1, 2, 3]));
   assert.match(app.elements.status.textContent, /載入失敗/);
-  assert.deepEqual(app.current(), before);
+  unchanged();
+  await app.upload("broken.json", new TextEncoder().encode("{"), "application/json");
+  assert.match(app.elements.status.textContent, /載入失敗/);
+  unchanged();
   await app.upload("bad.json", new TextEncoder().encode('{"nodes":[]}'), "application/json");
   assert.match(app.elements.status.textContent, /缺少 document.store/);
-  assert.deepEqual(app.current(), before);
+  unchanged();
+  await app.select(99);
+  assert.match(app.elements.status.textContent, /載入失敗/);
+  unchanged();
   assert.equal(app.elements.file.value, "");
   assert.equal(app.elements["export-png"].disabled, false);
 });

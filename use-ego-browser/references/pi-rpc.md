@@ -17,7 +17,7 @@ Describe each additional RPC tool before using it. Confirm that the parent can a
 
 Unless explicit session, user, or project settings override them, use these defaults:
 
-- Model `opencode-go/muse-spark-1.3-contributor`.
+- Model `openai-codex/gpt-6-luna`.
 - Reasoning `high`.
 - Context `fresh`.
 - Asynchronous execution.
@@ -33,7 +33,7 @@ In the example below, bind `taskContract` to the filled contract, `browserInstru
 ```js
 const task = await tools.rpc_subagents_run({
 	name: "Operate ego-browser",
-	model: { provider: "opencode-go", id: "muse-spark-1.3-contributor" },
+	model: { provider: "openai-codex", id: "gpt-6-luna" },
 	thinking: "high",
 	context: "fresh",
 	async: true,

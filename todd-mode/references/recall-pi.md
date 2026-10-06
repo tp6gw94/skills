@@ -1,9 +1,13 @@
 # Pi recall
 
-Use this reference when Pi is selected for `/recall`. Apply the shared Agent-aware recall workflow in `../SKILL.md`.
+Use this invocation only when Pi is selected. Run from the Todd mode skill directory:
 
-- Runtime evidence includes `PI_CODING_AGENT` and `PI_SESSION_FILE`. Use `PI_SESSION_FILE`, when available, to exclude the current session.
-- History root is `~/.pi/agent/sessions/`.
-- Start in the current workspace's `--<slug>--/` directory, where `<slug>` is the absolute workspace path with the leading slash dropped and each `/` replaced by `-`.
-- Read session `*.jsonl` files and confirm the session header's `cwd` matches the workspace before searching conversation content.
-- Conversation entries have `type: "message"` with role and content under `message`.
+```bash
+bash scripts/recall.sh --agent pi --workspace "/absolute/workspace/path" --query "topic"
+```
+
+Replace the workspace placeholder with the user's target workspace. Replace `topic` with the requested topic, or omit `--query` for activity recall.
+
+The script uses the Pi history root and excludes `PI_SESSION_FILE` and `PI_SESSION_ID` when available. If runtime metadata is absent, pass the current session ID or transcript path with `--exclude`.
+
+Use `bash scripts/recall.sh --help` for scope and output limits. Transcript paths and formats are defined only in the script.

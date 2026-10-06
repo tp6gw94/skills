@@ -1,10 +1,13 @@
 # Kiro recall
 
-Use this reference when Kiro is selected for `/recall`. Apply the shared Agent-aware recall workflow in `../SKILL.md`.
+Use this invocation only when Kiro is selected. Run from the Todd mode skill directory:
 
-- History root is `~/.kiro/sessions/`.
-- Discover `session.json` metadata under the nested workspace/session directories.
-- Select sessions whose `workspacePaths` or `rootPaths` contain the current workspace's absolute path before searching conversation content. Directory hashes are not workspace evidence.
-- Use the metadata's `id` and the current runtime's session ID or path, when available, to exclude the current session.
-- Read the selected session directory's `messages.jsonl`. Conversation entries have `payload.type` equal to `user` or `assistant`, with content under `payload.content`.
-- Metadata is JSON, not a JSONL transcript.
+```bash
+bash scripts/recall.sh --agent kiro --workspace "/absolute/workspace/path" --query "topic" --exclude "current-session-id"
+```
+
+Replace the workspace placeholder with the user's target workspace. Replace `topic` with the requested topic, or omit `--query` for activity recall. Replace `current-session-id` with the current runtime's session ID or transcript path. If neither is available, omit that option and report that current-session exclusion could not be verified.
+
+The script uses the Kiro history root and matches the workspace through session metadata rather than directory hashes.
+
+Use `bash scripts/recall.sh --help` for scope and output limits. Transcript paths and formats are defined only in the script.

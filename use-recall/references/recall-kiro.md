@@ -1,6 +1,6 @@
 # Kiro recall
 
-Use this invocation only when Kiro is selected. Run from the Todd mode skill directory:
+Use this invocation only when Kiro is selected. Run from the `use-recall` skill directory:
 
 ```bash
 bash scripts/recall.sh --agent kiro --workspace "/absolute/workspace/path" --query "topic" --exclude "current-session-id"

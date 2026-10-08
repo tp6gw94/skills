@@ -1,6 +1,6 @@
 # Pi recall
 
-Use this invocation only when Pi is selected. Run from the Todd mode skill directory:
+Use this invocation only when Pi is selected. Run from the `use-recall` skill directory:
 
 ```bash
 bash scripts/recall.sh --agent pi --workspace "/absolute/workspace/path" --query "topic"

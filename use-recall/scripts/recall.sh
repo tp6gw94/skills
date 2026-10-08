@@ -102,7 +102,7 @@ case $agent in
 esac
 [[ $root == /* && -d $root ]] || fail 'History root is missing or is not an absolute directory'
 
-scratch=$(mktemp -d "${TMPDIR:-/tmp}/todd-recall.XXXXXXXX") || fail 'Cannot create temporary workspace'
+scratch=$(mktemp -d "${TMPDIR:-/tmp}/use-recall.XXXXXXXX") || fail 'Cannot create temporary workspace'
 trap 'rm -rf "$scratch"' EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM

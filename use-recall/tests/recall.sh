@@ -2,7 +2,7 @@
 set -euo pipefail
 
 script=$(cd "$(dirname "$0")/../scripts" && pwd)/recall.sh
-scratch=$(mktemp -d "${TMPDIR:-/tmp}/todd-recall-test.XXXXXXXX")
+scratch=$(mktemp -d "${TMPDIR:-/tmp}/use-recall-test.XXXXXXXX")
 trap 'rm -rf "$scratch"' EXIT
 unset PI_CODING_AGENT PI_SESSION_FILE PI_SESSION_ID
 workspace=$scratch/workspace\ with\ spaces

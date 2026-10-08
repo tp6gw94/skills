@@ -8,7 +8,7 @@ The parent loads Poteto's orchestration instructions and the current playbook on
 
 ## Runtime operations and verification
 
-Follow the matching pstack playbook's reproduction, review, runtime verification, and completion criteria against the real application, service, or artifact. Perform the applicable checks even when the user did not explicitly request testing. The parent reviews the evidence against the agreed acceptance criteria and owns the final acceptance decision.
+Follow the matching pstack playbook's reproduction, review, runtime verification, and completion criteria against the real application, service, or artifact. Perform the applicable checks even when the user did not explicitly request testing. The parent reviews the evidence against the agreed acceptance criteria and owns the final acceptance decision. Pstack completion remains subject to [Todd's code-simplification gate](../SKILL.md#runtime-operations-and-verification).
 
 For delegated operations, hand off the latest user request, agreed scope and constraints, cwd, target URL or artifact, relevant changed files, operations to perform, and observable acceptance criteria. Require actions taken, expected versus observed results, evidence paths or screenshots, and failures or untested cases.
 

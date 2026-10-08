@@ -41,3 +41,5 @@ Wait for completed results and check the cited evidence before relying on it. Th
 ## Runtime operations and verification
 
 For execution and substantive investigation, follow [pstack workflow](references/pstack-workflow.md). The parent checks necessary source evidence, reviews results against agreed acceptance criteria, and owns final acceptance. Keep operations within confirmed scope and existing authorization boundaries.
+
+After a code-changing task's implementation and existing verification pass, follow [code simplification](references/code-simplification.md) before final acceptance, commit, or PR, in addition to required pstack reviews and checks.

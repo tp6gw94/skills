@@ -10,6 +10,7 @@
 # fallback: opencode-go/glm-5.3-flash:high -> vercel-ai-gateway/zai/glm-5.3-flash:high
 # fallback: opencode-go/glm-5.3:high -> vercel-ai-gateway/zai/glm-5.3:high
 feature, refactoring: opencode-go/deepseek-v4.1-flash:max
+code-simplifier: opencode-go/deepseek-v4.1-flash:max
 bug-fix: openai-codex/gpt-6-luna:max
 perf-issue: openai-codex/gpt-6-luna:max
 hillclimb: opencode-go/deepseek-v4.1-flash:max

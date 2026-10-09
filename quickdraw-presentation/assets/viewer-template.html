@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quickdraw 簡報</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/quickdrawjs/quickdraw@dd653639aec1212c9ec5704e2eafd2a75560a0af/packages/core/src/quickdraw.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; height: 100vh; height: 100dvh; overflow: hidden; font-family: system-ui, sans-serif; background: #fbf9f4; color: #25231e; }
+    #board { width: 100%; height: 100%; position: relative; overflow: hidden; }
+    #board:fullscreen { width: 100vw; height: 100vh; height: 100dvh; }
+    #board::backdrop { background: #fbf9f4; }
+    #board .qd-dock { max-width: calc(100% - 16px); overflow-x: auto; scrollbar-width: none; }
+    #board .qd-dock::-webkit-scrollbar { display: none; }
+    #boards { position: sticky; right: 34px; z-index: 2; width: 140px; max-width: 40vw; flex: none; height: 32px; margin: 0 2px; padding: 0 8px; border: 1px solid var(--qd-border); border-radius: 8px; background: var(--qd-pop-bg); color: var(--qd-ink); color-scheme: light; font: inherit; font-size: 12px; cursor: pointer; }
+    #board[data-qd-theme="dark"] #boards { color-scheme: dark; }
+    #board .qd-dock > button[data-name="menu"] { position: sticky; right: 0; z-index: 2; }
+    #board .qd-dock > button[data-name="menu"]:not(.on) { background: var(--qd-pop-bg); color: var(--qd-ink); }
+    #board .qd-menu-pop { max-height: calc(100vh - 96px); max-height: calc(100dvh - 96px); overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; }
+    #board .qd-menu-pop > * { flex-shrink: 0; }
+    #board .qd-menu-pop .qd-has-sub { flex-wrap: wrap; }
+    #board .qd-menu-pop .qd-submenu { position: static; flex: 0 0 100%; min-width: 0; margin-top: 6px; box-shadow: none; animation: none; }
+    #boards:disabled { opacity: 0.5; cursor: default; }
+    #boards:focus-visible { outline: 2px solid #9baeff; outline-offset: 2px; }
+    #status { position: fixed; top: 12px; left: 50%; transform: translateX(-50%); z-index: 60; max-width: min(560px, calc(100% - 24px)); margin: 0; padding: 10px 14px; border: 1px solid #d7d2c8; border-radius: 10px; background: #fbf9f4; color: #5c574c; font-size: 13px; box-shadow: 0 3px 12px #25231e14; pointer-events: none; }
+    body.canvas-only #status { display: none; }
+    [hidden] { display: none !important; }
+    #page-nav { position: absolute; right: 16px; top: 16px; z-index: 50; display: flex; align-items: center; gap: 8px; padding: 6px; background: #fbf9f4; border: 1px solid #d7d2c8; border-radius: 10px; font: 14px system-ui; }
+    #page-nav button { min-height: 36px; padding: 6px 12px; background: white; color: #25231e; border: 1px solid #d7d2c8; border-radius: 6px; cursor: pointer; }
+    #page-nav button:disabled { opacity: .4; cursor: default; }
+    #page-count { min-width: 48px; text-align: center; }
+    body.canvas-only #page-nav { opacity: .45; }
+    body.canvas-only #page-nav:hover, body.canvas-only #page-nav:focus-within { opacity: 1; }
+  </style>
+</head>
+<body>
+  <main id="board" aria-label="可編輯的簡報白板" tabindex="0"><nav id="page-nav" aria-label="簡報導覽"><button id="previous" disabled>上一頁</button><span id="page-count" role="status" aria-live="polite"></span><button id="next" disabled>下一頁</button></nav></main>
+  <div id="viewer-controls" hidden>
+    <select id="boards" aria-label="切換簡報頁" disabled></select>
+    <input id="file" type="file" accept=".json,.png,application/json,image/png" disabled>
+    <button id="read" type="button" disabled>讀取 JSON／PNG</button>
+    <button id="fit" type="button" disabled>縮放至全圖</button>
+    <button id="save" type="button" disabled>下載目前 JSON</button>
+    <button id="export-png" type="button" disabled>匯出可編輯 PNG</button>
+    <button id="fullscreen" type="button" aria-pressed="false" title="只顯示畫布；Esc 或雙擊畫布離開" disabled>全螢幕</button>
+  </div>
+  <p id="status" role="status" aria-live="polite">載入固定版本的 Quickdraw SDK；需要網路連線或已快取的依賴。修改不會自動儲存。</p>
+  <script id="board-data" type="application/json">[]</script>
+  <script type="module">
+    import { embedSnapshot, extractSnapshot } from "./png.mjs";
+    import { mountViewerChrome } from "./toolbar.mjs";
+
+    const previous = document.querySelector("#previous");
+    const next = document.querySelector("#next");
+    const pageCount = document.querySelector("#page-count");
+    function updateNavigation() {
+      previous.disabled = busy || currentIndex === null || currentIndex <= 0;
+      next.disabled = busy || currentIndex === null || currentIndex >= entries.length - 1;
+      pageCount.textContent = currentIndex === null ? "0 / 0" : `${currentIndex + 1} / ${entries.length}`;
+    }
+    function goToPage(index) {
+      if (busy || !Number.isInteger(index) || index < 0 || index >= entries.length || index === currentIndex) return;
+      const entry = entries[index];
+      load(entry.snapshot, entry.name, index);
+    }
+    for (const control of [previous, next]) {
+      for (const type of ["pointerdown", "pointerup", "click", "dblclick"]) control.addEventListener(type, event => event.stopPropagation());
+    }
+    previous.addEventListener("click", () => goToPage(currentIndex - 1));
+    next.addEventListener("click", () => goToPage(currentIndex + 1));
+    const status = document.querySelector("#status");
+    const selector = document.querySelector("#boards");
+    const input = document.querySelector("#file");
+    const read = document.querySelector("#read");
+    const fit = document.querySelector("#fit");
+    const save = document.querySelector("#save");
+    const png = document.querySelector("#export-png");
+    const fullscreen = document.querySelector("#fullscreen");
+    const canvasHost = document.querySelector("#board");
+    const entries = JSON.parse(document.querySelector("#board-data").textContent);
+    const unsaved = new Set();
+    let board;
+    let chrome;
+    let currentIndex = null;
+    let currentName = "diagram";
+    let busy = false;
+    let canvasOnly = false;
+    let fullscreenPending = false;
+    let canvasModeRequested = false;
+    let nativeFullscreen = false;
+    let previousView;
+    let statusTimer;
+
+    function notify(message, persistent = false) {
+      clearTimeout(statusTimer);
+      status.textContent = message;
+      status.hidden = false;
+      if (!persistent) statusTimer = setTimeout(() => { status.hidden = true; }, 6000);
+    }
+
+    function object(value) {
+      return value !== null && typeof value === "object" && !Array.isArray(value);
+    }
+
+    function checkSnapshot(snapshot) {
+      const records = snapshot?.document?.store;
+      if (!object(records)) throw new Error("檔案缺少 document.store。");
+      for (const [id, record] of Object.entries(records)) {
+        if (!object(record) || record.id !== id) throw new Error("記錄 ID 不符。");
+        if (record.typeName === "asset") {
+          if (typeof record.src !== "string" || !record.src.startsWith("data:image/") || ![record.w, record.h].every(value => Number.isFinite(value) && value > 0)) throw new Error("圖片資產必須包含有效尺寸與內嵌圖片資料。");
+          continue;
+        }
+        if (record.typeName !== "shape" || !["geo", "text", "arrow", "line", "draw", "highlight", "note", "image"].includes(record.type)) throw new Error("不支援的 Quickdraw 記錄類型。");
+        if (![record.x, record.y, record.rot, record.z].every(Number.isFinite) || !object(record.props)) throw new Error("記錄缺少有效座標或 props。");
+        if (record.type === "image" && records[record.props.assetId]?.typeName !== "asset") throw new Error("圖片缺少對應資產。");
+      }
+      return records;
+    }
+
+    function addOption(name, index) {
+      const option = document.createElement("option");
+      option.value = String(index);
+      option.textContent = name;
+      selector.appendChild(option);
+    }
+
+    function setBusy(value) {
+      busy = value;
+      for (const element of [input, read, fit, save, png]) element.disabled = value;
+      fullscreen.disabled = value || fullscreenPending;
+      selector.disabled = value || entries.length === 0;
+      canvasHost.inert = value;
+      updateNavigation();
+    }
+
+    function focusDiagram() {
+      board.editor.fitContent({ margin: 0.08, maxZoom: 1 });
+    }
+
+    function setCanvasOnly(enabled) {
+      if (canvasOnly === enabled) return;
+      document.activeElement?.blur();
+      const restore = previousView;
+      if (enabled) {
+        previousView = { camera: { ...board.editor.camera }, tool: board.editor.tool, selection: [...board.editor.selection] };
+        board.editor.setTool("hand");
+      } else if (restore) {
+        board.editor.setTool(restore.tool);
+        board.editor.setSelection(restore.selection);
+        previousView = undefined;
+      }
+      canvasOnly = enabled;
+      document.body.classList.toggle("canvas-only", enabled);
+      board.ui.setHidden(enabled);
+      fullscreen.setAttribute("aria-pressed", String(enabled));
+      requestAnimationFrame(() => {
+        if (canvasOnly !== enabled) return;
+        if (enabled) {
+          focusDiagram();
+          canvasHost.focus({ preventScroll: true });
+        } else {
+          if (restore) board.editor.setCamera(restore.camera);
+          chrome.menuButton.focus({ preventScroll: true });
+        }
+      });
+    }
+
+    async function leaveCanvasOnly() {
+      canvasModeRequested = false;
+      if (document.fullscreenElement === canvasHost) {
+        try {
+          await document.exitFullscreen();
+        } catch {
+          canvasModeRequested = true;
+          notify("無法離開全螢幕；請按瀏覽器的 Esc 鍵離開。", true);
+          return;
+        }
+      }
+      nativeFullscreen = false;
+      setCanvasOnly(false);
+    }
+
+    async function enterCanvasOnly() {
+      if (busy || fullscreenPending || canvasOnly) return;
+      canvasModeRequested = true;
+      fullscreenPending = true;
+      fullscreen.disabled = true;
+      setCanvasOnly(true);
+      try {
+        if (canvasHost.requestFullscreen) {
+          await canvasHost.requestFullscreen({ navigationUI: "hide" });
+          if (!canvasModeRequested && document.fullscreenElement === canvasHost) await document.exitFullscreen();
+        } else {
+          notify("此瀏覽器不支援全螢幕，已切換為頁面內的純畫布模式；Esc 或雙擊畫布離開。");
+        }
+      } catch {
+        if (canvasModeRequested) notify("瀏覽器未允許全螢幕，已切換為頁面內的純畫布模式；Esc 或雙擊畫布離開。");
+      } finally {
+        fullscreenPending = false;
+        fullscreen.disabled = busy;
+      }
+    }
+
+    function load(snapshot, name, index) {
+      checkSnapshot(snapshot);
+      const tool = board.editor.tool;
+      chrome.closeMenu();
+      if (currentIndex !== null) entries[currentIndex].snapshot = board.editor.store.getSnapshot();
+      board.editor.store.loadSnapshot(snapshot, "remote");
+      board.editor.setTool(tool);
+      board.editor.setSelection([]);
+      focusDiagram();
+      if (index === undefined) {
+        index = entries.length;
+        entries.push({ name, snapshot });
+        addOption(name, index);
+      }
+      currentIndex = index;
+      currentName = name;
+      selector.value = String(index);
+      selector.title = "切換簡報頁：" + name;
+      clearTimeout(statusTimer);
+      status.hidden = true;
+      status.textContent = "";
+      updateNavigation();
+    }
+
+    function download(blob, extension) {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = currentName + extension;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+    }
+
+    function explain(error) {
+      const messages = {
+        INVALID_PNG: "PNG 簽名無效。",
+        INVALID_CHUNK: "PNG 結構損壞。",
+        INVALID_CRC: "PNG 檢查碼不符。",
+        INVALID_METADATA: "可編輯 PNG 的資料格式無效。",
+        DUPLICATE_METADATA: "PNG 含有重複的 Quickdraw 資料。",
+        UNSUPPORTED_VERSION: "不支援此 PNG 的 Quickdraw 資料版本。",
+        CHUNK_TOO_LARGE: "PNG 資料超出格式允許的大小。",
+        ENCODE_FAILED: "無法編碼 Quickdraw 資料。"
+      };
+      return messages[error.code] || error.message;
+    }
+
+    async function exportPng() {
+      if (busy) return;
+      document.activeElement?.blur();
+      board.editor.setTool("select");
+      setBusy(true);
+      notify("正在匯出全圖與可編輯資料……", true);
+      try {
+        await document.fonts?.ready;
+        const snapshot = JSON.parse(JSON.stringify(board.editor.store.getSnapshot()));
+        const image = await board.editor.exportImage({ background: true, ids: null });
+        if (!image) throw new Error("白板沒有可匯出的圖形；可改為下載 JSON。");
+        const bytes = embedSnapshot(new Uint8Array(await image.arrayBuffer()), snapshot);
+        if (JSON.stringify(board.editor.store.getSnapshot()) !== JSON.stringify(snapshot)) throw new Error("匯出期間資料發生變更，請重新匯出。");
+        download(new Blob([bytes], { type: "image/png" }), ".png");
+        unsaved.delete(currentIndex);
+        notify("已建立可編輯 PNG 下載。下次用「讀取 JSON／PNG」開啟；請保留原始檔，避免轉檔移除編輯資料。");
+      } catch (error) {
+        notify("匯出失敗：" + explain(error), true);
+      } finally {
+        setBusy(false);
+        if (canvasOnly) board.editor.setTool("hand");
+      }
+    }
+
+    try {
+      const { createQuickdraw } = await import("https://cdn.jsdelivr.net/gh/quickdrawjs/quickdraw@dd653639aec1212c9ec5704e2eafd2a75560a0af/packages/core/src/index.js");
+      board = createQuickdraw({ container: canvasHost, theme: "light", grid: "none", watermark: false, styles: { font: "sans" } });
+      board.editor.setTool("select");
+      chrome = mountViewerChrome(board, { selector, input, read, fit, save, png, fullscreen });
+      entries.forEach((entry, index) => addOption(entry.name, index));
+      if (entries.length) load(entries[0].snapshot, entries[0].name, 0);
+      else notify("請讀取 Quickdraw JSON 或可編輯 PNG；修改不會自動儲存。", true);
+      setBusy(false);
+      board.editor.store.listen(() => {
+        unsaved.add(currentIndex);
+        notify("有尚未下載的修改。請下載 JSON 或匯出可編輯 PNG 後再關閉頁面。");
+      }, { source: "user" });
+      document.addEventListener("fullscreenchange", () => {
+        if (document.fullscreenElement === canvasHost) {
+          nativeFullscreen = true;
+          if (canvasModeRequested) {
+            setCanvasOnly(true);
+            requestAnimationFrame(() => { if (canvasOnly) focusDiagram(); });
+          } else {
+            return leaveCanvasOnly();
+          }
+        } else if (nativeFullscreen) {
+          nativeFullscreen = false;
+          canvasModeRequested = false;
+          setCanvasOnly(false);
+        }
+      });
+      window.addEventListener("keydown", event => {
+        const target = event.target;
+        const editing = target?.isContentEditable || target?.closest?.('input, textarea, select, [contenteditable="true"], .qd-menu-pop');
+        const paging = ["PageDown", "PageUp"].includes(event.key) || (canvasOnly && ["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key));
+        if (paging && !editing && !event.ctrlKey && !event.metaKey && !event.altKey && !event.shiftKey && !event.repeat) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          const index = event.key === "Home" ? 0 : event.key === "End" ? entries.length - 1 : currentIndex + (["PageDown", "ArrowRight"].includes(event.key) ? 1 : -1);
+          goToPage(index);
+          return;
+        }
+        if (canvasOnly && event.key === "Escape") {
+          if (document.fullscreenElement !== canvasHost) event.preventDefault();
+          event.stopImmediatePropagation();
+          return leaveCanvasOnly();
+        }
+        if ((event.ctrlKey || event.metaKey) && !event.altKey && !event.shiftKey && event.key.toLowerCase() === "s" && canvasHost.contains(event.target) && !selector.contains(event.target)) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          chrome.closeMenu();
+          return exportPng();
+        }
+        if (canvasOnly && canvasHost.contains(event.target)) {
+          const key = event.key.toLowerCase();
+          const meta = event.ctrlKey || event.metaKey;
+          if (event.shiftKey && ["1", "!"].includes(key)) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            focusDiagram();
+            return;
+          }
+          const navigation = key === " " || (meta && ["=", "+", "-"].includes(key)) || (event.shiftKey && key === "0");
+          if (!navigation) {
+            event.stopImmediatePropagation();
+            const toolKeys = ["v", "1", "h", "d", "p", "b", "i", "e", "k", "a", "l", "t", "n", "g", "r", "o", "[", "]"];
+            if ((!meta && toolKeys.includes(key)) || (meta && ["z", "a", "d", "c", "x", "v"].includes(key)) || ["delete", "backspace", "enter"].includes(key)) event.preventDefault();
+          }
+        }
+      }, true);
+      for (const type of ["paste", "drop"]) canvasHost.addEventListener(type, event => {
+        if (!canvasOnly) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }, true);
+      canvasHost.addEventListener("dblclick", event => {
+        if (!canvasOnly) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        return leaveCanvasOnly();
+      }, true);
+      fullscreen.addEventListener("click", enterCanvasOnly);
+      window.addEventListener("beforeunload", event => {
+        if (unsaved.size) {
+          event.preventDefault();
+          event.returnValue = "";
+        }
+      });
+      selector.addEventListener("change", () => {
+        try {
+          const index = Number(selector.value);
+          const entry = entries[index];
+          load(entry.snapshot, entry.name, index);
+        } catch (error) {
+          selector.value = currentIndex === null ? "" : String(currentIndex);
+          notify("載入失敗：" + explain(error), true);
+        }
+      });
+      read.addEventListener("click", () => { if (!busy) input.click(); });
+      input.addEventListener("change", async () => {
+        if (busy) return;
+        const file = input.files[0];
+        if (!file) return;
+        document.activeElement?.blur();
+        setBusy(true);
+        try {
+          const isPng = /\.png$/i.test(file.name) || file.type === "image/png";
+          const snapshot = isPng ? extractSnapshot(new Uint8Array(await file.arrayBuffer())) : JSON.parse(await file.text());
+          if (snapshot === null) throw new Error("這是一般 PNG，沒有 Quickdraw 編輯資料；無法還原圖形。請選擇可編輯 PNG 或 JSON。");
+          load(snapshot, file.name.replace(/\.(json|png)$/i, ""));
+        } catch (error) {
+          notify("載入失敗：" + explain(error), true);
+        } finally {
+          input.value = "";
+          setBusy(false);
+        }
+      });
+      fit.addEventListener("click", focusDiagram);
+      save.addEventListener("click", () => {
+        try {
+          document.activeElement?.blur();
+          board.editor.setTool("select");
+          download(new Blob([JSON.stringify(board.editor.store.getSnapshot(), null, 2)], { type: "application/json" }), ".json");
+          unsaved.delete(currentIndex);
+          notify("已建立目前 JSON 下載；可再次載入並編輯。");
+        } catch (error) {
+          notify("下載失敗：" + explain(error), true);
+        }
+      });
+      png.addEventListener("click", exportPng);
+    } catch (error) {
+      for (const element of [selector, input, read, fit, save, png, fullscreen, previous, next]) element.disabled = true;
+      notify("載入失敗：" + error.message + "。請確認可連線至 cdn.jsdelivr.net；原始 JSON 仍可獨立使用。", true);
+    }
+  </script>
+</body>
+</html>

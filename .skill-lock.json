@@ -704,6 +704,15 @@
       "skillFolderHash": "9d8dfb507e46edc91f41c6a9a16c8f42fe45b12a",
       "installedAt": "2026-10-09T02:03:05.042Z",
       "updatedAt": "2026-10-09T02:03:05.042Z"
+    },
+    "quickdraw-presentation": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "skillPath": "quickdraw-presentation/SKILL.md",
+      "skillFolderHash": "b778e40884765710c85fbaf13f2a74dcb6464d87",
+      "installedAt": "2026-10-09T02:10:01.451Z",
+      "updatedAt": "2026-10-09T02:10:01.451Z"
     }
   },
   "lastSelectedAgents": [

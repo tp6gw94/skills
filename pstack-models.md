@@ -16,14 +16,14 @@ bug-fix: claude-bridge/claude-sonnet-5-5:high
 perf-issue: xai/grok-4.6:xhigh
 hillclimb: opencode-go/deepseek-v4.1-flash:max
 judgment and prose: claude-bridge/claude-opus-5-5:high
-hardest tasks: openai-codex/gpt-6-astra:medium
+hardest tasks: claude-bridge/claude-opus-5-5:max
 how explorer: opencode-go/deepseek-v4.1-flash:max
 how explainer: openai-codex/gpt-6.1-sol:xhigh
 why investigators: opencode-go/deepseek-v4.1-flash:max
 why synthesizer: openai-codex/gpt-6.1-sol:xhigh
 reflect tooling: claude-bridge/claude-opus-5-5:high
 reflect judgment, divergent, synthesizer: openai-codex/gpt-6-astra:low
-arena runners: opencode-go/deepseek-v4.1-flash:max, xai/grok-4.6:xhigh, opencode-go/glm-5.3-flash:high
+arena runners: opencode-go/deepseek-v4.1-flash:max, xai/grok-4.6:xhigh, claude-bridge/claude-sonnet-5-5:high
 arena cross-judge pool: claude-bridge/claude-opus-5-5:high
 swarm workers: opencode-go/deepseek-v4.1-flash:max
 architect runners: openai-codex/gpt-6-astra:low, xai/grok-4.6:xhigh

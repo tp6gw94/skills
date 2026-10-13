@@ -9,22 +9,22 @@
 # fallback: opencode-go/deepseek-v4.1-flash:max -> openai-codex/gpt-6-luna:max
 # fallback: opencode-go/glm-5.3-flash:high -> vercel-ai-gateway/zai/glm-5.3-flash:high
 # fallback: claude-bridge/claude-opus-5-5:high -> openai-codex/gpt-6-astra:medium
-# fallback: claude-bridge/claude-sonnet-5-5:high -> openai-codex/gpt-6.1-sol:high
+# fallback: claude-bridge/claude-sonnet-5-5:high -> openai-codex/gpt-6.1-sol:xhigh
 feature, refactoring: opencode-go/deepseek-v4.1-flash:max
 code-simplifier: opencode-go/deepseek-v4.1-flash:max
-bug-fix: claude-bridge/claude-sonnet-5-5:high
-perf-issue: xai/grok-4.6:xhigh
-hillclimb: opencode-go/deepseek-v4.1-flash:max
+bug-fix: openai-codex/gpt-6-astra:low
+perf-issue: openai-codex/gpt-6-astra:low
+hillclimb: openai-codex/gpt-6-astra:low
 judgment and prose: claude-bridge/claude-opus-5-5:high
 hardest tasks: claude-bridge/claude-opus-5-5:max
 how explorer: opencode-go/deepseek-v4.1-flash:max
 how explainer: openai-codex/gpt-6.1-sol:xhigh
 why investigators: opencode-go/deepseek-v4.1-flash:max
 why synthesizer: openai-codex/gpt-6.1-sol:xhigh
-reflect tooling: claude-bridge/claude-opus-5-5:high
+reflect tooling: openai-codex/gpt-6.1-sol:xhigh
 reflect judgment, divergent, synthesizer: openai-codex/gpt-6-astra:low
-arena runners: opencode-go/deepseek-v4.1-flash:max, xai/grok-4.6:xhigh, claude-bridge/claude-sonnet-5-5:high
+arena runners: opencode-go/deepseek-v4.1-flash:max, xai/grok-4.6:xhigh, claude-bridge/claude-haiku-5-5:high
 arena cross-judge pool: claude-bridge/claude-opus-5-5:high
 swarm workers: opencode-go/deepseek-v4.1-flash:max
-architect runners: openai-codex/gpt-6-astra:low, xai/grok-4.6:xhigh
+architect runners: openai-codex/gpt-6.1-sol:xhigh, xai/grok-4.6:xhigh
 interrogate reviewers: claude-bridge/claude-opus-5-5:high, openai-codex/gpt-6-astra:medium

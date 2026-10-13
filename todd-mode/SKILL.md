@@ -1,6 +1,6 @@
 ---
 name: todd-mode
-description: "Align requirements and scope through evidence-backed discussion, then execute and verify with pstack."
+description: "Align requirements and scope through evidence-backed discussion, then execute and verify with pstack at a stated tier."
 disable-model-invocation: true
 ---
 
@@ -19,10 +19,19 @@ Keep requirements alignment and final acceptance with the parent. Read `~/.agent
 For each new execution task:
 
 1. Assess the available context. If decision-relevant information is missing, delegate bounded, read-only investigation under Information gathering and check the evidence before discussing requirements.
-2. Discuss the intended outcome, scope boundaries, constraints, and observable acceptance criteria with the user. Separate established facts from assumptions and resolve product or preference decisions with the user. This is requirements clarification, not an implementation plan. Alignment is complete when these points are explicit, each decision-relevant gap has evidence or an acknowledged blocker, and the user confirms the shared understanding. End the turn and wait for that confirmation; a summary alone is not confirmation. Until then, work stays within read-only gathering and clarification.
-3. After confirmation, enter the matching pstack playbook with the agreed requirements and evidence. Implementation, prototypes, test execution, and state-changing external actions follow that workflow within the confirmed scope. Pause for renewed alignment only when direction or scope materially changes, or an action requires separate authorization.
+2. Discuss the intended outcome, scope boundaries, constraints, and observable acceptance criteria with the user, and propose the [execution tier](#execution-tier) with its reason. Separate established facts from assumptions and resolve product or preference decisions with the user. This is requirements clarification, not an implementation plan. Alignment is complete when these points and the tier are explicit, each decision-relevant gap has evidence or an acknowledged blocker, and the user confirms the shared understanding. End the turn and wait for that confirmation; a summary alone is not confirmation. Until then, work stays within read-only gathering and clarification.
+3. After confirmation, enter the matching pstack playbook at the confirmed tier with the agreed requirements and evidence. Implementation, prototypes, test execution, and state-changing external actions follow that workflow within the confirmed scope. Pause for renewed alignment only when direction or scope materially changes, or an action requires separate authorization.
 
-Answer pure questions without this execution gate, gathering evidence under Information gathering when needed. An explicit request to execute directly or run autonomously waives alignment confirmation for its stated scope; existing safety and tool-permission boundaries still apply. A new task outside that scope returns to requirements alignment.
+Answer pure questions without this execution gate, gathering evidence under Information gathering when needed. An explicit request to execute directly or run autonomously waives alignment confirmation for its stated scope; state the tier and its reason before the first delegation, then proceed. Existing safety and tool-permission boundaries still apply. A new task outside that scope returns to requirements alignment.
+
+## Execution tier
+
+The tier decides which grounding and design steps run before implementation. Verification, the closing gates, and parent acceptance run at every tier.
+
+- **Light.** The change has one clear shape, the checked evidence already explains the code it touches, and it leaves lifecycle, concurrent state, and authorization boundaries as they are. Run one implementation delegate on the task-type role (`feature, refactoring`, `bug-fix`, or `perf-issue`), then the parent reviews the diff.
+- **Full.** The design has real alternatives, or the change touches a lifecycle, concurrent state, or an authorization boundary. Run the playbook's grounding and design steps (`how`, `architect`) before implementation, and route cross-cutting design, concurrency, or subtle algorithms to `hardest tasks` per Poteto.
+
+Grounding at either tier reuses findings the parent already checked this session and delegates only the gaps the change depends on. An explicit `/how`, `/architect`, or `/arena` invocation runs that skill's full flow at any tier. When implementation or review reveals a design fork or a boundary the alignment missed, escalate to Full, say so, and re-state the tier.
 
 ## Information gathering
 
@@ -42,4 +51,4 @@ Wait for completed results and check the cited evidence before relying on it. Th
 
 For execution and substantive investigation, follow [pstack workflow](references/pstack-workflow.md). The parent checks necessary source evidence, reviews results against agreed acceptance criteria, and owns final acceptance. Keep operations within confirmed scope and existing authorization boundaries.
 
-After a code-changing task's implementation and existing verification pass, follow [code simplification](references/code-simplification.md) before final acceptance, commit, or PR, in addition to required pstack reviews and checks.
+A code-changing task closes through two gates after its implementation and the playbook's verification pass, in order: [code simplification](references/code-simplification.md), then adversarial review of the final diff through the **interrogate** skill at `~/.agents/skills/interrogate/SKILL.md` with the configured `interrogate reviewers`, where the parent categorizes the findings and resolves every Act-on item. Repairs from either gate re-enter verification and review. Final acceptance, commit, or PR follows once the final diff carries no open Act-on finding.

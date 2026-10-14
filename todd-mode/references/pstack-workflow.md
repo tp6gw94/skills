@@ -12,4 +12,6 @@ Follow the matching pstack playbook's reproduction, review, runtime verification
 
 For delegated operations, hand off the latest user request, agreed scope and constraints, cwd, target URL or artifact, relevant changed files, operations to perform, and observable acceptance criteria. Require actions taken, expected versus observed results, evidence paths or screenshots, and failures or untested cases.
 
+Launch every runtime verification and browser operation delegate on the `runtime verification` role in `~/.agents/todd-models.md`, including the first phase of a verification that later continues in the same session; a continued session keeps its original model. Writing a verification harness, fixture, or test script is code work: delegate it first on the task-type role (`feature, refactoring`, `bug-fix`, or `perf-issue`), and give the verification delegate only the operations.
+
 For Ego Lite operations, have the delegate read `ego-browser` and `use-ego-browser` before browser use. Include existing TaskSpace IDs and Page labels when continuing a browser task. Keep operations within the confirmed scope and existing authorization boundaries.

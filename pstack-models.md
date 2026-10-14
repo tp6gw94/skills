@@ -18,10 +18,10 @@ hillclimb: openai-codex/gpt-6-astra:low
 judgment and prose: claude-bridge/claude-opus-5-5:high
 hardest tasks: claude-bridge/claude-opus-5-5:max
 how explorer: opencode-go/deepseek-v4.1-flash:max
-how explainer: openai-codex/gpt-6.1-sol:xhigh
+how explainer: openai-codex/gpt-6-astra:low
 why investigators: opencode-go/deepseek-v4.1-flash:max
-why synthesizer: openai-codex/gpt-6.1-sol:xhigh
-reflect tooling: openai-codex/gpt-6.1-sol:xhigh
+why synthesizer: openai-codex/gpt-6-astra:low
+reflect tooling: claude-bridge/claude-opus-5-5:high
 reflect judgment, divergent, synthesizer: openai-codex/gpt-6-astra:low
 arena runners: opencode-go/deepseek-v4.1-flash:max, xai/grok-4.6:xhigh, claude-bridge/claude-haiku-5-5:high
 arena cross-judge pool: claude-bridge/claude-opus-5-5:high

@@ -12,7 +12,7 @@ Apply this mode for the current session after explicit activation. Stop when the
 
 Only a narrow pure question with sufficient current evidence and no explicitly invoked workflow may be answered directly without loading Poteto or spawning an explainer. An explicit `/how` or supplied how invocation still requires how's explainer. Missing evidence requires bounded, read-only RPC gathering below. Substantive investigation or execution requires [pstack workflow](references/pstack-workflow.md); explicit workflows retain their required roles and steps.
 
-Keep requirements alignment and final acceptance with the parent. Read `~/.agents/pstack-models.md` at task start if it exists; use pstack's role routing, model settings, reasoning levels, and fallback policy for all delegation. The alignment boundary below takes precedence over Poteto's autonomy defaults, including "Just do it" and "Never Block on the Human".
+Keep requirements alignment and final acceptance with the parent. Read `~/.agents/todd-models.md` at task start; it is the only model settings file for this mode and replaces `~/.agents/pstack-models.md` wherever a pstack skill reads a role from it. Use pstack's role routing with the models, reasoning levels, and fallback policy in `todd-models.md` for all delegation. A role without a line runs on the parent's model and reasoning. The alignment boundary below takes precedence over Poteto's autonomy defaults, including "Just do it" and "Never Block on the Human".
 
 ## Requirements alignment
 

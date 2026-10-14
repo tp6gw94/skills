@@ -23,7 +23,7 @@ Supply these task-specific fields without copying the child's rules:
 
 ## Model routing
 
-Read the `code-simplifier` role in `~/.agents/pstack-models.md`, the shared settings file for all roles. Use the same model, reasoning-budget, and fallback conventions as existing pstack roles. A missing file or role defaults to the parent's model and reasoning.
+Use the `code-simplifier` role in `~/.agents/todd-models.md`.
 
 - `code-simplifier: inherit-parent` or `code-simplifier: auto` inherits the parent's model and reasoning; omit both launch arguments.
 - An explicit `provider/id:effort` value becomes RPC `model: { provider, id }` and separate `thinking`. The provider ends at the first slash; the final effort suffix is reasoning, not part of the exact registry ID. Without an explicit effort, apply the file's reasoning budget when specified, otherwise inherit parent reasoning.

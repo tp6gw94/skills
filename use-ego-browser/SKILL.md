@@ -7,11 +7,11 @@ description: Operate ego-browser through an authorized executor across agent env
 
 ## Scope
 
-This skill covers invocation. It does not replace the vendor `ego-browser` skill. For browser-operation APIs such as `taskSpace`, `snapshot`, and `click`, first read:
+This skill covers invocation. It does not replace the vendor `ego-browser` skill. For browser-operation APIs such as `taskSpace`, `snapshot`, and `click`, first read the installed Ego Lite skill at `$HOME/.local/share/ego/ego-skills/SKILL.md`.
 
-```text
-$HOME/.local/share/ego/ego-skills/SKILL.md
-```
+For same-round evidence capture, follow [the debug kit](references/debug-kit.md). For exploratory codemode loops, follow [the explore loop](references/explore-loop.md). Resolve the skill directory from this file, then build the absolute `file://` import URL at runtime. Ego Node scripts have no reliable working directory or inherited environment variables.
+
+One TaskSpace is driven by one executor; each explore loop uses a unique TaskSpace name; parallel loops share cookies and server data.
 
 ## Choose the execution route
 
@@ -50,7 +50,7 @@ You are the sole Ego Lite browser executor. Operate ego-browser directly within 
 
 Run browser scripts through a shell tool using `ego-browser nodejs` with a heredoc ending at EOF. For `-e`, redirect stdin from `/dev/null`.
 
-Reuse a supplied active TaskSpace and its page labels instead of creating a new space. Otherwise, create exactly one TaskSpace with `await taskSpace("browser task")` and print its `spaceId` immediately. Use `task.page("p1")` for its initial page. In later commands, resume with `await taskSpace(theRecordedId)`. Node variables do not persist between commands. Keep one active space for the task.
+Reuse a supplied active TaskSpace and its page labels instead of creating a new space. Otherwise, create exactly one TaskSpace with a unique name and print its `spaceId` immediately. Use `task.page("p1")` for its initial page. In later commands, resume with `await taskSpace(theRecordedId)`. Node variables do not persist between commands. Keep one active space for the task.
 
 Navigate with `await page.goto(url)`. Inspect ordinary pages with `await page.snapshot()`, then use its refs or unique CSS selectors with `page.click()`, `fill()`, `selectOption()`, or `setInputFiles()`. Observe changed state before retrying an unexpected action.
 
@@ -60,7 +60,7 @@ For uploads, use `page.setInputFiles(selector, paths)`. For downloads, start `pa
 
 Stop on user control, an inactive or unassigned space, or a browser-owned permission prompt. Report what is needed rather than bypassing the stop. Keep the same TaskSpace during recovery.
 
-Check every acceptance outcome before finishing. On success, await `task.finish({keep:[]})` exactly once. Complete further observations before this call. Do not finish on an error or a user-control stop.
+Check every acceptance outcome before finishing. On success, await `task.finish({keep:[]})` exactly once unless an approved-plan workflow requires leaving the TaskSpace open. Complete further observations before this call. Do not finish on an error or a user-control stop.
 
 Use available file-reading and image-viewing capabilities for evidence inspection or additional documentation. Return the selected model and reasoning level when available, the TaskSpace ID and page labels, each check as `pass`, `fail`, or `not-run`, evidence paths, and remaining issues. Clearly separate verified results from observations.
 

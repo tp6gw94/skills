@@ -43,10 +43,22 @@ End the turn and wait for explicit approval of the browser plan. Approval covers
 
 ## 4. Drive the browser
 
-Read the ego-browser-tools skill fully, then [references/browser.md](references/browser.md). Run the approved plan against the environment origin only. Create Given data first, confirm it exists through a read view (a list or debug page), then walk the AC steps.
+Read the use-ego-browser skill fully, resolve its route, and fill its task contract:
 
-Done when every AC step has an observation ID and a check that passed or failed with its actual value.
+- Goal: the approved plan.
+- Target URLs: the environment URL.
+- Allowed actions: the approved side effects plus read-only navigation.
+- File ownership and Evidence directory: `/tmp/verify-jira-<key>/`.
+- Acceptance checks: each AC Then's expected result.
+- Existing TaskSpace: the ID and page label the user gave, or none.
+- Deadline: the time limit you give the run.
+
+Add to the contract that the run leaves the TaskSpace open without `task.finish`. Every browser action comes from the approved plan; this workflow skips the explore loop.
+
+Resolve at runtime and pass the executor the absolute paths of [references/browser.md](references/browser.md) and use-ego-browser's `references/debug-kit.md`, plus the absolute `file://` URL of use-ego-browser's `scripts/debug-kit.mjs`. The executor creates the Given data first, confirms it exists through a read view (a list or debug page), then walks the AC steps.
+
+Done when every AC Then has a `<label>.check.json` with its actual value and verdict, next to its `<label>.json` record and screenshot.
 
 ## 5. Report
 
-Per AC: pass, fail, or not implemented, with observation IDs, screenshot paths, and code file:line for failures. List every record created on the environment (template, patient, record name) and the Ego space ID left open. Offer a bug issue for each failure. Create one only when the user asks: issue type `Bug`, the same project, steps to reproduce, expected versus actual, the cause at file:line, then a `Relates` link to the story.
+Per AC: pass, fail, or not implemented, citing its `.check.json` (expected versus actual), record and screenshot paths, and code file:line for failures. Report the account name and role the run used. List every record created on the environment (template, patient, record name) and the TaskSpace ID left open; finish it only when the user asks. Offer a bug issue for each failure. Create one only when the user asks: issue type `Bug`, the same project, steps to reproduce, expected versus actual, the cause at file:line, then a `Relates` link to the story.

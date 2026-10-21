@@ -18,6 +18,7 @@ hillclimb: opencode-go/deepseek-v4.1-flash:max
 judgment and prose: claude-bridge/claude-opus-5-5:high
 hardest tasks: claude-bridge/claude-fable-5-1
 runtime verification: opencode-go/deepseek-v4.1-flash:max
+e2e verification: opencode-go/deepseek-v4.1-flash:max
 how explorer: opencode-go/deepseek-v4.1-flash:max
 how explainer: openai-codex/gpt-6-astra:high
 why investigators: opencode-go/deepseek-v4.1-flash:max

@@ -17,24 +17,23 @@ Describe each additional RPC tool before using it. Confirm that the parent can a
 
 Unless explicit session, user, or project settings override them, use these defaults:
 
-- Model `opencode-go/muse-spark-1.3-contributor` or `openai-codex/gpt-6-luna`.
-- Reasoning `high`.
+- Model and reasoning from the `e2e verification` role in `~/.agents/todd-models.md`: `provider/id:effort` becomes `model: { provider, id }` plus `thinking: effort`, and the fallback lines in that file apply on provider failure.
 - Context `fresh`.
 - Asynchronous execution.
 
-Apply explicit model, reasoning, context, and execution overrides before dispatch. An explicit `context: "fork"` uses the current branch snapshot at invocation instead of fresh context. It does not receive later conversation updates. Require the child to confirm its selected model and supported reasoning level. Treat a mismatch as a blocker.
+Apply explicit role, model, reasoning, context, and execution overrides before dispatch. An explicit `context: "fork"` uses the current branch snapshot at invocation instead of fresh context. It does not receive later conversation updates. Require the child to confirm its selected model and supported reasoning level. Treat a mismatch as a blocker.
 
 ## Build and dispatch the prompt
 
 Fill the task contract from the main skill. Include its complete executor guidance and any task-specific details from `$HOME/.local/share/ego/ego-skills/SKILL.md`. Children do not automatically load skills. Keep the shared browser instructions in the main skill as the single source of truth.
 
-In the example below, bind `taskContract` to the filled contract, `browserInstructions` to the main skill's complete executor guidance, and `vendorDetails` to the additional API instructions the task needs. Use an empty string for `vendorDetails` when no additions are needed. Replace the example settings with any explicit overrides, and align `timeoutMs` with the contract's deadline.
+In the example below, bind `taskContract` to the filled contract, `browserInstructions` to the main skill's complete executor guidance, and `vendorDetails` to the additional API instructions the task needs. Use an empty string for `vendorDetails` when no additions are needed. Fill `model` and `thinking` from the resolved role line, apply any explicit overrides, and align `timeoutMs` with the contract's deadline.
 
 ```js
 const task = await tools.rpc_subagents_run({
 	name: "Operate ego-browser",
-	model: { provider: "opencode-go", id: "muse-spark-1.3-contributor" },
-	thinking: "high",
+	model: { provider: "<provider>", id: "<id>" },
+	thinking: "<effort>",
 	context: "fresh",
 	async: true,
 	timeoutMs: 600000,

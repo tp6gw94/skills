@@ -18,7 +18,7 @@ Done when every AC scenario is listed as Given / When / Then, every cited rule I
 
 ## 2. Trace the code through RPC explorers
 
-Read the rpc-subagents skill fully before dispatching. Take the model from the `how explorer` line in `~/.agents/todd-models.md`: `provider/id:effort` becomes `model: { provider, id }` plus `thinking: effort`, and the fallback lines in that file apply on provider failure. Build each prompt from `~/.agents/skills/how/references/explorer-prompt.md` with the AC trace question and one angle.
+Read the rpc-subagents skill fully before dispatching. Every delegate in this workflow runs on the `e2e verification` role in `~/.agents/todd-models.md`: `provider/id:effort` becomes `model: { provider, id }` plus `thinking: effort`, and the fallback lines in that file apply on provider failure. Build each prompt from `~/.agents/skills/how/references/explorer-prompt.md` with the AC trace question and one angle.
 
 Dispatch the explorers in parallel with `context: "fresh"`, `tools: ["read", "bash"]`, cwd at the repository root, and a read-only instruction. Each prompt carries the AC text, the collected UI terms, and its angle:
 

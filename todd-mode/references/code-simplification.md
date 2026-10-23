@@ -4,7 +4,7 @@ Use this parent-only procedure when [Todd mode's code-simplification gate](../SK
 
 ## Dispatch
 
-1. Read `/Users/todd/.pi/agent/extensions/rpc-subagents/skills/rpc-subagents/SKILL.md` fully and discover the needed tools and schemas. Resolve Model routing below. Missing capabilities or invalid settings block dispatch.
+1. Read `/Users/todd/.pi/agent/git/github.com/tp6gw94/pi-extras/extensions/rpc-subagents/skills/rpc-subagents/SKILL.md` fully and discover the needed tools and schemas. Resolve Model routing below. Missing capabilities or invalid settings block dispatch.
 2. Stop overlapping writers. Define exclusive ownership of task-changed code, including any approved nearby scope, and identify unrelated user changes to preserve. Record the base revision, complete task diff, and current owned-file contents, including staged, unstaged, and untracked implementation. This is the pre-simplification baseline, not merely HEAD.
 3. Verify absolute instruction and evidence paths, then compose the Fresh handoff below. Give the child [its work contract](code-simplifier.md) as a source pointer to read fully; the parent loads that file only when needed to resolve an acceptance gap.
 4. Launch a new `code-simplifier` through `rpc_subagents` with `context: "fresh"`, the project cwd, resolved model and reasoning, suitable editing/verification tools, and a bounded deadline. Never use fork or session reuse, including on retries. Capabilities and routing belong in launch arguments, not task prose. Follow RPC operating instructions for dispatch and retain the task ID.

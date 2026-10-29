@@ -9,7 +9,7 @@ description: Capture learnings, patterns, or workflows from the current conversa
 
 1. **Identify**: Review conversation for workflows, gotchas, patterns, or domain knowledge worth preserving
 2. **Confirm scope**: Summarize what you plan to capture; confirm with user
-3. **Decide destination**: New or existing skill? Personal (`~/.cursor/skills/`) or project (`.cursor/skills/`)?
+3. **Decide destination**: New or existing skill? Personal (`~/.agents/<skill-name>/`, the authoring source; `~/.agents/skills/` holds installed copies) or project (`<repo>/.agents/skills/<skill-name>/`)?
 4. **Write**: Follow distillation guidelines below
 5. **Verify**: Under 500 lines, description has trigger terms, content is accurate
 

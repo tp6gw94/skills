@@ -39,5 +39,4 @@ Transform messy conversation into clean, reusable instructions.
 | Situation | Action |
 |-----------|--------|
 | Multiple topics in conversation | Ask which to capture, or create separate skills |
-| Learning too small for a skill | Create a Cursor rule (`.cursor/rules/`) instead |
 | Existing skill needs major rewrite | Confirm: restructure existing or create new one? |

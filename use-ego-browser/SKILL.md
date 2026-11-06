@@ -9,7 +9,7 @@ description: Operate ego-browser through an authorized executor across agent env
 
 This skill covers invocation. It does not replace the vendor `ego-browser` skill. For browser-operation APIs such as `taskSpace`, `snapshot`, and `click`, first read the installed Ego Lite skill at `$HOME/.local/share/ego/ego-skills/SKILL.md`.
 
-For same-round evidence capture, follow [the debug kit](references/debug-kit.md). For exploratory codemode loops, follow [the explore loop](references/explore-loop.md). Resolve the skill directory from this file, then build the absolute `file://` import URL at runtime. Ego Node scripts have no reliable working directory or inherited environment variables.
+For same-round evidence capture, follow [the debug kit](references/debug-kit.md). For Jev action selection, follow [the explore loop](references/explore-loop.md). Resolve the skill directory from this file, then build the absolute `file://` import URL at runtime. Ego Node scripts have no reliable working directory or inherited environment variables.
 
 One TaskSpace is driven by one executor; each explore loop uses a unique TaskSpace name; parallel loops share cookies and server data.
 
@@ -53,6 +53,8 @@ Run browser scripts through a shell tool using `ego-browser nodejs` with a hered
 Reuse a supplied active TaskSpace and its page labels instead of creating a new space. Otherwise, create exactly one TaskSpace with a unique name and print its `spaceId` immediately. Use `task.page("p1")` for its initial page. In later commands, resume with `await taskSpace(theRecordedId)`. Node variables do not persist between commands. Keep one active space for the task.
 
 Navigate with `await page.goto(url)`. Inspect ordinary pages with `await page.snapshot()`, then use its refs or unique CSS selectors with `page.click()`, `fill()`, `selectOption()`, or `setInputFiles()`. Observe changed state before retrying an unexpected action.
+
+Choose among page candidates with Jev. Whenever the next action is a pick among snapshot candidates rather than a step the contract fixes by selector or label, hand that pick to the Jev classifier through codemode instead of reasoning over the snapshot yourself. For a goal-driven stretch from a known URL, run the explore loop, which snapshots, asks Jev, and acts inside one codemode call. For a single pick, call the loop's `classify` helper with the candidates as `choice` criteria, then act on the answer. Jev chooses actions only; judge acceptance checks yourself. When both Jev providers return errors, make that pick yourself and report that Jev was unavailable.
 
 For canvas interactions, use `page.screenshot()`, inspect the image with an image-viewing capability, and act with `page.mouse` or `page.keyboard`. Wait for the expected UI state and completed animations before visual evidence. Use `page.evaluate()` for read-only DOM inspection. Browser globals belong inside that callback.
 

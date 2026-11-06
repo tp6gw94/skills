@@ -25,7 +25,7 @@ Apply explicit role, model, reasoning, context, and execution overrides before d
 
 ## Build and dispatch the prompt
 
-Fill the task contract from the main skill. Include its complete executor guidance and any task-specific details from `$HOME/.local/share/ego/ego-skills/SKILL.md`. Children do not automatically load skills. Keep the shared browser instructions in the main skill as the single source of truth.
+Fill the task contract from the main skill. Include its complete executor guidance and any task-specific details from `$HOME/.local/share/ego/ego-skills/SKILL.md`. Replace the guidance's explore loop reference with the absolute path of `references/explore-loop.md` and give the absolute `file://` URL of `scripts/explore-step.mjs`, so the executor can choose actions with Jev. Children do not automatically load skills. Keep the shared browser instructions in the main skill as the single source of truth.
 
 In the example below, bind `taskContract` to the filled contract, `browserInstructions` to the main skill's complete executor guidance, and `vendorDetails` to the additional API instructions the task needs. Use an empty string for `vendorDetails` when no additions are needed. Fill `model` and `thinking` from the resolved role line, apply any explicit overrides, and align `timeoutMs` with the contract's deadline.
 

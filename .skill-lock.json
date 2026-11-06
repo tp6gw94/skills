@@ -24,9 +24,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/JuliusBrussee/caveman.git",
       "skillPath": "skills/caveman-compress/SKILL.md",
-      "skillFolderHash": "dc37fdb3577867cb7086b79b505f12a9cbd60144",
+      "skillFolderHash": "e1cfe848bfbd120ceb42b2253542fce34a3e5a77",
       "installedAt": "2026-07-08T01:29:11.700Z",
-      "updatedAt": "2026-10-20T13:29:40.403Z"
+      "updatedAt": "2026-10-29T07:42:35.864Z"
     },
     "caveman-help": {
       "source": "JuliusBrussee/caveman",
@@ -51,9 +51,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/microsoft/playwright-cli.git",
       "skillPath": "skills/playwright-cli/SKILL.md",
-      "skillFolderHash": "6b746b43751be277378e0ee04fe0db69f24da045",
+      "skillFolderHash": "003ec8747c78ceb8e9da5d83f12523a06830093c",
       "installedAt": "2026-07-08T01:30:39.034Z",
-      "updatedAt": "2026-09-29T12:31:44.667Z"
+      "updatedAt": "2026-11-03T02:11:14.886Z"
     },
     "vercel-composition-patterns": {
       "source": "vercel-labs/agent-skills",
@@ -98,25 +98,25 @@
       "skillPath": "hunk-review/SKILL.md",
       "skillFolderHash": "51152b0bfc487d9af59cb9078428c8a97e1f8db5",
       "installedAt": "2026-07-31T01:50:43.290Z",
-      "updatedAt": "2026-09-30T13:25:12.157Z"
+      "updatedAt": "2026-10-29T07:44:31.027Z"
     },
     "capture-skill": {
       "source": "tp6gw94/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/tp6gw94/skills.git",
       "skillPath": "capture-skill/SKILL.md",
-      "skillFolderHash": "872113bb091840942af537ff7d6a1cfcb2eeb5e3",
+      "skillFolderHash": "45c130c7680bce47b8cfa9504bc98d88d2da8e29",
       "installedAt": "2026-08-06T07:12:14.126Z",
-      "updatedAt": "2026-09-30T13:25:12.153Z"
+      "updatedAt": "2026-10-29T07:44:31.026Z"
     },
     "ego-browser": {
       "source": "citrolabs/ego-lite",
       "sourceType": "github",
       "sourceUrl": "https://github.com/citrolabs/ego-lite.git",
       "skillPath": "skills/ego-browser/SKILL.md",
-      "skillFolderHash": "1f8b5caa5e43f6ced5c41faf0e25eeadb56ae3dd",
+      "skillFolderHash": "f1ffe63fbdc36b9a32be9a59394854d1e3f4e6f0",
       "installedAt": "2026-08-06T07:53:35.300Z",
-      "updatedAt": "2026-10-20T13:29:53.117Z"
+      "updatedAt": "2026-11-05T01:41:56.184Z"
     },
     "search": {
       "source": "exa-labs/exa-mcp-server",
@@ -134,7 +134,7 @@
       "skillPath": "explain-diff/SKILL.md",
       "skillFolderHash": "02120a133a78ed948accbf24b05cfe865f22e5e5",
       "installedAt": "2026-08-17T01:38:27.735Z",
-      "updatedAt": "2026-09-30T13:25:12.155Z"
+      "updatedAt": "2026-10-29T07:44:31.027Z"
     },
     "writing-for-agents": {
       "source": "mattpocock/skills",
@@ -153,7 +153,7 @@
       "skillPath": "use-ego-browser/SKILL.md",
       "skillFolderHash": "c1d568470514e21eaac4f3a1a5d82c695f1ad328",
       "installedAt": "2026-08-18T07:03:14.826Z",
-      "updatedAt": "2026-10-22T03:56:03.494Z"
+      "updatedAt": "2026-10-29T07:44:31.028Z"
     },
     "visual-eli5": {
       "source": "tp6gw94/skills",
@@ -162,7 +162,7 @@
       "skillPath": "visiual-eli5/SKILL.md",
       "skillFolderHash": "4abfd9e039a305bedf4c226af3c75ec80be5b8d7",
       "installedAt": "2026-08-22T02:39:49.544Z",
-      "updatedAt": "2026-09-30T13:25:12.159Z"
+      "updatedAt": "2026-10-29T07:44:31.028Z"
     },
     "write-testing": {
       "source": "tp6gw94/skills",
@@ -171,7 +171,7 @@
       "skillPath": "write-testing/SKILL.md",
       "skillFolderHash": "e7acceff5169bfb3a3c5cdd20cd99eddfc62fb2a",
       "installedAt": "2026-08-27T01:03:26.389Z",
-      "updatedAt": "2026-09-30T13:25:12.159Z"
+      "updatedAt": "2026-10-29T07:44:31.029Z"
     },
     "sigma": {
       "source": "sanyuan0704/sanyuan-skills",
@@ -196,18 +196,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/Leonxlnx/taste-skill.git",
       "skillPath": "skills/taste-skill/SKILL.md",
-      "skillFolderHash": "2a22452297d559ea5ad97c178879d30ee3ec8022",
+      "skillFolderHash": "5743b6eb4d005c5bbe51aa4ecae701eb052d6198",
       "installedAt": "2026-09-09T14:20:52.740Z",
-      "updatedAt": "2026-10-22T03:56:05.783Z"
+      "updatedAt": "2026-11-05T01:42:11.818Z"
     },
     "lieflat-less-ai-tone": {
       "source": "larashero3-dotcom/lieflat-less-ai-tone",
       "sourceType": "github",
       "sourceUrl": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone.git",
       "skillPath": "SKILL.md",
-      "skillFolderHash": "27d29232f10124db904ca9c0536d0b67cb3b2833",
+      "skillFolderHash": "42ee3b60b281a7fdab4ca4f920ff4dcef828a3ab",
       "installedAt": "2026-09-17T03:14:01.460Z",
-      "updatedAt": "2026-09-29T12:32:16.261Z"
+      "updatedAt": "2026-11-05T01:42:12.076Z"
     },
     "architect": {
       "source": "backnotprop/pstack",
@@ -223,9 +223,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/backnotprop/pstack.git",
       "skillPath": "skills/arena/SKILL.md",
-      "skillFolderHash": "04b93753cb0021f4299f9888bf86c1e7d24229c7",
+      "skillFolderHash": "6974ca1f6817f826d48cb547977e05037314d852",
       "installedAt": "2026-09-29T12:32:52.188Z",
-      "updatedAt": "2026-10-22T03:56:12.113Z"
+      "updatedAt": "2026-10-29T07:42:45.716Z"
     },
     "automate-me": {
       "source": "backnotprop/pstack",
@@ -286,9 +286,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/backnotprop/pstack.git",
       "skillPath": "skills/interrogate/SKILL.md",
-      "skillFolderHash": "69b78f6c8a4642a6c5380989535ef810107b9e7b",
+      "skillFolderHash": "10107039bb8ef3ac7e742d4f73fa8a58b1b0f153",
       "installedAt": "2026-09-29T12:32:52.194Z",
-      "updatedAt": "2026-10-22T03:56:18.103Z"
+      "updatedAt": "2026-10-29T07:42:48.699Z"
     },
     "maintain-verification-skill": {
       "source": "backnotprop/pstack",
@@ -304,9 +304,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/backnotprop/pstack.git",
       "skillPath": "skills/no-comments/SKILL.md",
-      "skillFolderHash": "1e03669ece796e1c9cb6b1f663e9d50232ef7325",
+      "skillFolderHash": "297745926d3234c73740514f4ba3d21fba1647ca",
       "installedAt": "2026-09-29T12:32:52.195Z",
-      "updatedAt": "2026-10-20T13:30:15.233Z"
+      "updatedAt": "2026-10-29T07:42:52.591Z"
     },
     "principle-attack-the-premise": {
       "source": "backnotprop/pstack",
@@ -529,18 +529,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/backnotprop/pstack.git",
       "skillPath": "skills/reflect/SKILL.md",
-      "skillFolderHash": "0c90907911757bea373efe8ab5b5a1033afde094",
+      "skillFolderHash": "849de06c8b7882505e72805d93e0a3abf6d36719",
       "installedAt": "2026-09-29T12:32:52.205Z",
-      "updatedAt": "2026-10-22T03:56:22.365Z"
+      "updatedAt": "2026-10-29T07:42:56.092Z"
     },
     "setup-pstack": {
       "source": "backnotprop/pstack",
       "sourceType": "github",
       "sourceUrl": "https://github.com/backnotprop/pstack.git",
       "skillPath": "skills/setup-pstack/SKILL.md",
-      "skillFolderHash": "aa94de564afcb5a0c9df007a924e186b42736a97",
+      "skillFolderHash": "78ceb53a3b53ec4bfb07251ca8ed5bf63537be4b",
       "installedAt": "2026-09-29T12:32:52.205Z",
-      "updatedAt": "2026-10-22T03:56:26.228Z"
+      "updatedAt": "2026-10-29T07:42:59.761Z"
     },
     "show-me-your-work": {
       "source": "backnotprop/pstack",
@@ -556,9 +556,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/backnotprop/pstack.git",
       "skillPath": "skills/swarm/SKILL.md",
-      "skillFolderHash": "bee1ab8d016e734c8353a2ae82c45f1b039ac88b",
+      "skillFolderHash": "f5148d80e9cca464397a6a1f0a5cf28e27d3478b",
       "installedAt": "2026-09-29T12:32:52.206Z",
-      "updatedAt": "2026-10-22T03:56:29.270Z"
+      "updatedAt": "2026-10-29T07:43:03.722Z"
     },
     "tdd": {
       "source": "backnotprop/pstack",
@@ -621,7 +621,7 @@
       "skillPath": "todd-mode/SKILL.md",
       "skillFolderHash": "d7fee3763095d27e2987bcb98219a049c1cabbb3",
       "installedAt": "2026-09-30T13:25:12.157Z",
-      "updatedAt": "2026-10-23T08:40:17.644Z"
+      "updatedAt": "2026-10-29T07:44:31.028Z"
     },
     "what-dose-this-mean": {
       "source": "tp6gw94/skills",
@@ -630,7 +630,7 @@
       "skillPath": "what-dose-this-mean/SKILL.md",
       "skillFolderHash": "dc7e9b4d3fa346c972cd904538b41e6bc026b679",
       "installedAt": "2026-10-03T05:24:00.111Z",
-      "updatedAt": "2026-10-03T08:35:35.598Z"
+      "updatedAt": "2026-10-29T07:44:31.029Z"
     },
     "draw-explainer": {
       "source": "tp6gw94/skills",
@@ -639,7 +639,7 @@
       "skillPath": "draw-explainer/SKILL.md",
       "skillFolderHash": "4d430bb1ae22b31b74cce65a94a138ff3da68e95",
       "installedAt": "2026-10-04T12:47:37.194Z",
-      "updatedAt": "2026-10-05T00:24:48.459Z"
+      "updatedAt": "2026-10-29T07:44:31.027Z"
     },
     "benchmark-checklist": {
       "source": "backnotprop/pstack",
@@ -664,9 +664,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/backnotprop/pstack.git",
       "skillPath": "skills/principle-explain-the-number/SKILL.md",
-      "skillFolderHash": "2f468162c9ce85478f1fb1198149646a2ef0f735",
+      "skillFolderHash": "7d97b8efd90780774b38ccb9dad1aa232bd51ff9",
       "installedAt": "2026-10-05T00:26:36.331Z",
-      "updatedAt": "2026-10-13T07:10:57.610Z"
+      "updatedAt": "2026-10-29T07:43:07.386Z"
     },
     "use-recall": {
       "source": "tp6gw94/skills",
@@ -675,7 +675,7 @@
       "skillPath": "use-recall/SKILL.md",
       "skillFolderHash": "9d8dfb507e46edc91f41c6a9a16c8f42fe45b12a",
       "installedAt": "2026-10-09T02:03:05.042Z",
-      "updatedAt": "2026-10-09T02:03:05.042Z"
+      "updatedAt": "2026-10-29T07:44:31.028Z"
     },
     "quickdraw-presentation": {
       "source": "tp6gw94/skills",
@@ -684,7 +684,7 @@
       "skillPath": "quickdraw-presentation/SKILL.md",
       "skillFolderHash": "b778e40884765710c85fbaf13f2a74dcb6464d87",
       "installedAt": "2026-10-09T02:10:01.451Z",
-      "updatedAt": "2026-10-09T02:10:01.451Z"
+      "updatedAt": "2026-10-29T07:44:31.027Z"
     },
     "make-bot-ui": {
       "source": "backnotprop/pstack",
@@ -693,16 +693,16 @@
       "skillPath": "skills/make-bot-ui/SKILL.md",
       "skillFolderHash": "1645159d827f9adea7a9270082368eb1599927b8",
       "installedAt": "2026-10-13T07:09:09.895Z",
-      "updatedAt": "2026-10-13T07:10:57.607Z"
+      "updatedAt": "2026-11-03T02:11:14.948Z"
     },
     "poteto-mode": {
       "source": "backnotprop/pstack",
       "sourceType": "github",
       "sourceUrl": "https://github.com/backnotprop/pstack.git",
       "skillPath": "skills/poteto-mode/SKILL.md",
-      "skillFolderHash": "5420589f053298b5e879c205d23192d9ab164216",
+      "skillFolderHash": "24a2b4f27483be782dd6112fa7e53dc72cdacbe5",
       "installedAt": "2026-10-13T07:09:09.897Z",
-      "updatedAt": "2026-10-22T03:56:35.492Z"
+      "updatedAt": "2026-10-29T07:43:11.070Z"
     },
     "ketchup": {
       "source": "backnotprop/pstack",
@@ -718,9 +718,27 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/backnotprop/pstack.git",
       "skillPath": "skills/poteto-help/SKILL.md",
-      "skillFolderHash": "53f6e8e4501f8da14a02755075a349022fca68e5",
+      "skillFolderHash": "ba0f59c612ad2ea072d5eac1051c207cece59604",
       "installedAt": "2026-10-13T07:10:57.608Z",
-      "updatedAt": "2026-10-22T03:56:38.616Z"
+      "updatedAt": "2026-10-29T07:43:14.943Z"
+    },
+    "mcp-atlassian-attachments": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "skillPath": "mcp-atlassian-attachments/SKILL.md",
+      "skillFolderHash": "fa7d04523898914edd238b46c406a2ef93b90916",
+      "installedAt": "2026-10-29T07:44:31.027Z",
+      "updatedAt": "2026-10-29T07:44:31.027Z"
+    },
+    "verify-jira-issue": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "skillPath": "verify-jira-issue/SKILL.md",
+      "skillFolderHash": "3f881f01621c9f7d726993a863fb2ea9e7f31801",
+      "installedAt": "2026-10-29T07:44:31.028Z",
+      "updatedAt": "2026-10-29T07:44:31.028Z"
     }
   },
   "lastSelectedAgents": [
@@ -729,6 +747,7 @@
     "codex",
     "cursor",
     "droid",
+    "fx",
     "gemini-cli",
     "github-copilot",
     "kilo",

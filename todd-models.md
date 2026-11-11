@@ -7,26 +7,22 @@
 # Fallback policy: if a primary model is unavailable because of authentication, quota, rate limits, provider outage, or model resolution failure, retry the affected role with its fallback below and report the switch. Do not switch for task/tool failures or silently lower reasoning.
 # Apply fallbacks to every occurrence, including panel entries. Preserve the panel count. These are agent instructions, not provider-side automatic failover.
 # fallback: opencode-go/deepseek-v4.1-flash:max -> openai-codex/gpt-6-luna:max
-# fallback: opencode-go/glm-5.3-flash:high -> vercel-ai-gateway/zai/glm-5.3-flash:high
-# fallback: claude-bridge/claude-opus-5-5:high -> openai-codex/gpt-6-astra:high
-# fallback: claude-bridge/claude-sonnet-5-5:high -> openai-codex/gpt-6.1-sol:high
 feature, refactoring: opencode-go/deepseek-v4.1-flash:max
 code-simplifier: opencode-go/deepseek-v4.1-flash:max
-bug-fix: claude-bridge/claude-sonnet-5-5:high
+bug-fix: openai-codex/gpt-6.1-sol:high
 perf-issue: opencode-go/deepseek-v4.1-flash:max
 hillclimb: opencode-go/deepseek-v4.1-flash:max
-judgment and prose: claude-bridge/claude-opus-5-5:high
-hardest tasks: claude-bridge/claude-fable-5-1
+judgment and prose: openai-codex/gpt-6-astra:medium
+hardest tasks: openai-codex/gpt-6-astra:high
 runtime verification: opencode-go/deepseek-v4.1-flash:max
 e2e verification: opencode-go/deepseek-v4.1-flash:max
 how explorer: opencode-go/deepseek-v4.1-flash:max
-how explainer: openai-codex/gpt-6-astra:high
+how explainer: openai-codex/gpt-6-astra:medium
 why investigators: opencode-go/deepseek-v4.1-flash:max
-why synthesizer: openai-codex/gpt-6-astra:high
-reflect tooling: claude-bridge/claude-opus-5-5:high
-reflect judgment, divergent, synthesizer: openai-codex/gpt-6-astra:high
-arena runners: opencode-go/deepseek-v4.1-flash:max, opencode-go/deepseek-v4.1-flash:max, openai-codex/gpt-6-luna:max
-arena cross-judge pool: claude-bridge/claude-opus-5-5:high
-swarm workers: opencode-go/deepseek-v4.1-flash:max
-architect runners: openai-codex/gpt-6-astra:high, claude-bridge/claude-sonnet-5-5:high
-interrogate reviewers: claude-bridge/claude-opus-5-5:high, openai-codex/gpt-6-astra:high
+why synthesizer: openai-codex/gpt-6-astra:medium
+reflect tooling: opencode-go/deepseek-v4.1-flash:max
+reflect judgment, divergent, synthesizer: openai-codex/gpt-6-astra:medium
+arena runners: opencode-go/deepseek-v4.1-flash:max, opencode-go/mimo-v2.6-flash:max, openai-codex/gpt-6-luna:max
+arena cross-judge pool: openai-codex/gpt-6-astra:medium
+swarm workers: opencode-go/deepseek-v4.1-flash:max, opencode-go/mimo-v2.6-flash:max, openai-codex/gpt-6-luna:max
+architect runners: openai-codex/gpt-6-astra:medium

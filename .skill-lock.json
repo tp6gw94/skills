@@ -24,9 +24,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/JuliusBrussee/caveman.git",
       "skillPath": "skills/caveman-compress/SKILL.md",
-      "skillFolderHash": "e1cfe848bfbd120ceb42b2253542fce34a3e5a77",
+      "skillFolderHash": "4c13c5ede55ea8acefa5aba0ec0c9ae7e99dcc7e",
       "installedAt": "2026-07-08T01:29:11.700Z",
-      "updatedAt": "2026-10-29T07:42:35.864Z"
+      "updatedAt": "2026-11-10T08:10:50.557Z"
     },
     "caveman-help": {
       "source": "JuliusBrussee/caveman",
@@ -51,9 +51,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/microsoft/playwright-cli.git",
       "skillPath": "skills/playwright-cli/SKILL.md",
-      "skillFolderHash": "003ec8747c78ceb8e9da5d83f12523a06830093c",
+      "skillFolderHash": "cc70f6e5f0cf42b82d3f72f6f1c3a4134694d518",
       "installedAt": "2026-07-08T01:30:39.034Z",
-      "updatedAt": "2026-11-03T02:11:14.886Z"
+      "updatedAt": "2026-11-06T07:44:41.220Z"
     },
     "vercel-composition-patterns": {
       "source": "vercel-labs/agent-skills",
@@ -151,9 +151,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/tp6gw94/skills.git",
       "skillPath": "use-ego-browser/SKILL.md",
-      "skillFolderHash": "c1d568470514e21eaac4f3a1a5d82c695f1ad328",
+      "skillFolderHash": "4859c6f62a05d597f70d65dbde68859974c7d6fd",
       "installedAt": "2026-08-18T07:03:14.826Z",
-      "updatedAt": "2026-10-29T07:44:31.028Z"
+      "updatedAt": "2026-11-06T07:44:41.583Z"
     },
     "visual-eli5": {
       "source": "tp6gw94/skills",
@@ -196,18 +196,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/Leonxlnx/taste-skill.git",
       "skillPath": "skills/taste-skill/SKILL.md",
-      "skillFolderHash": "5743b6eb4d005c5bbe51aa4ecae701eb052d6198",
+      "skillFolderHash": "90f92ba7a3ce514cf85a2809583712dbd14106ea",
       "installedAt": "2026-09-09T14:20:52.740Z",
-      "updatedAt": "2026-11-05T01:42:11.818Z"
+      "updatedAt": "2026-11-10T08:11:28.302Z"
     },
     "lieflat-less-ai-tone": {
       "source": "larashero3-dotcom/lieflat-less-ai-tone",
       "sourceType": "github",
       "sourceUrl": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone.git",
       "skillPath": "SKILL.md",
-      "skillFolderHash": "42ee3b60b281a7fdab4ca4f920ff4dcef828a3ab",
+      "skillFolderHash": "53160078a04926d98de57a233549612d1b89bdc9",
       "installedAt": "2026-09-17T03:14:01.460Z",
-      "updatedAt": "2026-11-05T01:42:12.076Z"
+      "updatedAt": "2026-11-06T07:44:42.514Z"
     },
     "architect": {
       "source": "backnotprop/pstack",

@@ -19,6 +19,7 @@ Supply these task-specific fields without copying the child's rules:
 - Pre-simplification baseline and complete task diff, with evidence paths covering uncommitted and new files.
 - Previously passing checks, exact commands/outcomes/evidence, required post-edit reviews, and runtime acceptance operations.
 - Absolute verified pointers to `code-simplifier.md`, applicable project instructions, and required operating skills or principle leaves. Require full reading before work; skills and extensions are not inherited. Include any Todd-specific constraints needed to perform the task.
+- When owned scope permits test edits, [Todd's testing policy](../SKILL.md#testing-policy) and the resolved absolute `write-testing` skill path for full reading before test design or edits.
 - Authorized evidence location, available verification capabilities, and deadline.
 
 ## Model routing
@@ -37,6 +38,6 @@ Task, tool, test, or runtime-metadata failures are not fallback reasons. An unma
 
 Inspect the actual simplification diff against the recorded baseline and the complete task diff against agreed acceptance. Account for every changed file, preserved user work, behavior, public contracts, evaluation order, and side effects. Reject scope escapes and unrelated formatter churn.
 
-Require post-edit lint/format checks and the original applicable tests, typecheck, build, and runtime acceptance. Inspect exact outcomes and evidence, arrange the required pstack reviews on the final diff, and re-verify subsequent repairs. Earlier verification never proves edited final code. A no-op needs all owned files accounted for and applicable checks, not merely a claim that nothing changed.
+Require post-edit lint/format checks and the original applicable tests, typecheck, build, and runtime acceptance. Inspect exact outcomes and evidence, then hand the verified final diff to [OCR code review](code-review.md). Earlier verification never proves edited final code. A no-op needs all owned files accounted for and applicable checks, not merely a claim that nothing changed.
 
 The parent owns final acceptance. Resolve every failure or evidence gap before declaring success. If safe repair is impossible, undo only simplifier-owned edits against the baseline, preserve other work, re-verify the restored code, and report the failed phase. A rollback is not successful simplification. This phase authorizes neither commits nor PRs by the child.

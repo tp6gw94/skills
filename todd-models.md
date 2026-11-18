@@ -8,13 +8,13 @@
 # Apply fallbacks to every occurrence, including panel entries. Preserve the panel count. These are agent instructions, not provider-side automatic failover.
 # fallback: opencode-go/deepseek-v4.1-flash:max -> openai-codex/gpt-6-luna:max
 feature, refactoring: opencode-go/deepseek-v4.1-flash:max
-code-simplifier: opencode-go/deepseek-v4.1-flash:max
-bug-fix: openai-codex/gpt-6.2-sol:high
+code-simplifier: opencode-go/glm-5.3:max
+bug-fix: openai-codex/gpt-6.2-sol:medium
 perf-issue: opencode-go/deepseek-v4.1-flash:max
 hillclimb: opencode-go/deepseek-v4.1-flash:max
 judgment and prose: openai-codex/gpt-6.2-astra:medium
 hardest tasks: openai-codex/gpt-6.2-sol:high
-runtime verification: opencode-go/glm-5.3:max
+runtime verification: opencode-go/deepseek-v4.1-flash:max
 e2e verification: opencode-go/deepseek-v4.1-flash:max
 how explorer: opencode-go/deepseek-v4.1-flash:max
 how explainer: openai-codex/gpt-6.2-sol:medium
@@ -23,6 +23,6 @@ why synthesizer: openai-codex/gpt-6.2-sol:medium
 reflect tooling: opencode-go/deepseek-v4.1-flash:max
 reflect judgment, divergent, synthesizer: openai-codex/gpt-6.2-astra:medium
 arena runners: opencode-go/deepseek-v4.1-flash:max, opencode-go/glm-5.3:max, openai-codex/gpt-6-luna:max
-arena cross-judge pool: openai-codex/gpt-6.2-astra:medium
+arena cross-judge pool: openai-codex/gpt-6.2-astra:medium, opencode-go/glm-5.3:max
 swarm workers: opencode-go/deepseek-v4.1-flash:max, opencode-go/glm-5.3:max, openai-codex/gpt-6-luna:max
-architect runners: openai-codex/gpt-6.2-astra:medium
+architect runners: openai-codex/gpt-6.2-sol:high, opencode-go/glm-5.3:max

@@ -17,7 +17,7 @@ Describe each additional RPC tool before using it. Confirm that the parent can a
 
 Unless explicit session, user, or project settings override them, use these defaults:
 
-- Model and reasoning from the `e2e verification` role in `~/.agents/todd-models.md`: `provider/id:effort` becomes `model: { provider, id }` plus `thinking: effort`, and the fallback lines in that file apply on provider failure.
+- Model and reasoning from the `runtime verification` role in `~/.agents/todd-models.md`: `provider/id:effort` becomes `model: { provider, id }` plus `thinking: effort`, and the fallback lines in that file apply on provider failure.
 - Context `fresh`.
 - Asynchronous execution.
 

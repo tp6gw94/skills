@@ -15,7 +15,6 @@ hillclimb: opencode-go/deepseek-v4.1-flash:max
 judgment and prose: openai-codex/gpt-6.2-astra:medium
 hardest tasks: openai-codex/gpt-6.2-sol:high
 runtime verification: opencode-go/deepseek-v4.1-flash:max
-e2e verification: opencode-go/deepseek-v4.1-flash:max
 how explorer: opencode-go/deepseek-v4.1-flash:max
 how explainer: openai-codex/gpt-6.2-sol:medium
 why investigators: opencode-go/deepseek-v4.1-flash:max
@@ -26,3 +25,4 @@ arena runners: opencode-go/deepseek-v4.1-flash:max, opencode-go/glm-5.3:max, ope
 arena cross-judge pool: openai-codex/gpt-6.2-astra:medium, opencode-go/glm-5.3:max
 swarm workers: opencode-go/deepseek-v4.1-flash:max, opencode-go/glm-5.3:max, openai-codex/gpt-6-luna:max
 architect runners: openai-codex/gpt-6.2-sol:high, opencode-go/glm-5.3:max
+ocr reviewers: opecodego/glm-5.3, openai-responses/gpt-6.1-terra

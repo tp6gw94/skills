@@ -9,20 +9,20 @@
 # fallback: opencode-go/deepseek-v4.1-flash:max -> openai-codex/gpt-6-luna:max
 feature, refactoring: opencode-go/deepseek-v4.1-flash:max
 code-simplifier: opencode-go/deepseek-v4.1-flash:max
-bug-fix: openai-codex/gpt-6.1-sol:high
+bug-fix: openai-codex/gpt-6.2-sol:high
 perf-issue: opencode-go/deepseek-v4.1-flash:max
 hillclimb: opencode-go/deepseek-v4.1-flash:max
-judgment and prose: openai-codex/gpt-6-astra:medium
-hardest tasks: openai-codex/gpt-6-astra:high
-runtime verification: opencode-go/deepseek-v4.1-flash:max
+judgment and prose: openai-codex/gpt-6.2-astra:medium
+hardest tasks: openai-codex/gpt-6.2-sol:high
+runtime verification: opencode-go/glm-5.3:max
 e2e verification: opencode-go/deepseek-v4.1-flash:max
 how explorer: opencode-go/deepseek-v4.1-flash:max
-how explainer: openai-codex/gpt-6-astra:medium
+how explainer: openai-codex/gpt-6.2-sol:medium
 why investigators: opencode-go/deepseek-v4.1-flash:max
-why synthesizer: openai-codex/gpt-6-astra:medium
+why synthesizer: openai-codex/gpt-6.2-sol:medium
 reflect tooling: opencode-go/deepseek-v4.1-flash:max
-reflect judgment, divergent, synthesizer: openai-codex/gpt-6-astra:medium
-arena runners: opencode-go/deepseek-v4.1-flash:max, opencode-go/mimo-v2.6-flash:max, openai-codex/gpt-6-luna:max
-arena cross-judge pool: openai-codex/gpt-6-astra:medium
-swarm workers: opencode-go/deepseek-v4.1-flash:max, opencode-go/mimo-v2.6-flash:max, openai-codex/gpt-6-luna:max
-architect runners: openai-codex/gpt-6-astra:medium
+reflect judgment, divergent, synthesizer: openai-codex/gpt-6.2-astra:medium
+arena runners: opencode-go/deepseek-v4.1-flash:max, opencode-go/glm-5.3:max, openai-codex/gpt-6-luna:max
+arena cross-judge pool: openai-codex/gpt-6.2-astra:medium
+swarm workers: opencode-go/deepseek-v4.1-flash:max, opencode-go/glm-5.3:max, openai-codex/gpt-6-luna:max
+architect runners: openai-codex/gpt-6.2-astra:medium

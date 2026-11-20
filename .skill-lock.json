@@ -800,6 +800,16 @@
       "skillFolderHash": "92b1d414be1e1ac0ca2156528b876490009e9628",
       "installedAt": "2026-11-17T09:32:28.538Z",
       "updatedAt": "2026-11-17T09:32:28.538Z"
+    },
+    "use-ocr": {
+      "source": "tp6gw94/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/tp6gw94/skills.git",
+      "commit": "05e0a97a47c1c63b3d17b4fce651de29f5b0f64f",
+      "skillPath": "use-ocr/SKILL.md",
+      "skillFolderHash": "d8f73b911a9a88ca4982f000468af6c2fa453814",
+      "installedAt": "2026-11-20T01:05:02.138Z",
+      "updatedAt": "2026-11-20T01:05:02.138Z"
     }
   },
   "lastSelectedAgents": [

@@ -1,0 +1,12 @@
+---
+name: use-ocr
+description: Run Todd's configured OCR reviewer panel when Todd mode reaches its final review gate or the user invokes /skill:use-ocr.
+---
+
+# Use OCR
+
+1. Read `~/.agents/skills/open-code-review/SKILL.md` in full for the CLI, target selection, output handling, and troubleshooting. This skill owns reviewer selection, effort, and process deadlines. For a preview, use the upstream `--preview` path once without starting the panel. A preview is not review coverage.
+2. Read `~/.agents/todd-ocr.md` before starting a review. Split `reviewers:` on commas, then split each entry at its first slash into an OCR provider alias and model ID. Pass them as written, without Pi reasoning suffixes or model fallbacks. If the list is missing, empty, or malformed, report it and stop rather than falling back to OCR's default model.
+3. For each target, run one independent `ocr review` per configured reviewer in parallel, with explicit `--provider` and `--model`. Keep the diff and background unchanged until all reviewers finish. Pass `--effort low` to all reviewers unless the user explicitly selects another level: separate reviewers already provide independent first passes. Use `--audience agent` and distinct `--output` and stderr files outside the repository for each reviewer and target.
+4. Leave OCR's `--timeout` and per-request timeout unchanged unless the user asks to override them. Omit Pi's `bash.timeout` and codemode's `timeout_ms` by default so Pi does not kill a review before OCR can report its result. If `todd-ocr.md` contains `run timeout sec:`, use its positive integer value as `bash.timeout` for each reviewer and leave the codemode deadline unset. If the value is invalid, report it before running. Await every invocation independently (for example, `Promise.allSettled` in codemode) so one failure does not discard another reviewer's result.
+5. Read each full result and stderr. Check exit status and coverage; even exit code 0 can leave skipped files. Report which reviewers and targets completed, any missing coverage, and which timeout layer fired when the logs identify it. Merge duplicate findings while retaining which reviewers reported them. A failed reviewer or missing in-scope coverage makes the panel incomplete. Do not substitute a model or retry with lower effort. When called by Todd mode, return findings and coverage to the gate, which owns repairs and final acceptance. For standalone reviews, follow the upstream skill's reporting and fix authorization.

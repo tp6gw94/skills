@@ -1,4 +1,4 @@
-# Todd mode model configuration, maintained by hand. One line per role. Todd mode reads only this file; ~/.agents/pstack-models.md does not apply.
+# Todd mode subagent model configuration, maintained by hand. One line per role. ~/.agents/pstack-models.md does not apply.
 # `inherit-parent` or `auto` runs on the parent chat model (omit the subagent `model`). Alias entries in a panel list still count toward its fan-out.
 # budget: unlimited (max); explicit per-role efforts below take precedence.
 # Pi model values use provider/id:effort; the effort suffix is a subagent reasoning override, not part of the registry model ID.
@@ -13,7 +13,7 @@ bug-fix: openai-codex/gpt-6.2-sol:medium
 perf-issue: opencode-go/deepseek-v4.1-flash:max
 hillclimb: opencode-go/deepseek-v4.1-flash:max
 judgment and prose: openai-codex/gpt-6.2-astra:medium
-hardest tasks: openai-codex/gpt-6.2-sol:high
+hardest tasks: openai-codex/gpt-6.2-astra:medium
 runtime verification: opencode-go/deepseek-v4.1-flash:max
 how explorer: opencode-go/deepseek-v4.1-flash:max
 how explainer: openai-codex/gpt-6.2-sol:medium
@@ -25,4 +25,3 @@ arena runners: opencode-go/deepseek-v4.1-flash:max, opencode-go/glm-5.3:max, ope
 arena cross-judge pool: openai-codex/gpt-6.2-astra:medium, opencode-go/glm-5.3:max
 swarm workers: opencode-go/deepseek-v4.1-flash:max, opencode-go/glm-5.3:max, openai-codex/gpt-6-luna:max
 architect runners: openai-codex/gpt-6.2-sol:high, opencode-go/glm-5.3:max
-ocr reviewers: opecodego/glm-5.3, openai-responses/gpt-6.1-terra

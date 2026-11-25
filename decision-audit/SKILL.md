@@ -1,65 +1,36 @@
 ---
 name: decision-audit
-description: Surface undiscussed settings, defaults, and assumptions adopted in the current task so the user can review decisions made on their behalf.
+description: See what the agent chose without you specifying or approving it.
 disable-model-invocation: true
 ---
 
-# Implicit decision audit
+# Decision audit
 
-Expose what filled the gaps between the user's request and the current result. This is a read-only audit: report choices for the user to judge; changing them requires a separate request.
+Audit the choices the agent made on the user's behalf. This is read-only; apply changes only if the user separately asks.
 
-## 1. Establish the boundary
+## 1. Compare the request with the result
 
-Use the user's named target, or otherwise the current task's latest plan or result. State the inspected material and any unavailable context in one sentence. Label plan choices as proposed; distinguish implementation settings from demonstrated runtime behavior.
+Use the named target, or the current task's latest plan or result. Read the user's instructions, applicable project rules, and the relevant plan, diff, config, or tool calls. Compare against the state before the task when available. Mark plan-only choices as proposed.
 
-Separate user-specified requirements, previously disclosed choices, and undiscussed choices. Keep the first two outside the main list. An assistant's earlier proposal is disclosure, not user approval; silence is not approval either.
+Start with concrete behavior: timeouts, retries, limits, fallbacks, permissions, and retention. For each changed setting, inspect its name, exact value, default, and behavior when unset. Treat these as separate choices when the user could keep one and change another: approving a configurable database path does not approve the environment variable name or the fallback path. Check tool arguments as well as files. Include scope and acceptance choices when they change what was delivered or counted as done. Skip implementation details whose alternatives would not affect the user, an operator, or verification.
 
-Completion: the target and the boundary between discussed and undiscussed choices are explicit.
+Completion: each candidate names a concrete setting or policy and points to the available evidence.
 
-## 2. Trace the choices
+## 2. Attribute each choice
 
-Compare the request and visible discussion with the relevant plan, artifact, diff, configuration, or tool results. Follow direct references needed to establish a choice's effective behavior. Inspect only material relevant to the target.
+- **Requested, approved, or required:** Exclude choices specified or accepted by the user, or fixed by an applicable rule. Disclosure, delegation, and silence do not establish approval of a specific value.
+- **Agent-selected:** Include choices the agent introduced, overrode, or explicitly decided to retain when alternatives were available. Include an explicit pin even if it matches an inherited default: the new pin prevents future default changes from taking effect.
+- **Inherited:** Leave existing settings and untouched dependency defaults out of the findings. If an inherited value explains the effect of a new agent choice, cite the source and label it as inherited. An omitted parameter alone does not establish a default.
+- **Unverified:** If a concrete candidate matters but its value or authorship cannot be established, put it in a separate section with the missing evidence. Do not present it as an agent choice.
 
-Look for task-relevant choices in:
+Completion: every candidate has been classified, and duplicate effects of a single choice are merged.
 
-- Settings and behavior: omitted parameter values, framework or runtime defaults, permissions, persistence, time and locale, limits, retries, and failure handling.
-- Scope and tradeoffs: assumed audience, requirement interpretation, exclusions, conflicting priorities, and choices trading quality against time, cost, or complexity.
-- Acceptance: success thresholds, selected checks, and behavior left unverified but treated as complete.
+## 3. Show the findings together
 
-These are search lenses, not a mandatory output checklist. Include a choice when a plausible alternative would change the result, its scope, or its consequences. Ordinary defaults belong alongside high-stakes decisions when they affect the task.
+In the user's language, name the audited scope in one line. Then list the findings in the same reply, ordered by concrete impact. For each finding, state the choice and exact value or policy, cite where the agent introduced or selected it, and explain its practical effect. Group choices that share the same evidence and effect in one bullet, but name each choice explicitly. Distinguish configured behavior from observed runtime behavior. Include a rationale only if it was recorded.
 
-Classify each candidate by evidence:
+Example: **Request timeout · 30 seconds** (`client.ts:42`) — The agent added this limit; the request did not specify one. A call that has not completed by then is aborted.
 
-| Origin | Evidence required |
-| --- | --- |
-| Model-selected | Visible work or conversation supports that the assistant supplied the choice. |
-| Inherited | Pre-existing code, configuration, instructions, or a verified dependency default supplies the behavior; name that authority. |
-| Inferred | The result suggests a choice, but its value or origin is not established. State the inference and the missing evidence. |
-| Unknown | A relevant choice remains unresolved. State what is missing rather than supplying a plausible default. |
+If no choices are established, say so for the inspected scope without recapping excluded choices. After the findings, note only gaps that could change the attribution or practical effect of a concrete candidate. An unchecked detail is not itself a candidate. Use one-at-a-time review only if the user asks for it; otherwise end with the findings, not a question or a recommendation for every item.
 
-An omitted setting alone does not establish its effective default. Resolve it from the applicable configuration or version-specific source, or keep it unresolved. Use visible evidence for attribution and recorded reasons for rationale; private reasoning is not an audit source.
-
-Completion: every candidate has a supported origin or an explicit evidence gap; duplicate effects of the same choice are merged.
-
-## 3. Return the decision ledger
-
-Return the audit directly in chat, in the user's language. File output requires an explicit user request. Lead with the choice whose consequences most deserve their attention.
-
-### Undiscussed choices
-
-| Setting or decision | Current value or behavior | Origin and evidence | Consequence | Plausible alternative |
-| --- | --- | --- | --- | --- |
-
-Use one row per established choice. Cite a file location, configuration key, visible statement, or tool result. Describe specific behavioral consequences rather than generic warnings. Order rows by consequences for other people, reversibility, and then ordinary operational impact. Keep all qualifying rows; a summary is not a substitute for the ledger.
-
-### Unresolved assumptions
-
-List inferred and unknown items separately from established choices. For each, state what the current result depends on, what remains uncertain, and the smallest observation or check that would resolve it. Include only gaps connected to the actual task.
-
-### Review first
-
-Highlight up to three decisions needing human judgment because of their effect on users, data, money, or maintenance. For each, give a concrete condition that would make the current choice unsuitable, plus a way to check that condition. When an item concerns verification, state both what the existing check established and what it left open. Omit this section when no such decision is supported.
-
-When a section has no findings, say so briefly. Limit any absence claim to the inspected material. Finish with the report, not an approval gate, a questionnaire, or an implementation change.
-
-Completion: each established choice has evidence, a consequence, and an alternative; each unresolved item has a resolving check; high-consequence choices are easy to find.
+Completion: the user can see all confirmed choices and any material evidence gaps without answering a follow-up question.
